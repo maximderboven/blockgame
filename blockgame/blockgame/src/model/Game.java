@@ -1,9 +1,8 @@
 package model;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -38,15 +37,20 @@ public class Game {
             board.update();
             showHUD();
             board.draw();
-
-            //pauze ertussen:
+            drawRandomPiece();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
+
+        //Checks if score > highscore
+        int score = board.getPlayer().getScoreboard().getScore();
+        if (score > highscore){
+            player.getScoreboard().setHighscore(score);
+        }
+
     }
 
     public void showHUD() {
@@ -78,18 +82,27 @@ public class Game {
         sc.close();
 
         //Get password from rows and store them in new array:
-        String[] arraysplit;
+        String[] credentials;
         for (String line : rows) {
-            arraysplit = line.split(":");
-            for (int i = 0; i < arraysplit.length; i++) {
-                if (arraysplit[0].equals(username) && arraysplit[1].equals(password)) {
+            credentials = line.split(":");
+            for (int i = 0; i < credentials.length; i++) {
+                if (credentials[0].equals(username) && credentials[1].equals(password)) {
                     //If login is successful:
+                    this.highscore = Integer.parseInt(credentials[3]);
                     this.player = new Player(username, new Scoreboard(highscore));
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public void drawRandomPiece() {
+        Random random = new Random();
+        Piece piece1 = Piece.values()[random.nextInt(Piece.values().length)];
+        Piece piece2 = Piece.values()[random.nextInt(Piece.values().length)];
+        Piece piece3 = Piece.values()[random.nextInt(Piece.values().length)];
+        System.out.printf("%s\t%s\t%s", piece1, piece2, piece3);
     }
 
 }

@@ -17,4 +17,8 @@ public class Player {
         System.out.println("--------\n" + name);
         scoreboard.draw();
     }
+
+    public Scoreboard getScoreboard() {
+        return scoreboard;
+    }
 }

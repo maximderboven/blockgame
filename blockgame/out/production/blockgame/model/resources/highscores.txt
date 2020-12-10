@@ -1,2 +1,2 @@
-naam:passwoord:highscore
-naam:passwoord:highscore
+alexie:test:10
+maxim:test2:20

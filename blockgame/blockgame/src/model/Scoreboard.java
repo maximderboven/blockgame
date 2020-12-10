@@ -16,4 +16,12 @@ public class Scoreboard {
     public void draw() {
         System.out.println("--------\nScore: " + score + "\nHighscore: " + highscore + "\n--------");
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setHighscore(int highscore) {
+        //
+    }
 }
