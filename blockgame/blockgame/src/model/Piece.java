@@ -1,4 +1,4 @@
-package kdgblockgame;
+package model;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package kdgblockgame;
+package model;
 
 /**
  * @author Maxim Derboven
@@ -11,5 +11,10 @@ public class Player {
     public Player(String name, Scoreboard scoreboard) {
         this.name = name;
         this.scoreboard = scoreboard;
+    }
+
+    public void showScoreboard() {
+        System.out.println("--------\n" + name);
+        scoreboard.draw();
     }
 }
