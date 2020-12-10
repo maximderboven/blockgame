@@ -1,6 +1,9 @@
 package model;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,26 +16,17 @@ public class Game {
     private LocalTime time;
     private int highscore;
 
-    public Game() {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.print("-------------- \nLOGIN\n--------------\n");
-        System.out.print("username: ");
-        String username = keyboard.next();
-        System.out.print("password: ");
-        keyboard.next();
-        System.out.print("--------------\n");
-        //login {
-        Player player = new Player(username,new Scoreboard(highscore));
-        this.board = new Board(player);
-        // }
-        start();
+    public Game() throws FileNotFoundException {
+        if (login()) {
+            start();
+        }
     }
 
     public boolean isFinished() {
         return board.isFinished();
     }
 
-    public void start(){
+    public void start() {
         while (!isFinished()) {
             board.update();
             showHUD();
@@ -49,4 +43,45 @@ public class Game {
     public void showHUD() {
         board.getPlayer().showScoreboard();
     }
+
+    public boolean login() throws FileNotFoundException {
+        // Op welke manier gegevens opslaan?
+        // 1. In object van players steken?
+        // 2. Of in tweedimensionale array?
+
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("-------------- \nLOGIN\n--------------\n");
+
+        //Asks for username:
+        System.out.print("username: ");
+        String username = keyboard.next();
+
+        //Asks for password:
+        System.out.print("password: ");
+        String password = keyboard.next();
+
+        //Reading the lines from highscores.txt using Scanner class:
+        Scanner sc = new Scanner(new File("..\\blockgame\\blockgame\\src\\model\\resources\\highscores.txt"));
+        ArrayList<String> rows = new ArrayList<>();
+        while (sc.hasNext()) {
+            rows.add(sc.nextLine());
+        }
+        sc.close();
+
+        //Get password from rows and store them in new array:
+        String[] arraysplit;
+        for (String line : rows) {
+            arraysplit = line.split(":");
+            for (int i = 0; i < arraysplit.length; i++) {
+                if (arraysplit[0].equals(username) && arraysplit[1].equals(password)) {
+                    //If login is successful:
+                    Player player = new Player(username, new Scoreboard(highscore));
+                    this.board = new Board(player);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

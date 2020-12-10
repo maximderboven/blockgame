@@ -1,9 +1,11 @@
+import java.io.FileNotFoundException;
+
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:44
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         model.Game game = new model.Game();
     }
 }
