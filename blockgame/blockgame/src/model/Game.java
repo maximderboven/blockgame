@@ -13,12 +13,19 @@ import java.util.Scanner;
 
 public class Game {
     private Board board;
-    private LocalTime time;
+    private Player player;
+    //private LocalTime time;
     private int highscore;
 
-    public Game() throws FileNotFoundException {
-        if (login()) {
-            start();
+    public Game() {
+        //Mag ik die hier handelen die Exception ? Of liever in Login direct ?
+        try {
+            if (login()) {
+                this.board = new Board(player);
+                start();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -32,11 +39,13 @@ public class Game {
             showHUD();
             board.draw();
 
+            //pauze ertussen:
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -75,8 +84,7 @@ public class Game {
             for (int i = 0; i < arraysplit.length; i++) {
                 if (arraysplit[0].equals(username) && arraysplit[1].equals(password)) {
                     //If login is successful:
-                    Player player = new Player(username, new Scoreboard(highscore));
-                    this.board = new Board(player);
+                    this.player = new Player(username, new Scoreboard(highscore));
                     return true;
                 }
             }

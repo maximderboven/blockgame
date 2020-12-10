@@ -11,9 +11,9 @@ public enum Piece {
     MIDDEL(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1)}),
     GROOT(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(0,+1)});
 
-    private int value;
-    private Color color;
-    private Point[] tiles;
+    private final int value;
+    private final Color color;
+    private final Point[] tiles;
 
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
