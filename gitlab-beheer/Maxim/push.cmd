@@ -1,5 +1,6 @@
-echo Wat is de beschrijving ?
+@echo off
+set /p id="Beschrijving: "
 read varname
 git add .
-git commit -m "$varname"
+git commit -m "%id%"
 git push -u origin master 
