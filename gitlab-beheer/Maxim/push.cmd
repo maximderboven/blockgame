@@ -1,4 +1,5 @@
-git:
-	git add .
-	git commit -m "$m"
-	git push -u origin master 
+echo Wat is de beschrijving ?
+read varname
+git add .
+git commit -m "$varname"
+git push -u origin master 
