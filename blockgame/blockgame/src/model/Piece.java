@@ -5,8 +5,10 @@ import java.awt.*;
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:45
+ * @description Deze klasse bevat alle soorten blokken die door de speler op het bord geplaatst kunnen worden
  */
 public enum Piece {
+    // De blokken bevatten een locatie die wordt vergeleken met de locatie op het bord. Zo worden de tegels op die plaatsen aangepast.
     KLEIN(2,Color.red,new Point[]{new Point(0, 0)}),
     MIDDEL(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1)}),
     GROOT(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(0,+1)});
