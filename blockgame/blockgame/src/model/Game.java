@@ -19,8 +19,8 @@ public class Game {
     private Player player;
     //Welk scoreboard er gebruikt gaat worden:
     private Scoreboard scoreboard;
-    //Welke stukjes er gebruikt mogen worden:
-    private  Enum<Piece> pieces;
+    //Welke stukjes er aan de beurt zijn om geplaats te worden
+    private  Piece[] pieces = new Piece[3];
     //Eventueel een tijd om bij te houden hoe lang hij het heeft uitgehouden:
     //private LocalTime time;
 
@@ -59,21 +59,32 @@ public class Game {
     }
 
     //controleert of het spel gedaan is adhv het bord dat gaat kijken of de blok nog geplaatst kan worden
-    public boolean isFinished() {
-        return board.isFinished();
+    public boolean isPossible() {
+        //loop door de array van pieces hier:
+        return board.isPossible();
     }
 
     // Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt)
     public void start() {
-        while (!isFinished()) {
+        //voor het spel start:
+        //Laat de situatie van het bord zien:
+        board.draw();
+        //geeft 3 blokken om te beginnen spelen
+        RandomPiece();
+
+        //Tijdens het spel:
+        //Zolang het mogelijk is om blokken te zetten:
+        while (!isPossible()) {
             //Laat de speler een zet doen:
-            board.update();
+            player.play(// HIER RANDOM PIECE UIT PIECES ATTR GAME MEEGEVEN);
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
             showHUD();
-            //Laat de nieuwe situatie van het bord zien:
+            // laat de nieuwe situatie van het bord zien
             board.draw();
-            //geeft 3 nieuwe blokken om te spelen (maken: wanneer de andere drie pas op zijn)
-            drawRandomPiece();
+
+            //geeft 3 blokken om te beginnen spelen ENKEL ALS DE OUDE DRIE OP ZIJN!
+            RandomPiece();
+
             //wacht even (eerste rudimentaire versie is zonder input van de gebruiker) automatisch
             try {
                 Thread.sleep(1000);
@@ -142,7 +153,9 @@ public class Game {
         return false;
     }
 
-    public void drawRandomPiece() {
+    public void RandomPiece() {
+
+        // TOEVOEGEN IN PIECES ATTR GAME
         Random random = new Random();
         Piece piece1 = Piece.values()[random.nextInt(Piece.values().length)];
         Piece piece2 = Piece.values()[random.nextInt(Piece.values().length)];

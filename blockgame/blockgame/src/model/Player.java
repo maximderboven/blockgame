@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.*;
+
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:44
@@ -34,5 +36,10 @@ public class Player {
     //nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
     public void setHighscore(int highscore) {
         this.highscore = highscore;
+    }
+
+    public void play(Piece piece, Point point) {
+        board.dropBlock(piece, point);
+        //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse
     }
 }
