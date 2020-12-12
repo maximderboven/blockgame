@@ -33,11 +33,13 @@ public class Player {
     public int getHighscore() {
         return highscore;
     }
+
     //nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
     public void setHighscore(int highscore) {
         this.highscore = highscore;
     }
 
+    //ZIE GAME VOOR EVT INGO OVER VOID TOV BOOL
     public void play(Piece piece, Point point) {
         board.dropBlock(piece, point);
         //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse

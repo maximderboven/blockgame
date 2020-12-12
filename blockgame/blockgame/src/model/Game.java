@@ -76,6 +76,8 @@ public class Game {
         //Zolang het mogelijk is om blokken te zetten:
         while (!isPossible()) {
             //Laat de speler een zet doen:
+            // EVT EEN BOOL MEEGEVEN vanuit player.play OF DE PLAY IS GELUKT EN ALS HET IS GELUKT:
+            // piece op null zetten en game opnieuw drawen anders fout melding
             player.play(// HIER RANDOM PIECE UIT PIECES ATTR GAME MEEGEVEN);
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
             showHUD();
