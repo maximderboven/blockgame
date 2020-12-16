@@ -1,6 +1,9 @@
 package model;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 
 /**
  * @author Maxim Derboven
@@ -42,12 +45,40 @@ public class Player {
     //nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
     public void setHighscore(int highscore) {
         this.highscore = highscore;
-        
+        //Update  highschore method
+        updateHighscore();
     }
 
     //ZIE GAME VOOR EVT INGO OVER VOID TOV BOOL
     public boolean play(Piece piece, Point point) {
         return board.placeBlock(piece, point);
         //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse
+    }
+
+    public void updateHighscore() {
+        try {
+            BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
+            StringBuilder buffer = new StringBuilder();
+            String line;
+
+            while ((line = file.readLine()) != null) {
+                if (line.contains(this.name)){
+                    // If line contains the current player's name:
+                    String[] credentials = line.split(":");
+                    line = credentials[0] + ":" + credentials[1] + ":" + this.getHighscore();
+                }
+                buffer.append(line);
+                buffer.append('\n');
+            }
+            file.close();
+
+            // Write new line to highscores.txt
+            FileOutputStream fileOut = new FileOutputStream("../blockgame/blockgame/src/model/resources/highscores.txt");
+            fileOut.write(buffer.toString().getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println("File not found");
+        }
     }
 }

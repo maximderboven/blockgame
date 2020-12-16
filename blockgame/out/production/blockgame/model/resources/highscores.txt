@@ -1,2 +1,2 @@
-alexie:test:10
-maxim:test2:20
+alexie:test:6
+maxim:test2:1

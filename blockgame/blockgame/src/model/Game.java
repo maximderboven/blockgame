@@ -97,6 +97,13 @@ public class Game {
             if (player.play(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
                 pieces.remove(selectedPiece);
                 this.scoreboard.addScore(selectedPiece.getValue());
+
+                // Highscore dynamisch updaten
+                int score = scoreboard.getScore();
+                if (score > player.getHighscore()){
+                    player.setHighscore(score);
+                }
+
             }
 
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
@@ -113,72 +120,62 @@ public class Game {
 
             //wacht even (eerste rudimentaire versie is zonder input van de gebruiker) automatisch
             try {
-                Thread.sleep(1000);
+                Thread.sleep(800);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        //Wanneer het spel gedaan is:
-        // Check of score groter is dan highscore
+        //Wanneer het spel gedaan is, kijken of score groter is dan highscore
         int score = scoreboard.getScore();
         if (score > player.getHighscore()) {
             player.setHighscore(score);
         }
+        System.out.println("Game over: (╯°□°）╯︵ ┻━┻");
     }
 
-
-    //toont de HUD (alles ronddom het spelbord)
+    // Toont de HUD (alles ronddom het spelbord)
     public void showHUD() {
         scoreboard.draw();
-
     }
 
-    //Zorgt voor de login van de user alvoorens het spel kan starten
+    // Loginsysteem van de user alvorens het spel kan starten
     public boolean login() {
-        // Op welke manier gegevens opslaan?
-        // 1. In object van players steken?
-        // 2. Of in tweedimensionale array?
-
         Scanner keyboard = new Scanner(System.in);
-        System.out.print("-------------- \nLOGIN\n--------------\n");
+        System.out.print("-------------- \nLOGIN\n --------------\n");
 
-        //Asks for username:
-        System.out.print("username: ");
+        // Input voor gebruikersnaam
+        System.out.print("Gebruikersnaam: ");
         String username = keyboard.next();
 
-        //Asks for password:
-        System.out.print("password: ");
+        // Input voor wachtwoord
+        System.out.print("Wachtwoord: ");
         String password = keyboard.next();
 
-        //Reading the lines from highscores.txt using Scanner class:
-
-        Scanner sc = null;
+        ArrayList<String> rows = new ArrayList<>();
         try {
-            sc = new Scanner(new File("..\\blockgame\\blockgame\\src\\model\\resources\\highscores.txt"));
-        } catch (FileNotFoundException e) {
+            BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
+            String line;
+            while ((line = file.readLine()) != null) {
+                // Ingelezen lijn toevoegen in de arraylist
+                rows.add(line);
+            }
+            file.close();
+        } catch (IOException e){
             e.printStackTrace();
         }
-        ArrayList<String> rows = new ArrayList<>();
-        while (sc.hasNext()) {
-            rows.add(sc.nextLine());
-        }
-        sc.close();
 
-        //Get password from rows and store them in new array:
+        // Gebruikersnaam en wachtwoord ophalen van highscores.txt
         String[] credentials;
-        for (String line : rows) {
-            credentials = line.split(":");
+        for (String row : rows) {
+            credentials = row.split(":");
             for (int i = 0; i < credentials.length; i++) {
                 if (credentials[0].equals(username) && credentials[1].equals(password)) {
+                    // Huidige gebruiker aanmaken
 
-
-                    //If login is successful:
-                    //Huidige gebruiker aanmaken
-
-                    //Highscore normaal 0 als hij ooit geregistreerd was maar niet gespeeld heeft
-                    // geregistreerd andere constructor gebruiken
-                    this.board = new Board(5);
+                    // Highscore normaal 0 als hij ooit geregistreerd was maar niet gespeeld heeft
+                    // Ggeregistreerd andere constructor gebruiken
+                    this.board = new Board(3);
                     this.player = new Player(username, Integer.parseInt(credentials[2]), board);
                     this.scoreboard = new Scoreboard(player);
                     return true;
@@ -188,6 +185,7 @@ public class Game {
         return false;
     }
 
+    // Genereert random pieces indien ze op zijn
     public void RandomPiece() {
         if (pieces.isEmpty()) {
             for (int i = 0; i < CAPACITY; i++) {
@@ -197,6 +195,7 @@ public class Game {
         // TOEVOEGEN IN PIECES ATTR GAME
     }
 
+    // Toont de huidige pieces
     public void showPieces() {
         System.out.println("------------");
         for (Piece overigePiece : pieces){
