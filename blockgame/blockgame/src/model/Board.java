@@ -16,6 +16,7 @@ public class Board {
     private int size;
     // de standaard kleur van de tiles op het board (kan in later versie eventueel een instelling worden)
     public final Color DEFAULT_COLOR = Color.black;
+    private final int BASE_POINTS = 5;
     // Scoreboard om aan te passen indien nodig
     // private Scoreboard scoreboard;
 
@@ -171,30 +172,26 @@ public class Board {
                 }
             }
 
-
-            // Marks horizontal tiles for deletion
             if(fullHor) {
                 for(int j = 0; j < size; j++) {
-                    //currXP += BASE_XP;
-                    grid[i][j].setMarkForDelete(true);
+                    // PUNTEN TOEVOEGEN BASE_POINTS;
+                    grid[i][j].setMarkdelete(true);
                 }
             }
 
-            // Marks vertical tiles for deletion
             if(fullVert) {
-                for(int j = 0; j < gridsize; j++) {
-                    //currXP += BASE_XP;
-                    grid[j][i].setMarkForDelete(true);
+                for(int j = 0; j < size; j++) {
+                    // PUNTEN TOEVOEGEN BASE_POINTS;
+                    grid[j][i].setMarkdelete(true);
                 }
             }
         }
 
         // Deletes all tiles marked for deletion
-        for(int i = 0; i < gridsize; i++) {
-            for(int j = 0; j < gridsize; j++) {
-                if(grid[i][j].getMarkForDelete() == true) {
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                if(grid[i][j].isMarkdelete()) {
                     grid[i][j].setUsed(false);
-                    grid[i][j].setBorder(defaultBorder);
                 }
             }
         }

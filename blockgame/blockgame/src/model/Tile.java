@@ -15,6 +15,7 @@ public class Tile {
     private Color color;
     private Point point;
     private boolean used;
+    private boolean markdelete = false;
 
     //Contructur voor het aanmaken van een tegel zonder kleur.
     public Tile(Point point) {
@@ -26,6 +27,14 @@ public class Tile {
         this.color = color;
         this.point = point;
         this.used = false;
+    }
+
+    public boolean isMarkdelete() {
+        return markdelete;
+    }
+
+    public void setMarkdelete(boolean markdelete) {
+        this.markdelete = markdelete;
     }
 
     // de locatie van een tegel krijgen adhv een plaats in de two dimensional array
