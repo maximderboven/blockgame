@@ -17,6 +17,10 @@ public enum Piece {
     private final Color color;
     private final Point[] tiles;
 
+    public Point[] getTiles() {
+        return tiles;
+    }
+
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
         this.color = color;

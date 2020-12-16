@@ -10,12 +10,15 @@ import java.awt.*;
 public class Player {
     //op welk bord de speler speelt en blokken mag plaatsen
     private Board board;
+    //De naam van de speler
     private String name;
+    //Highscore van deze speler:
     private int highscore;
 
     //voor een nieuwe speler zonder highscore:
     public Player(String name) {
         this.name = name;
+        this.highscore = 0;
     }
 
     //voor een speler die terugkeert:
@@ -40,8 +43,8 @@ public class Player {
     }
 
     //ZIE GAME VOOR EVT INGO OVER VOID TOV BOOL
-    public void play(Piece piece, Point point) {
-        board.dropBlock(piece, point);
+    public boolean play(Piece piece, Point point) {
+        return board.dropBlock(piece, point);
         //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse
     }
 }

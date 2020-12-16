@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +21,12 @@ public class Game {
     //Welk scoreboard er gebruikt gaat worden:
     private Scoreboard scoreboard;
     //Welke stukjes er aan de beurt zijn om geplaats te worden
-    private  Piece[] pieces = new Piece[3];
+    //private Piece[] pieces = new Piece[3];
+    private final int CAPACITY = 3;
+    private ArrayList<Piece> pieces = new ArrayList<>(CAPACITY);
+    //Random voor de console aplicatie
+    private Random random = new Random();
+
     //Eventueel een tijd om bij te houden hoe lang hij het heeft uitgehouden:
     //private LocalTime time;
 
@@ -43,25 +49,27 @@ public class Game {
      */
 
     public Game() {
-
-        //Mag ik die hier handelen die Exception ? Of liever in Login direct ?
-        try {
-            if (login()) {
-                this.scoreboard = new Scoreboard(player);
-                this.board = new Board(scoreboard);
-                start();
-            } else {
-                System.out.println("Foute login");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (login()) {
+            this.scoreboard = new Scoreboard(player);
+            this.board = new Board(scoreboard);
+            start();
+        } else {
+            System.out.println("Foute login");
         }
     }
 
     //controleert of het spel gedaan is adhv het bord dat gaat kijken of de blok nog geplaatst kan worden
     public boolean isPossible() {
+
         //loop door de array van pieces hier:
-        return board.isPossible();
+        for (Piece piece : this.pieces) {
+            if (board.isPossible(piece)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true; //? missing return statement
     }
 
     // Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt)
@@ -78,13 +86,20 @@ public class Game {
             //Laat de speler een zet doen:
             // EVT EEN BOOL MEEGEVEN vanuit player.play OF DE PLAY IS GELUKT EN ALS HET IS GELUKT:
             // piece op null zetten en game opnieuw drawen anders fout melding
-            player.play(// HIER RANDOM PIECE UIT PIECES ATTR GAME MEEGEVEN);
+
+            // HIER RANDOM PIECE UIT PIECES ATTR GAME MEEGEVEN
+            Piece selectedPiece = pieces.get(random.nextInt(pieces.size()));
+            if (player.play(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
+                pieces.remove(selectedPiece);
+            }
+
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
             showHUD();
             // laat de nieuwe situatie van het bord zien
             board.draw();
 
             //geeft 3 blokken om te beginnen spelen ENKEL ALS DE OUDE DRIE OP ZIJN!
+
             RandomPiece();
 
             //wacht even (eerste rudimentaire versie is zonder input van de gebruiker) automatisch
@@ -98,7 +113,7 @@ public class Game {
         //Wanneer het spel gedaan is:
         // Check of score groter is dan highscore
         int score = scoreboard.getScore();
-        if (score > player.getHighscore()){
+        if (score > player.getHighscore()) {
             player.setHighscore(score);
         }
     }
@@ -110,7 +125,7 @@ public class Game {
     }
 
     //Zorgt voor de login van de user alvoorens het spel kan starten
-    public boolean login() throws FileNotFoundException {
+    public boolean login() {
         // Op welke manier gegevens opslaan?
         // 1. In object van players steken?
         // 2. Of in tweedimensionale array?
@@ -126,8 +141,14 @@ public class Game {
         System.out.print("password: ");
         String password = keyboard.next();
 
-        //        //Reading the lines from highscores.txt using Scanner class:
-        Scanner sc = new Scanner(new File("..\\blockgame\\blockgame\\src\\model\\resources\\highscores.txt"));
+        //Reading the lines from highscores.txt using Scanner class:
+
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File("..\\blockgame\\blockgame\\src\\model\\resources\\highscores.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         ArrayList<String> rows = new ArrayList<>();
         while (sc.hasNext()) {
             rows.add(sc.nextLine());
@@ -156,13 +177,13 @@ public class Game {
     }
 
     public void RandomPiece() {
-
+        if (pieces.isEmpty()) {
+            for (int i = 0; i < CAPACITY; i++) {
+                pieces.add(Piece.values()[random.nextInt(Piece.values().length)]);
+            }
+        }
         // TOEVOEGEN IN PIECES ATTR GAME
-        Random random = new Random();
-        Piece piece1 = Piece.values()[random.nextInt(Piece.values().length)];
-        Piece piece2 = Piece.values()[random.nextInt(Piece.values().length)];
-        Piece piece3 = Piece.values()[random.nextInt(Piece.values().length)];
-        System.out.printf("%s\t%s\t%s", piece1, piece2, piece3);
+        // System.out.printf("[%s\t%s\t%s]", pieces[0], pieces[1], pieces[2]);
     }
 
 }
