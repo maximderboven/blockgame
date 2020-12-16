@@ -81,4 +81,9 @@ public class Player {
             System.out.println("File not found");
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format(this.name);
+    }
 }

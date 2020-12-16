@@ -80,7 +80,7 @@ public class Game {
         //Laat de nieuwe  HUD zien (scoreboard en speler naam)
         showHUD();
         // laat de nieuwe situatie van het bord zien
-        board.draw();
+        board.toString();
 
         // Toont overige pieces
         showPieces();
@@ -109,7 +109,7 @@ public class Game {
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
             showHUD();
             // laat de nieuwe situatie van het bord zien
-            board.draw();
+            board.toString();
 
             // Toont overige pieces
             showPieces();
@@ -136,7 +136,7 @@ public class Game {
 
     // Toont de HUD (alles ronddom het spelbord)
     public void showHUD() {
-        scoreboard.draw();
+        scoreboard.toString();
     }
 
     // Loginsysteem van de user alvorens het spel kan starten

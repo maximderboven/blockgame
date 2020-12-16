@@ -55,6 +55,7 @@ public class Board {
     false false false
      */
 
+    /*
     public void draw() {
         for (int i = 0; i < size; i++)
         {
@@ -68,6 +69,24 @@ public class Board {
             }
             System.out.println();
         }
+    }
+    */
+
+    @Override
+    public String toString() {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (grid[i][j].isUsed()){
+                    System.out.printf("%1s", "x");
+                }else {
+                    System.out.printf("%1s", "o");
+                }
+            }
+            System.out.println();
+        }
+        return "";
     }
 
     //private methode om te controleren of de locatie vrij is (ext voor methode dropBlock)
@@ -93,6 +112,7 @@ public class Board {
                 int c = point.y + p.y;
                 grid[r][c].setUsed(true);
             }
+            clearLines();
             return true;
         } else {
             return false;
@@ -126,5 +146,57 @@ public class Board {
 
     public int getSize() {
         return size;
+    }
+
+    public void clearLines() {
+
+        boolean fullHor = true;
+        boolean fullVert = true;
+
+        for(int i = 0; i < size; i++) {
+            fullHor = true;
+            fullVert = true;
+
+            // Sets fullLine to false if any of the tiles are unused
+            for(int j = 0; j < size; j++) {
+
+                // Horizontal
+                if(!grid[i][j].isUsed()) {
+                    fullHor = false;
+                }
+
+                // Vertical
+                if(!grid[j][i].isUsed()) {
+                    fullVert = false;
+                }
+            }
+
+
+            // Marks horizontal tiles for deletion
+            if(fullHor) {
+                for(int j = 0; j < size; j++) {
+                    //currXP += BASE_XP;
+                    grid[i][j].setMarkForDelete(true);
+                }
+            }
+
+            // Marks vertical tiles for deletion
+            if(fullVert) {
+                for(int j = 0; j < gridsize; j++) {
+                    //currXP += BASE_XP;
+                    grid[j][i].setMarkForDelete(true);
+                }
+            }
+        }
+
+        // Deletes all tiles marked for deletion
+        for(int i = 0; i < gridsize; i++) {
+            for(int j = 0; j < gridsize; j++) {
+                if(grid[i][j].getMarkForDelete() == true) {
+                    grid[i][j].setUsed(false);
+                    grid[i][j].setBorder(defaultBorder);
+                }
+            }
+        }
     }
 }

@@ -25,7 +25,13 @@ public class Scoreboard {
     -------------
      */
 
+    /*
     public void draw() {
+        System.out.println("--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------");
+    }*/
+
+    @Override
+    public String toString() {
         System.out.println("--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------");
     }
 
