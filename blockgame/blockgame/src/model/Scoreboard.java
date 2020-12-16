@@ -37,4 +37,8 @@ public class Scoreboard {
     public void setHighscore(int highscore) {
         player.setHighscore(highscore);
     }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
 }

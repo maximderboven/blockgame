@@ -9,9 +9,9 @@ import java.awt.*;
  */
 public enum Piece {
     // De blokken bevatten een locatie die wordt vergeleken met de locatie op het bord. Zo worden de tegels op die plaatsen aangepast.
-    KLEIN(2,Color.red,new Point[]{new Point(0, 0)}),
+    KLEIN(1,Color.red,new Point[]{new Point(0, 0)}),
     MIDDEL(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1)}),
-    GROOT(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(0,+1)});
+    GROOT(3,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(0,+1)});
 
     private final int value;
     private final Color color;
@@ -21,9 +21,14 @@ public enum Piece {
         return tiles;
     }
 
+    public int getValue() {
+        return value;
+    }
+
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
         this.color = color;
         this.tiles = tiles;
     }
+
 }

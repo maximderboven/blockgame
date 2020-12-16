@@ -17,10 +17,10 @@ public class Board {
     // de standaard kleur van de tiles op het board (kan in later versie eventueel een instelling worden)
     public final Color DEFAULT_COLOR = Color.black;
     // Scoreboard om aan te passen indien nodig
-    private Scoreboard scoreboard;
+    // private Scoreboard scoreboard;
 
     //bord met een andere grootte dan standaard 10
-    public Board(int size, Scoreboard scoreboard) {
+    public Board(int size) {
         this.size = size;
         this.grid = new Tile[size][size];
         //bord vullen met ongebruikte tegels
@@ -31,10 +31,10 @@ public class Board {
                 grid[i][j] = new Tile(DEFAULT_COLOR,new Point(i,j));
             }
         }
-        this.scoreboard = scoreboard;
+        //this.scoreboard = scoreboard;
     }
     //bord met standaard grootte
-    public Board(Scoreboard scoreboard) {
+    public Board() {
         this.size = 10;
         this.grid = new Tile[size][size];
         //bord vullen met ongebruikte tegels
@@ -45,7 +45,7 @@ public class Board {
                 grid[i][j] = new Tile(DEFAULT_COLOR,new Point(i,j));
             }
         }
-        this.scoreboard = scoreboard;
+        //this.scoreboard = scoreboard;
     }
     //Hiermee wordt het bord weergegeven
     // waarbij true de gebruikte vakjes zijn
@@ -60,7 +60,11 @@ public class Board {
         {
             for (int j = 0; j < size; j++)
             {
-                System.out.printf("%8b", grid[i][j].isUsed());
+                if (grid[i][j].isUsed()){
+                    System.out.printf("%1s", "x");
+                }else {
+                System.out.printf("%1s", "o");
+                }
             }
             System.out.println();
         }
@@ -79,7 +83,7 @@ public class Board {
         return true;
     }
 
-    public boolean dropBlock(Piece piece, Point point) {
+    public boolean placeBlock(Piece piece, Point point) {
         if (isFree(piece,point)) {
             //Plaats de block op het grid door middel van de locatie van de kleiner blokjes binnen de piece te vergelijken met de point (parameter) waar hij zou neerkomen.
             //Zet de Tegels used op true op die locatie in de 2 dimensionale array.

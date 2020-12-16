@@ -50,8 +50,6 @@ public class Game {
 
     public Game() {
         if (login()) {
-            this.scoreboard = new Scoreboard(player);
-            this.board = new Board(scoreboard);
             start();
         } else {
             System.out.println("Foute login");
@@ -76,13 +74,20 @@ public class Game {
     public void start() {
         //voor het spel start:
         //Laat de situatie van het bord zien:
-        board.draw();
+        //board.draw();
         //geeft 3 blokken om te beginnen spelen
         RandomPiece();
+        //Laat de nieuwe  HUD zien (scoreboard en speler naam)
+        showHUD();
+        // laat de nieuwe situatie van het bord zien
+        board.draw();
+
+        // Toont overige pieces
+        showPieces();
 
         //Tijdens het spel:
         //Zolang het mogelijk is om blokken te zetten:
-        while (!isPossible()) {
+        while (isPossible()) {
             //Laat de speler een zet doen:
             // EVT EEN BOOL MEEGEVEN vanuit player.play OF DE PLAY IS GELUKT EN ALS HET IS GELUKT:
             // piece op null zetten en game opnieuw drawen anders fout melding
@@ -91,12 +96,16 @@ public class Game {
             Piece selectedPiece = pieces.get(random.nextInt(pieces.size()));
             if (player.play(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
                 pieces.remove(selectedPiece);
+                this.scoreboard.addScore(selectedPiece.getValue());
             }
 
             //Laat de nieuwe  HUD zien (scoreboard en speler naam)
             showHUD();
             // laat de nieuwe situatie van het bord zien
             board.draw();
+
+            // Toont overige pieces
+            showPieces();
 
             //geeft 3 blokken om te beginnen spelen ENKEL ALS DE OUDE DRIE OP ZIJN!
 
@@ -122,6 +131,7 @@ public class Game {
     //toont de HUD (alles ronddom het spelbord)
     public void showHUD() {
         scoreboard.draw();
+
     }
 
     //Zorgt voor de login van de user alvoorens het spel kan starten
@@ -168,7 +178,9 @@ public class Game {
 
                     //Highscore normaal 0 als hij ooit geregistreerd was maar niet gespeeld heeft
                     // geregistreerd andere constructor gebruiken
-                    this.player = new Player(username, Integer.parseInt(credentials[2]));
+                    this.board = new Board(5);
+                    this.player = new Player(username, Integer.parseInt(credentials[2]), board);
+                    this.scoreboard = new Scoreboard(player);
                     return true;
                 }
             }
@@ -183,7 +195,14 @@ public class Game {
             }
         }
         // TOEVOEGEN IN PIECES ATTR GAME
-        // System.out.printf("[%s\t%s\t%s]", pieces[0], pieces[1], pieces[2]);
+    }
+
+    public void showPieces() {
+        System.out.println("------------");
+        for (Piece overigePiece : pieces){
+            System.out.printf("[%s] ", overigePiece);
+        }
+        System.out.println("\n\n\n");
     }
 
 }

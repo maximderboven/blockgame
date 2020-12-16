@@ -16,15 +16,17 @@ public class Player {
     private int highscore;
 
     //voor een nieuwe speler zonder highscore:
-    public Player(String name) {
+    public Player(String name, Board board) {
         this.name = name;
         this.highscore = 0;
+        this.board = board;
     }
 
     //voor een speler die terugkeert:
-    public Player(String name, int highscore) {
+    public Player(String name, int highscore, Board board) {
         this.name = name;
         this.highscore = highscore;
+        this.board = board;
     }
 
     //naam verkrijgen voor bv scoreboard op te maken:
@@ -40,11 +42,12 @@ public class Player {
     //nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
     public void setHighscore(int highscore) {
         this.highscore = highscore;
+        
     }
 
     //ZIE GAME VOOR EVT INGO OVER VOID TOV BOOL
     public boolean play(Piece piece, Point point) {
-        return board.dropBlock(piece, point);
+        return board.placeBlock(piece, point);
         //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse
     }
 }
