@@ -44,7 +44,6 @@ public class Game {
 
     public Game() {
         if (this.login()) {
-            this.board = new Board(3);
             this.scoreboard = new Scoreboard(player);
             this.playablePieces = new PlayablePieces();
             start();
@@ -104,10 +103,13 @@ public class Game {
         System.out.print("Password: ");
         String password = keyboard.next();
 
-        if (am.login(username, password)) {
-            this.player = new Player(username, Integer.parseInt(credentials[2]), board);
-        } else {
-
+        if (am.login(username,password)){
+            this.board = new Board(3);
+            this.player = new Player(username, 5, board); // <-- hoe highscore ophalen?
+            return true;
+        }else {
+            System.out.println("foute login");
+            return false;
         }
     }
 

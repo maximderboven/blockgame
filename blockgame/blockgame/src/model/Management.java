@@ -17,12 +17,12 @@ public class Management {
 
     public boolean login(String username, String password) {
         readFile();
-        if (!playerExists(username)) {
+        if (playerExists(username)) {
+            return checkPassword(username, password);
+        } else {
             register(username, password);
-            return false;
-        }else {
-            return true;
         }
+        return false;
     }
 
     public void readFile() {
@@ -65,5 +65,16 @@ public class Management {
         }
     }
 
-
+    public boolean checkPassword(String username, String password) {
+        String[] line;
+        for (String row : rows) {
+            if (row.contains(username)) {
+                line = row.split(":");
+                if (line[1].equals(password)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
