@@ -9,21 +9,20 @@ import java.util.Scanner;
  * @version 1.0 9/12/2020 18:44
  * @description Dit is het beheer van het spel, deze klasse leid de andere klasse die deel uitmaken van het spel.
  * start van het spel
- *
- *     Volgorde;
- *     1. Inloggen of registreren
- *     2. op basis van de gegevens een speler aanmaken
- *     3. Bord maken
- *     4. Scoreboard maken
- *     5. Begin situatie schetsen
- *     6. 3 random blokken geven
- *     6.1 Kijken of de blokken nog passen anders is het gedaan
- *     7. De speler een blok laten kiezen
- *     8. Kijken of de blok past waar de speler hem wilt zetten
- *     9. De Tegels op locatie used zetten
- *     10. Herhaal 6.1 voor de overige 2 blokken
- *     11. Herhaal 6 tot een van de blokken niet meer past.
- *
+ * <p>
+ * Volgorde;
+ * 1. Inloggen of registreren
+ * 2. op basis van de gegevens een speler aanmaken
+ * 3. Bord maken
+ * 4. Scoreboard maken
+ * 5. Begin situatie schetsen
+ * 6. 3 random blokken geven
+ * 6.1 Kijken of de blokken nog passen anders is het gedaan
+ * 7. De speler een blok laten kiezen
+ * 8. Kijken of de blok past waar de speler hem wilt zetten
+ * 9. De Tegels op locatie used zetten
+ * 10. Herhaal 6.1 voor de overige 2 blokken
+ * 11. Herhaal 6 tot een van de blokken niet meer past.
  */
 
 public class Game {
@@ -35,7 +34,7 @@ public class Game {
      * Zetten die de speler gaat doen
      * Welk bord er gebruikt wordt:
      * User beheer voor gebruiker te registreren en in te loggen
-    */
+     */
     private Player player;
     private Scoreboard scoreboard;
     private Random random = new Random();
@@ -49,7 +48,7 @@ public class Game {
      * Deze constructor omvat het hele spelverloop
      */
     public Game() {
-        if (this.login()) {
+        if (this.identify()) {
             this.board = new Board(10);
             this.scoreboard = new Scoreboard(player);
             this.playablePieces = new PlayablePieces();
@@ -111,23 +110,48 @@ public class Game {
     /**
      * Loginsysteem van de user alvorens het spel kan starten
      */
-    public boolean login() {
+
+    public boolean identify() {
         Scanner keyboard = new Scanner(System.in);
-        System.out.print("-------------- \nLOGIN\n --------------\n");
+        System.out.print("-------------- \nMENU\n--------------\n");
+        System.out.println("Login: (1)");
+        System.out.println("Register: (2)");
+        int keuze = keyboard.nextInt();
 
-        System.out.print("Username: ");
-        String username = keyboard.next();
+        String username = "";
+        String password = "";
+        switch (keuze) {
+            case 1:
+                System.out.print("Username: ");
+                username = keyboard.next();
 
-        System.out.print("Password: ");
-        String password = keyboard.next();
+                System.out.print("Password: ");
+                password = keyboard.next();
 
-        if (am.login(username,password)){
-            this.player = new Player(username, 5); // <-- hoe highscore ophalen?
-            return true;
-        }else {
-            System.out.println("foute login");
-            return false;
+                if (am.login(username, password)) {
+                    this.player = new Player(username, am.getHighscore(username));
+                    return true;
+                } else {
+                    System.out.println("foute login");
+                    return false;
+                }
+            case 2:
+                System.out.println("**Register modus**");
+                System.out.print("Username: ");
+                username = keyboard.next();
+
+                System.out.print("Password: ");
+                password = keyboard.next();
+
+                if (am.register(username, password)) {
+                    this.player = new Player(username);
+                    return true;
+                } else {
+                    System.out.println("Er ging iets mis...");
+                    return false;
+                }
         }
+        return false;
     }
 
 

@@ -1,9 +1,6 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -19,19 +16,58 @@ public class Management {
 
 
     /**
-     * Login
+     * Laat de gebruiker inloggen + controle van wachtwoord.
      */
     public boolean login(String username, String password) {
         readFile();
         if (playerExists(username)) {
             return checkPassword(username, password);
-        } else {
-            register(username, password);
         }
         return false;
     }
 
-    public void readFile() {
+
+    /**
+     * Gaat een gebruiker aanmaken door een lijn toe te voegen in het bestand highscores.txt
+     */
+    public boolean register(String username, String password) {
+        if (!playerExists(username)) {
+            if (password.contains(":") | username.contains(":")){
+                return false;
+            }
+            try {
+                Writer output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../blockgame/blockgame/src/model/resources/highscores.txt", true), "UTF-8"));
+                output.append(String.format("\n%s:%s:%d", username, password, 0));
+                output.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Geeft de highscore van de huidige gebruiker terug.
+     * */
+    public int getHighscore(String username) {
+        String[] line;
+        for (String row : rows) {
+            if (row.contains(username)) {
+                line = row.split(":");
+                return Integer.parseInt(line[2]);
+            }
+        }
+        return 0;
+    }
+
+
+    /**
+     * File highscores.txt inlezen en in een ArrayList steken.
+     * (Wordt enkel in deze klasse gebruikt)
+     * */
+    private void readFile() {
         try {
             BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
             String line;
@@ -44,7 +80,12 @@ public class Management {
         }
     }
 
-    public boolean playerExists(String username) {
+
+    /**
+     * Kijkt na of speler bestaat doormiddel van ArrayList te splitten.
+     * (Wordt enkel in deze klasse gebruikt)
+     * */
+    private boolean playerExists(String username) {
         String[] credentials;
         // Elke lijn van bestand splitten {username}:{password}:{highscore}
         for (String row : rows) {
@@ -58,20 +99,12 @@ public class Management {
         return false;
     }
 
-    public void register(String username, String password) {
-        if (!playerExists(username)) {
-            rows.add(String.format("%s:%s:%d", username, password, 0));
-            try {
-                FileOutputStream fileOut = new FileOutputStream("../blockgame/blockgame/src/model/resources/highscores.txt");
-                fileOut.write(rows.toString().getBytes());
-                fileOut.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-    public boolean checkPassword(String username, String password) {
+    /**
+     * Controleert het wachtwoord van een gebruiker.
+     * (wordt enkel in deze klasse gebruikt).
+     * */
+    private boolean checkPassword(String username, String password) {
         String[] line;
         for (String row : rows) {
             if (row.contains(username)) {
