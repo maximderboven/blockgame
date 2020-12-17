@@ -79,9 +79,9 @@ public class Board {
             for (int j = 0; j < size; j++)
             {
                 if (grid[i][j].isUsed()){
-                    System.out.printf("%1s", "x");
+                    System.out.printf("\033[1;31m" + "%1s", "x");
                 }else {
-                    System.out.printf("%1s", "o");
+                    System.out.printf("\033[0m" + "%1s", "o");
                 }
             }
             System.out.println();
@@ -123,7 +123,6 @@ public class Board {
                 int c = point.y + p.y;
                 grid[r][c].setUsed(true);
             }
-            clearLines();
             return true;
         } else {
             return false;
@@ -165,8 +164,8 @@ public class Board {
     /**
      * Verwijdert alle horizontale en verticale rijen.
      */
-    private void clearLines() {
-
+    public int clearLines() {
+        int points = 0;
         boolean fullHor = false;
         boolean fullVert = false;
 
@@ -190,14 +189,14 @@ public class Board {
 
             if(fullHor) {
                 for(int j = 0; j < size; j++) {
-                    // PUNTEN TOEVOEGEN BASE_POINTS;
+                    points += BASE_POINTS;
                     grid[i][j].setMarkdelete(true);
                 }
             }
 
             if(fullVert) {
                 for(int j = 0; j < size; j++) {
-                    // PUNTEN TOEVOEGEN BASE_POINTS;
+                    points += BASE_POINTS;
                     grid[j][i].setMarkdelete(true);
                 }
             }
@@ -211,5 +210,6 @@ public class Board {
                 }
             }
         }
+        return points;
     }
 }

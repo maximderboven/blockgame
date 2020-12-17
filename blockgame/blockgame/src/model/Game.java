@@ -50,7 +50,7 @@ public class Game {
      */
     public Game() {
         if (this.login()) {
-            this.board = new Board(3);
+            this.board = new Board(10);
             this.scoreboard = new Scoreboard(player);
             this.playablePieces = new PlayablePieces();
             start();
@@ -137,7 +137,7 @@ public class Game {
     public void play() {
         Piece selectedPiece = playablePieces.randomPiece();
         if (board.Move(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
-            scoreboard.updateScore(selectedPiece.getValue());
+            scoreboard.updateScore(selectedPiece.getValue() + board.clearLines());
             playablePieces.remove(selectedPiece);
         }
     }
