@@ -6,10 +6,9 @@ package model;
  * @description Het scoreboard is het beheer van de scores en het tonen van het scoreboard voor de huidige speler.
  */
 public class Scoreboard {
-    // Huidige score van de speler
     // De huidige score behoort tot de game zolang het spel bezig is. Wanneer het spel afgelopen is wordt de score toegewezen (indien de highscore overschreden is) aan de huidige speler.
     private int score;
-    //de Huidige speler om de scores ervan te beheren:
+    //de Huidige speler om de scores van te beheren:
     private Player player;
 
     public Scoreboard(Player player) {
@@ -18,12 +17,6 @@ public class Scoreboard {
     }
 
     //Hiermee wordt het scoreboard weergegeven
-    /*
-    -------------
-    Score: x
-    Highscore: x
-    -------------
-     */
 
     /*
     public void draw() {
@@ -33,22 +26,14 @@ public class Scoreboard {
     @Override
     public String toString() {
         System.out.println("--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------");
+        return "";
     }
 
-    //Geeft de behaalde score van deze poging weer.
-    public int getScore() {
-        return score;
-    }
-    //Verander de highscore van de speler
-    public void setHighscore(int highscore) {
-        player.setHighscore(highscore);
-    }
-
-    public void addScore(int score) {
+    public void updateScore(int score) {
         this.score += score;
     }
 
-    public void updateScore() {
+    public void updateHighscore() {
         //Wanneer het spel gedaan is, kijken of score groter is dan highscore
         if (score > player.getHighscore()) {
             player.setHighscore(score);

@@ -10,7 +10,7 @@ import java.util.Scanner;
  * @author Maxim Derboven
  * @version 1.0 17/12/2020 10:27
  */
-public class accessManagement {
+public class Management {
     public boolean login(String username, String password) {
         ArrayList<String> rows = new ArrayList<>();
         try {

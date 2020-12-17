@@ -26,89 +26,88 @@ import java.util.Scanner;
  */
 
 public class Game {
-    //Welke speler er gaat spelen:
+    /*
+    * Welke speler er gaat spelen:
+    * Welk scoreboard er gebruikt gaat worden:
+    * Random voor de console aplicatie
+    * Zetten die de speler gaat doen
+    * Welk bord er gebruikt wordt:
+    * User beheer voor gebruiker te registreren en in te loggen
+    */
     private Player player;
-    //Welk scoreboard er gebruikt gaat worden:
     private Scoreboard scoreboard;
-    //Random voor de console aplicatie
     private Random random = new Random();
-    //Zetten die de speler gaat doen
-    private Move move;
-    //Welk bord er gebruikt wordt:
+    private PlayablePieces move;
     private Board board;
+    private final Management am = new Management();
+
     //Eventueel een tijd om bij te houden hoe lang hij het heeft uitgehouden:
     //private LocalTime time;
 
 
     public Game() {
-        if (login()) {
+        if (this.login()) {
             this.board = new Board(3);
-            this.player = new Player(username, Integer.parseInt(credentials[2]), board);
             this.scoreboard = new Scoreboard(player);
-            this.move = new Move(player,board);
+            this.move = new PlayablePieces(board,player);
             start();
         } else {
             System.out.println("Foute login");
         }
     }
 
-    //controleert of het spel gedaan is adhv het bord dat gaat kijken of de blok nog geplaatst kan worden
+    /* controleert of het spel gedaan is adhv het bord dat gaat kijken of de blok nog geplaatst kan worden */
     public boolean isPossible() {
-        Move.isPossible();
+        return move.isPossible();
     }
 
-    // Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt)
+    /* Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt) */
     public void start() {
-        //Laat de nieuwe  HUD zien (scoreboard en speler naam)
         showHUD();
 
-        //Tijdens het spel:
-        //Zolang het mogelijk is om blokken te zetten:
         while (isPossible()) {
-            //Laat de speler een zet doen:
-            // EVT EEN BOOL MEEGEVEN vanuit player.play OF DE PLAY IS GELUKT EN ALS HET IS GELUKT:
-            // piece op null zetten en game opnieuw drawen anders fout melding
-            //Laat de nieuwe  HUD zien (scoreboard en board en speler naam)
+            player.play(new PlayablePieces());
             showHUD();
-
-            //geeft 3 blokken om te beginnen spelen
             randomPiece();
 
-            //wacht even (eerste rudimentaire versie is zonder input van de gebruiker) automatisch
             try {
                 Thread.sleep(800);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
-        scoreboard.updateScore();
+
+        scoreboard.updateHighscore();
         System.out.println("Game over: (╯°□°）╯︵ ┻━┻");
     }
 
-    // Toont de HUD (alles ronddom het spelbord)
+    /* Toont de HUD (alles ronddom het spelbord) */
     public void showHUD() {
         scoreboard.toString();
         board.toString();
-        Move.toString();
+        move.toString();
     }
 
-    // Loginsysteem van de user alvorens het spel kan starten
+    /* Loginsysteem van de user alvorens het spel kan starten */
     public boolean login() {
         Scanner keyboard = new Scanner(System.in);
         System.out.print("-------------- \nLOGIN\n --------------\n");
 
-        // Input voor gebruikersnaam
         System.out.print("Username: ");
         String username = keyboard.next();
 
-        // Input voor wachtwoord
         System.out.print("Password: ");
         String password = keyboard.next();
-        accessManagement.login(username, password);
+        if (am.login(username, password)) {
+            this.player = new Player(username, Integer.parseInt(credentials[2]), board);
+        } else {
+
+        }
     }
 
-    // Genereert random pieces indien ze op zijn
+    /* Genereert random pieces indien ze op zijn */
     public void randomPiece() {
-        Move.randomPiece();
+        move.randomPiece();
     }
 }

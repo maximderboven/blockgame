@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Maxim Derboven
  * @version 1.0 17/12/2020 10:13
  */
-public class Move {
+public class PlayablePieces {
     //Welke stukjes er aan de beurt zijn om geplaats te worden
     //private Piece[] pieces = new Piece[3];
     private final int CAPACITY = 3;
@@ -17,7 +17,7 @@ public class Move {
     private Board board;
     private Player player;
 
-    public Move(Board board, Player player) {
+    public PlayablePieces(Board board, Player player) {
         this.board = board;
         this.player = player;
         randomPiece();
