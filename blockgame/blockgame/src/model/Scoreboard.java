@@ -47,4 +47,11 @@ public class Scoreboard {
     public void addScore(int score) {
         this.score += score;
     }
+
+    public void updateScore() {
+        //Wanneer het spel gedaan is, kijken of score groter is dan highscore
+        if (score > player.getHighscore()) {
+            player.setHighscore(score);
+        }
+    }
 }
