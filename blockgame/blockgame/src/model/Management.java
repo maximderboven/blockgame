@@ -11,10 +11,16 @@ import java.util.ArrayList;
  * @version 1.0 17/12/2020 10:27
  */
 public class Management {
-
-    // Arraylist van highscores.txt
+    /**
+     * ATTRIBUTEN
+     * Arraylist van highscores.txt
+     */
     private ArrayList<String> rows = new ArrayList<>();
 
+
+    /**
+     * Login
+     */
     public boolean login(String username, String password) {
         readFile();
         if (playerExists(username)) {

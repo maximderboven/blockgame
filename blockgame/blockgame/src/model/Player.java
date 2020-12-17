@@ -11,51 +11,50 @@ import java.io.FileReader;
  * @description De speler speelt het spel en speelt de blokken. Deze klasse bevat de gegevens van de huidige speler.
  */
 public class Player {
-    //op welk bord de speler speelt en blokken mag plaatsen
-    private Board board;
-    //De naam van de speler
+    /**
+     * ATTRIBUTEN
+     * naam = naam van de speler
+     * highscore = highscore van deze speler
+     */
     private String name;
-    //Highscore van deze speler:
     private int highscore;
 
-    //voor een nieuwe speler zonder highscore:
-    public Player(String name, Board board) {
+    /**
+     * CONSTRUCTORS
+     * Nieuwe speler zonder highscore en een speler met highscore
+     */
+    public Player(String name) {
         this.name = name;
         this.highscore = 0;
-        this.board = board;
     }
 
-    //voor een speler die terugkeert:
-    public Player(String name, int highscore, Board board) {
+    public Player(String name, int highscore) {
         this.name = name;
         this.highscore = highscore;
-        this.board = board;
     }
 
-    //naam verkrijgen voor bv scoreboard op te maken:
-    public String getName() {
-        return name;
-    }
 
-    //Highscore verkrijgen om te vergelijken met de nieuw behaalde score / weergeven
+    /**
+     * huidige highscore verkrijgen om te vergelijken met de nieuw behaalde score / weergeven
+     */
     public int getHighscore() {
         return highscore;
     }
 
-    //nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
+
+    /**
+     * nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
+     */
     public void setHighscore(int highscore) {
         this.highscore = highscore;
-        //Update  highschore method
         updateHighscore();
     }
 
-    //ZIE GAME VOOR EVT INGO OVER VOID TOV BOOL
-    public boolean play(Piece piece, Point point) {
-        return board.placeBlock(piece, point);
-        //Hiermee plaats je een mogelijke blok (parameter) van de drie blokken in het board van deze klasse
-    }
 
-    public void updateHighscore() {
+    /**
+     * Update de highscore in de file
+     */
+    private void updateHighscore() {
         try {
             BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
             StringBuilder buffer = new StringBuilder();
@@ -82,6 +81,9 @@ public class Player {
         }
     }
 
+    /**
+     * Geeft de naam van de speler weer
+     */
     @Override
     public String toString() {
         return String.format(this.name);
