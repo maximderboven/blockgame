@@ -1,59 +1,36 @@
 package model;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Random;
 
 /**
  * @author Maxim Derboven
  * @version 1.0 17/12/2020 10:13
  */
 public class PlayablePieces {
-    //Welke stukjes er aan de beurt zijn om geplaats te worden
-    //private Piece[] pieces = new Piece[3];
-    private final int CAPACITY = 3;
-    private ArrayList<Piece> pieces = new ArrayList<>(CAPACITY);
-    //Welk bord er gebruikt wordt:
-    private Board board;
-    private Player player;
+    private int capacity = 3;
+    private ArrayList<Piece> pieces = new ArrayList<>(capacity);
+    private Random random = new Random();
 
-    public PlayablePieces(Board board, Player player) {
-        this.board = board;
-        this.player = player;
-        randomPiece();
+    public PlayablePieces() {
+        newPieces();
     }
 
-    public void randomPiece() {
+    public PlayablePieces(int capacity) {
+        this.capacity = capacity;
+        newPieces();
+    }
+
+    public void newPieces() {
         if (pieces.isEmpty()) {
-            for (int i = 0; i < CAPACITY; i++) {
+            for (int i = 0; i < capacity; i++) {
                 pieces.add(Piece.values()[random.nextInt(Piece.values().length)]);
             }
         }
     }
 
-    public boolean isPossible() {
-        //loop door de array van pieces hier:
-        for (Piece piece : this.pieces) {
-            if (board.isPossible(piece)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public boolean move(Player player) {
-        Piece selectedPiece = pieces.get(random.nextInt(pieces.size()));
-        if (player.play(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
-            pieces.remove(selectedPiece);
-            this.scoreboard.addScore(selectedPiece.getValue());
-            // Highscore dynamisch updaten
-            int score = scoreboard.getScore();
-            if (score > player.getHighscore()){
-                player.setHighscore(score);
-            }
-        }
+    public ArrayList<Piece> getPieces() {
+        return pieces;
     }
 
     @Override
@@ -64,5 +41,13 @@ public class PlayablePieces {
         }
         System.out.println("\n\n\n");
         return "";
+    }
+
+    public Piece randomPiece() {
+        return pieces.get(random.nextInt(pieces.size()));
+    }
+
+    public void remove(Piece selectedPiece) {
+        pieces.remove(selectedPiece);
     }
 }

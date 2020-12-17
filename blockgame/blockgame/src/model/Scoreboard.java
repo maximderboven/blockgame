@@ -31,6 +31,8 @@ public class Scoreboard {
 
     public void updateScore(int score) {
         this.score += score;
+        // Highscore dynamisch updaten
+        updateHighscore();
     }
 
     public void updateHighscore() {

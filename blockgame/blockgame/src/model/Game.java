@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -37,19 +38,15 @@ public class Game {
     private Player player;
     private Scoreboard scoreboard;
     private Random random = new Random();
-    private PlayablePieces move;
+    private PlayablePieces playablePieces;
     private Board board;
-    private final Management am = new Management();
-
-    //Eventueel een tijd om bij te houden hoe lang hij het heeft uitgehouden:
-    //private LocalTime time;
-
+    private Management am = new Management();
 
     public Game() {
         if (this.login()) {
             this.board = new Board(3);
             this.scoreboard = new Scoreboard(player);
-            this.move = new PlayablePieces(board,player);
+            this.playablePieces = new PlayablePieces();
             start();
         } else {
             System.out.println("Foute login");
@@ -58,7 +55,15 @@ public class Game {
 
     /* controleert of het spel gedaan is adhv het bord dat gaat kijken of de blok nog geplaatst kan worden */
     public boolean isPossible() {
-        return move.isPossible();
+        //loop door de array van pieces hier:
+        for (Piece piece : playablePieces.getPieces()) {
+            if (board.isPossible(piece)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     /* Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt) */
@@ -66,9 +71,8 @@ public class Game {
         showHUD();
 
         while (isPossible()) {
-            player.play(new PlayablePieces());
+            play();
             showHUD();
-            randomPiece();
 
             try {
                 Thread.sleep(800);
@@ -86,7 +90,7 @@ public class Game {
     public void showHUD() {
         scoreboard.toString();
         board.toString();
-        move.toString();
+        playablePieces.toString();
     }
 
     /* Loginsysteem van de user alvorens het spel kan starten */
@@ -99,6 +103,7 @@ public class Game {
 
         System.out.print("Password: ");
         String password = keyboard.next();
+
         if (am.login(username, password)) {
             this.player = new Player(username, Integer.parseInt(credentials[2]), board);
         } else {
@@ -107,7 +112,17 @@ public class Game {
     }
 
     /* Genereert random pieces indien ze op zijn */
-    public void randomPiece() {
-        move.randomPiece();
+    public void newPieces() {
+       playablePieces.newPieces();
     }
+
+    public void play() {
+        Piece selectedPiece = playablePieces.randomPiece();
+        if (player.play(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
+            scoreboard.updateScore(selectedPiece.getValue());
+            playablePieces.remove(selectedPiece);
+        }
+    }
+
+
 }
