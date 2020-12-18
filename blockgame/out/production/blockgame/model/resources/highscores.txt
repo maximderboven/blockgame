@@ -1,4 +1,3 @@
 alexie:test:5
 maxim:test2:4
-kappa:kappa123:0
-kappzazsqd:kappa123:0
+Kaapman:test:0

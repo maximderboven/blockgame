@@ -74,8 +74,21 @@ public class Game {
      * Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt)
      */
     public void start() {
+        System.out.println("Loading...");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         /* Voor het spel start: */
         showHUD();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         /* Tijdens het spel: */
         while (isPossible()) {
@@ -85,7 +98,7 @@ public class Game {
 
 
             try {
-                Thread.sleep(800);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -114,14 +127,17 @@ public class Game {
     public boolean identify() {
         Scanner keyboard = new Scanner(System.in);
         System.out.print("-------------- \nMENU\n--------------\n");
-        System.out.println("Login: (1)");
-        System.out.println("Register: (2)");
+        System.out.println("(1) Login");
+        System.out.println("(2) Register");
+        System.out.print("Choice : ");
         int keuze = keyboard.nextInt();
 
         String username = "";
         String password = "";
         switch (keuze) {
             case 1:
+                System.out.println("");
+                System.out.print("-------------- \nLOGIN\n--------------\n");
                 System.out.print("Username: ");
                 username = keyboard.next();
 
@@ -136,7 +152,8 @@ public class Game {
                     return false;
                 }
             case 2:
-                System.out.println("**Register modus**");
+                System.out.println("");
+                System.out.print("-------------- \nREGISTER\n--------------\n");
                 System.out.print("Username: ");
                 username = keyboard.next();
 
