@@ -120,7 +120,7 @@ public class Game {
         System.out.print(board);
         System.out.println(playablePieces);
         for (int i = 0; i < 5; i++) {
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -134,19 +134,20 @@ public class Game {
         System.out.print("-------------- \nMENU\n--------------\n");
         System.out.println("(1) Login");
         System.out.println("(2) Register");
+        System.out.println("(3) Leaderboard");
         System.out.print("Choice : ");
-        int choice = 0;
+        int choice;
         try {
             choice = keyboard.nextInt();
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             System.out.println("Please choose one of the following options: [1 for login, 2 for register]");
             return false;
         }
-        String username = "";
-        String password = "";
+        String username;
+        String password;
         switch (choice) {
             case 1:
-                System.out.println("");
+                System.out.println();
                 System.out.print("-------------- \nLOGIN\n--------------\n");
                 System.out.print("Username: ");
                 username = keyboard.next();
@@ -162,7 +163,7 @@ public class Game {
                     return false;
                 }
             case 2:
-                System.out.println("");
+                System.out.println();
                 System.out.print("-------------- \nREGISTER\n--------------\n");
                 System.out.print("Username: ");
                 username = keyboard.next();
@@ -177,8 +178,27 @@ public class Game {
                     System.out.println("Username already exists");
                     return false;
                 }
+            case 3:
+                System.out.println();
+                System.out.println("-------------- \nLEADERBOARD\n--------------\n");
+                System.out.println(am.getLeaderboard());
+                System.out.println("--------------");
+                System.out.println("(1) return");
+                System.out.print("Choice : ");
+                try {
+                    choice = keyboard.nextInt();
+                    if (choice == 1){
+                        identify();
+                    }else{
+                        System.out.println("Please select a valid choice");
+                    }
+                }catch (InputMismatchException e){
+                    System.out.println("Please select a valid choice");
+                }
+                break;
             default:
                 System.out.println("Please select a valid choice");
+                break;
         }
         return false;
     }
@@ -198,12 +218,12 @@ public class Game {
 
     public boolean settings() {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("");
+        System.out.println();
         System.out.print("-------------- \nMENU\n--------------\n");
         System.out.println("(1) Settings");
         System.out.println("(2) Start game");
         System.out.print("Choice : ");
-        int choice = 0;
+        int choice;
         try {
             choice = keyboard.nextInt();
         } catch (InputMismatchException e) {
@@ -212,7 +232,7 @@ public class Game {
         }
         switch (choice) {
             case 1:
-                System.out.println("");
+                System.out.println();
                 System.out.print("-------------- \nSETTINGS\n--------------\n");
                 System.out.println("(1) board size: " + "\u001B[34m" + board.getSize() + "\033[0m");
                 System.out.println("(2) with grading: " + "\u001B[34m" + playablePieces.isGrading() + "\033[0m");
@@ -221,14 +241,14 @@ public class Game {
                 choice = keyboard.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.println("");
+                        System.out.println();
                         System.out.print("-------------- \nSETTINGS\n--------------\n");
                         System.out.print("board size: ");
                         board.setSize(keyboard.nextInt());
                         settings();
                         break;
                     case 2:
-                        System.out.println("");
+                        System.out.println();
                         System.out.print("-------------- \nSETTINGS\n--------------\n");
                         System.out.print("grading (true/false): ");
                         playablePieces.setGrading(keyboard.nextBoolean());

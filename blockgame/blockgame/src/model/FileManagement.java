@@ -45,7 +45,7 @@ public class FileManagement {
         }
         return false;
     }
-    
+
 
     /**
      * Gaat een gebruiker aanmaken door een lijn toe te voegen in het bestand highscores.txt
@@ -113,5 +113,23 @@ public class FileManagement {
             }
         }
         return false;
+    }
+
+
+    /**
+     * Toont een overzicht van de Leaderboard
+     */
+
+    public String getLeaderboard() {
+        StringBuilder buffer = new StringBuilder();
+        String[] line;
+        int teller = 0;
+        for (String row : rows) {
+            if (teller++ < 10) {
+                line = row.split(":");
+                buffer.append(String.format("%s - %s\n", line[0], line[2]));
+            }
+        }
+        return buffer.toString();
     }
 }
