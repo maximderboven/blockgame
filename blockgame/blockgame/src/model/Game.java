@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -133,8 +134,13 @@ public class Game {
         System.out.println("(1) Login");
         System.out.println("(2) Register");
         System.out.print("Choice : ");
-        int keuze = keyboard.nextInt();
-
+        int keuze = 0;
+        try {
+            keuze = keyboard.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Please choose one of the following options: [1 for login, 2 for register]");
+            return false;
+        }
         String username = "";
         String password = "";
         switch (keuze) {
@@ -151,7 +157,7 @@ public class Game {
                     this.player = new Player(username, am.getHighscore(username));
                     return true;
                 } else {
-                    System.out.println("foute login");
+                    System.out.println("Incorrect credentials");
                     return false;
                 }
             case 2:
@@ -167,9 +173,11 @@ public class Game {
                     this.player = new Player(username);
                     return true;
                 } else {
-                    System.out.println("Er ging iets mis...");
+                    System.out.println("Username already exists");
                     return false;
                 }
+            default:
+                System.out.println("Please select a valid choice");
         }
         return false;
     }

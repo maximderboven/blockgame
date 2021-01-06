@@ -32,7 +32,7 @@ public class FileManagement {
      */
     public boolean register(String username, String password) {
         if (!playerExists(username)) {
-            if (password.contains(":") | username.contains(":")){
+            if (password.contains(":") | username.contains(":")) {
                 return false;
             }
             try {
@@ -50,7 +50,7 @@ public class FileManagement {
 
     /**
      * Geeft de highscore van de huidige gebruiker terug.
-     * */
+     */
     public int getHighscore(String username) {
         String[] line;
         for (String row : rows) {
@@ -66,7 +66,7 @@ public class FileManagement {
     /**
      * File highscores.txt inlezen en in een ArrayList steken.
      * (Wordt enkel in deze klasse gebruikt)
-     * */
+     */
     private void readFile() {
         try {
             BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
@@ -84,16 +84,15 @@ public class FileManagement {
     /**
      * Kijkt na of speler bestaat doormiddel van ArrayList te splitten.
      * (Wordt enkel in deze klasse gebruikt)
-     * */
+     */
     private boolean playerExists(String username) {
         String[] credentials;
+        readFile();
         // Elke lijn van bestand splitten {username}:{password}:{highscore}
         for (String row : rows) {
             credentials = row.split(":");
-            for (int i = 0; i < credentials.length; i++) {
-                if (credentials[0].equals(username)) {
-                    return true;
-                }
+            if (credentials[0].equals(username)) {
+                return true;
             }
         }
         return false;
@@ -103,7 +102,7 @@ public class FileManagement {
     /**
      * Controleert het wachtwoord van een gebruiker.
      * (wordt enkel in deze klasse gebruikt).
-     * */
+     */
     private boolean checkPassword(String username, String password) {
         String[] line;
         for (String row : rows) {
