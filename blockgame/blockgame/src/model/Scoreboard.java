@@ -16,7 +16,6 @@ public class Scoreboard {
 
     /**
      * CONSTRUCTOR
-     * ?
      */
     public Scoreboard(Player player) {
         this.player = player;
@@ -28,11 +27,6 @@ public class Scoreboard {
      * Hiermee wordt het scoreboard weergegeven
      */
 
-    /*
-    public void draw() {
-        System.out.println("--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------");
-    }*/
-
     @Override
     public String toString() {
         return "--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------";
@@ -40,23 +34,29 @@ public class Scoreboard {
 
 
     /**
-     * Score updaten
+     * Score/highscore updaten tijdens het spel
      */
     public void updateScore(int score) {
         this.score += score;
-        // Highscore dynamisch updaten
-        //updateHighscore();
-    }
-
-    /**
-     * update indien nodig de highscore wanneer het spel gedaan is
-     */
-    public void updateHighscore() {
-        if (score > player.getHighscore()) {
-            player.setHighscore(score);
+        if (this.score > player.getHighscore()) {
+            player.setHighscore(this.score);
         }
     }
 
+
+    /**
+     * Highescore updaten na het spel
+     */
+    public void updateHighscore() {
+        if (this.score > player.getHighscore()) {
+            player.updateHighscore();
+        }
+    }
+
+
+    /**
+     * @return huidig behaalde score
+     */
     public int getScore() {
         return score;
     }

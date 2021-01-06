@@ -68,6 +68,7 @@ public class Tile {
         this.used = used;
     }
 
+
     /**
      * toString van het veld voor de console applicatie (X or 0) (kan gebruik gemaakt worden van attr color)
      */

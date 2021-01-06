@@ -15,21 +15,20 @@ public class PlayablePieces {
      * Aantal blokken met capacity
      * Random voor de rudimentaire vorm
      */
-    private int capacity = 3;
+    private int capacity;
     private ArrayList<Piece> pieces = new ArrayList<>(capacity);
     private Random random = new Random();
-    //settings
     private boolean grading = true;
 
 
     /**
      * CONSTRUCTOR
-     * Eentje met standaard capacity en eentje met
+     * Eentje met standaard capacity en eentje met een aanpasbare
      */
     public PlayablePieces() {
+        this.capacity = 3;
         newPieces();
     }
-
     public PlayablePieces(int capacity) {
         this.capacity = capacity;
         newPieces();
@@ -37,7 +36,8 @@ public class PlayablePieces {
 
 
     /**
-     * Vult de Array opnieuw moet worden opgeroepen na elke zet.
+     * Vult de Array met nieuwe blokken
+     * eerste is op basis van grading
      */
     public void newPieces(int score) {
         if (grading) {
@@ -65,7 +65,6 @@ public class PlayablePieces {
             newPieces();
         }
     }
-
     public void newPieces() {
         if (pieces.isEmpty()) {
             for (int i = 0; i < capacity; i++) {
@@ -76,7 +75,7 @@ public class PlayablePieces {
 
 
     /**
-     * Krijgt de huidige arraylist (nodig voor bv te controleren of er nog een zet mogelijk is)
+     * @return de huidige arraylist
      */
     public ArrayList<Piece> getPieces() {
         return pieces;
@@ -84,7 +83,7 @@ public class PlayablePieces {
 
 
     /**
-     * Geef een randompiece terug nodig voor de rudimentaire vorm
+     * @return  geeft een random piece terug (console)
      */
     public Piece randomPiece() {
         return pieces.get(random.nextInt(pieces.size()));
@@ -92,7 +91,7 @@ public class PlayablePieces {
 
 
     /**
-     * Verwijderd een blok uit de array
+     * Verwijderd de gegeven blok uit de array
      */
     public void remove(Piece selectedPiece) {
         pieces.remove(selectedPiece);
@@ -100,7 +99,7 @@ public class PlayablePieces {
 
 
     /**
-     * Print de blokken uit
+     * Print de huidige blokken uit
      */
     @Override
     public String toString() {
@@ -111,11 +110,39 @@ public class PlayablePieces {
         return s;
     }
 
+
+    /**
+     * @return moeilijkheids vordering staat aan of af.
+     */
     public boolean isGrading() {
         return grading;
     }
 
+
+    /**
+     * toggle de moeilijkheid vordering
+     */
     public void setGrading(boolean grading) {
         this.grading = grading;
+    }
+
+
+    /**
+     * @return hoeveelheid van blokken waarmee gespeeld word.
+     */
+    public int getCapacity() {
+        return capacity;
+    }
+
+
+    /**
+     * @return Verander da hoeveelheid blokken van dit spel.
+     */
+    public void setCapacity(int capacity) {
+        if (capacity > 2 && capacity < 11) {
+        this.capacity = capacity;
+        pieces.clear();
+        newPieces();
+        }
     }
 }

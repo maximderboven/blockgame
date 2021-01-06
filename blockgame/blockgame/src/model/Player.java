@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -8,7 +7,7 @@ import java.io.FileReader;
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:44
- * @description De speler speelt het spel en speelt de blokken. Deze klasse bevat de gegevens van de huidige speler.
+ * @description De speler speelt het spel. Deze klasse bevat de gegevens van de huidige speler.
  */
 public class Player {
     /**
@@ -19,6 +18,7 @@ public class Player {
     private String name;
     private int highscore;
 
+
     /**
      * CONSTRUCTORS
      * Nieuwe speler zonder highscore en een speler met highscore
@@ -27,7 +27,6 @@ public class Player {
         this.name = name;
         this.highscore = 0;
     }
-
     public Player(String name, int highscore) {
         this.name = name;
         this.highscore = highscore;
@@ -35,7 +34,7 @@ public class Player {
 
 
     /**
-     * huidige highscore verkrijgen om te vergelijken met de nieuw behaalde score / weergeven
+     * @return huidige highscore verkrijgen
      */
     public int getHighscore() {
         return highscore;
@@ -43,18 +42,17 @@ public class Player {
 
 
     /**
-     * nieuwe highscore neerzetten indien verbroken (ook in file aanpassen)
+     * nieuwe highscore zetten (tijdens game)
      */
     public void setHighscore(int highscore) {
         this.highscore = highscore;
-        updateHighscore();
     }
 
 
     /**
-     * Update de highscore in de file
+     * nieuwe highscore (zetten na game)
      */
-    private void updateHighscore() {
+    public void updateHighscore() {
         try {
             BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
             StringBuilder buffer = new StringBuilder();
@@ -80,6 +78,7 @@ public class Player {
             System.out.println("File not found");
         }
     }
+
 
     /**
      * Geeft de naam van de speler weer

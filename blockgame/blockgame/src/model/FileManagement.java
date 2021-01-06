@@ -128,6 +128,7 @@ public class FileManagement {
             if (teller++ < 10) {
                 line = row.split(":");
                 buffer.append(String.format("%s - %s\n", line[0], line[2]));
+                //stream().sorted(Comparator.comparing(User::getHighscore).reversed()).collect(Collectors.toList());
             }
         }
         return buffer.toString();

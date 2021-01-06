@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * @author Maxim Derboven
@@ -163,7 +162,7 @@ public enum Piece {
 
 
     /**
-     * Construcor voor een Piece
+     * Constructor voor een Piece
      */
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
@@ -172,7 +171,7 @@ public enum Piece {
     }
 
     /**
-     * Krijg de vorm van de blok
+     * @return de vorm/locaties van de blocktiles van de blok
      */
     public Point[] getTiles() {
         return blockTiles;
@@ -180,21 +179,9 @@ public enum Piece {
 
 
     /**
-     * Krijg de waarde van de blok
+     * @return de waarde van de blok
      */
     public int getValue() {
         return value;
     }
-
-    /**
-     * tostring van de block
-     */
-    //@Override
-    //public String toString() {
-    //    //idk man afwerken dit
-     //   for (Point point: blockTiles) {
-     //       System.out.print(point.toString());
-     //   }
-     //   return "";
-    //}
 }

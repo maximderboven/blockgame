@@ -10,8 +10,9 @@ import java.awt.*;
  */
 
 public class Board {
+
     /**
-     * Attributen van Board
+     * Attributen
      * grid[][] - Grid van tegels
      * size - Grootte van het spelbord.
      * DEFAULT_COLOR - Standaard kleur van de tegels op het bord.
@@ -31,16 +32,19 @@ public class Board {
     public Board(int size) {
         this.size = size;
         this.grid = new Tile[size][size];
-        for(int i = 0; i < size; i++)
-        {
-            for(int j = 0; j < size; j++)
-            {
-                grid[i][j] = new Tile(DEFAULT_COLOR,new Point(i,j));
-            }
-        }
+        fillBoard();
     }
     public Board() {
         this.size = 10;
+        this.grid = new Tile[size][size];
+        fillBoard();
+    }
+
+
+    /**
+     * Vult het bord met tiles
+     */
+    private void fillBoard() {
         this.grid = new Tile[size][size];
         for(int i = 0; i < size; i++)
         {
@@ -51,26 +55,9 @@ public class Board {
         }
     }
 
-
     /**
-    * Hiermee wordt het bord weergegeven
-    * waarbij true de gebruikte vakjes zijn
-    */
-    /*
-    public void draw() {
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                if (grid[i][j].isUsed()){
-                    System.out.printf("%1s", "x");
-                }else {
-                System.out.printf("%1s", "o");
-                }
-            }
-            System.out.println();
-        }
-    }
+    * @return Het bord wordt weergegeven
+    * de toStrings van de tiles worden geprint.
     */
     @Override
     public String toString() {
@@ -89,6 +76,7 @@ public class Board {
 
     /**
      * Plaatste een blokje meegegeven blokje op het bord op het opgegeven punt.
+     * @return boolean of de move succesvol was.
      */
     public boolean Move(Piece piece, Point point) {
         return placeBlock(piece, point);
@@ -96,7 +84,7 @@ public class Board {
 
 
     /**
-     * Controleren of de opgegeven locatie vrij is voor die gegeven blok
+     * @return boolean of de plaats vrij is voor dat soort blok op point point.
      */
     private boolean isFree(Piece piece, Point point) {
         for (Point p : piece.getTiles()) {
@@ -112,6 +100,7 @@ public class Board {
 
     /**
      * Plaats een block op het speelvel
+     * @return of de tiles succesvol op used gezet zijn
      */
     private boolean placeBlock(Piece piece, Point point) {
         if (isFree(piece,point)) {
@@ -128,57 +117,36 @@ public class Board {
 
 
     /**
-     * controleert of het nog mogelijk is om zetten te doen met de gegeven blok
+     * @return of het mogelijk is om de blok eender waar te plaatsen
      */
     public boolean isPossible(Piece piece) {
-        //boolean isvalid = false;
-
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 if(isFree(piece, new Point(i,j))) {
-                    //isvalid = true;
-                    //break;
                     return true;
                 }
             }
-            /*if(isvalid) {
-                break;
-            }*/
         }
         return false;
-        //return isvalid;
-    }
-
-
-    /**
-     * Geeft de grotte van het speelveld.
-     */
-    public int getSize() {
-        return size;
     }
 
 
     /**
      * Verwijdert alle horizontale en verticale rijen.
+     * @return score verkregen door de verwijderde rijen of kollommen
      */
     public int clearLines() {
         int points = 0;
-        boolean fullHor = false;
-        boolean fullVert = false;
+        boolean fullHor;
+        boolean fullVert;
 
         for(int i = 0; i < size; i++) {
             fullHor = true;
             fullVert = true;
-
-            //Zet full line to false if any of the tiles are unused;
             for(int j = 0; j < size; j++) {
-
-                // Horizontal
                 if(!grid[i][j].isUsed()) {
                     fullHor = false;
                 }
-
-                // Vertical
                 if(!grid[j][i].isUsed()) {
                     fullVert = false;
                 }
@@ -199,7 +167,7 @@ public class Board {
             }
         }
 
-        // Deletes all tiles marked for deletion
+
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 if(grid[i][j].isMarkdelete()) {
@@ -210,7 +178,23 @@ public class Board {
         return points;
     }
 
+
+    /**
+     * Stelt de grootte van het speelveld in.
+     */
     public void setSize(int size) {
-        this.size = size;
+        if (size > 4 && size < 100) {
+            this.size = size;
+            fillBoard();
+        }
     }
+
+
+    /**
+     * Geeft de grootte van het speelveld terug.
+     */
+    public int getSize() {
+        return size;
+    }
+
 }
