@@ -1,3 +1,5 @@
-alexie:test:5
+alexie:test:42
 maxim:test2:42
 Menua:test1:0
+john:alexie:0
+johan:scheefs:0

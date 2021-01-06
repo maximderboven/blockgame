@@ -14,18 +14,38 @@ public class FileManagement {
      */
     private ArrayList<String> rows = new ArrayList<>();
 
+    public FileManagement() {
+        readFile();
+    }
+
+    /**
+     * File highscores.txt inlezen en in een ArrayList steken.
+     * (Wordt enkel in deze klasse gebruikt)
+     */
+    private void readFile() {
+        try {
+            BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
+            String line;
+            while ((line = file.readLine()) != null) {
+                rows.add(line);
+            }
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Laat de gebruiker inloggen + controle van wachtwoord.
      */
     public boolean login(String username, String password) {
-        readFile();
         if (playerExists(username)) {
             return checkPassword(username, password);
         }
         return false;
     }
-
+    
 
     /**
      * Gaat een gebruiker aanmaken door een lijn toe te voegen in het bestand highscores.txt
@@ -64,30 +84,11 @@ public class FileManagement {
 
 
     /**
-     * File highscores.txt inlezen en in een ArrayList steken.
-     * (Wordt enkel in deze klasse gebruikt)
-     */
-    private void readFile() {
-        try {
-            BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
-            String line;
-            while ((line = file.readLine()) != null) {
-                rows.add(line);
-            }
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
      * Kijkt na of speler bestaat doormiddel van ArrayList te splitten.
      * (Wordt enkel in deze klasse gebruikt)
      */
     private boolean playerExists(String username) {
         String[] credentials;
-        readFile();
         // Elke lijn van bestand splitten {username}:{password}:{highscore}
         for (String row : rows) {
             credentials = row.split(":");
@@ -106,11 +107,9 @@ public class FileManagement {
     private boolean checkPassword(String username, String password) {
         String[] line;
         for (String row : rows) {
-            if (row.contains(username)) {
-                line = row.split(":");
-                if (line[1].equals(password)) {
-                    return true;
-                }
+            line = row.split(":");
+            if (line[0].equals(username) && line[1].equals(password)) {
+                return true;
             }
         }
         return false;
