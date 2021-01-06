@@ -40,7 +40,7 @@ public class Game {
     private Random random = new Random();
     private PlayablePieces playablePieces;
     private Board board;
-    private Management am = new Management();
+    private FileManagement am = new FileManagement();
 
 
     /**
@@ -114,9 +114,12 @@ public class Game {
      * Toont de HUD
      */
     public void showHUD() {
-        scoreboard.toString();
-        board.toString();
-        playablePieces.toString();
+        System.out.println(scoreboard);
+        System.out.print(board);
+        System.out.println(playablePieces);
+        for (int i = 0; i < 5; i++) {
+            System.out.println("");
+        }
     }
 
 

@@ -1,0 +1,11 @@
+Feedback klassediagram
+X Color weg laten
+X point apparten
+X tiles : tiles binnen blok
+X blokken benoemen
+X FileManagement
+- Registreren bestaande user
+X dus score board lol ksnap hget niet ?
+
+
+Schatting; Point, Tostring()

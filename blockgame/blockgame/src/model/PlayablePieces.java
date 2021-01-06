@@ -75,11 +75,10 @@ public class PlayablePieces {
      */
     @Override
     public String toString() {
-        System.out.println("------------");
-        for (Piece overigePiece : pieces){
-            System.out.printf("[%s] ", overigePiece);
+        String s = "------------\n";
+        for (Piece piece : pieces){
+            s += String.format("[%s] ", piece.toString());
         }
-        System.out.println("\n\n\n");
-        return "";
+        return s;
     }
 }

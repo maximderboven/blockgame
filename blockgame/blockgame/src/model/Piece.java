@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * @author Maxim Derboven
@@ -12,23 +13,142 @@ public enum Piece {
     /**
      * De blokken bevatten een locatie die wordt vergeleken met de locatie op het bord. Zo worden de tegels op die plaatsen aangepast.
      */
-    // X
-    EEN(1,Color.red,new Point[]{new Point(0, 0)}),
+    // Piece1x1 [X]
+    PIECE1x1(1, Color.green, new Point[]{
+            new Point(0, 0)}),
 
-    // XX
-    TWEE(2,Color.red,new Point[]{new Point(0, 0),new Point(0,-1)}),
+    // Piece1x2 [X][ ]
+    PIECE1x2(1, Color.green, new Point[]{
+            new Point(0, 0),
+            new Point(0, 1)}),
 
-    // XXX
-    DRIE(3,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(0,+1)}),
+    // Piece1x3 [ ][X][ ]
+    PIECE1x3(2, Color.green, new Point[]{
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(0, 1),}),
 
-    // XX
-    // XX
-    VIER(4,Color.red,new Point[]{new Point(0, 0),new Point(0,-1),new Point(-1,0),new Point(-1,-1)}),
+    // Piece1x4 [ ][X][ ][ ]
+    PIECE1x4(2, Color.green, new Point[]{
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(0, 2)}),
 
-    // X
-    // X
-    // XX
-    VIJF(4,Color.red,new Point[]{new Point(0, 0),new Point(1,0),new Point(2,0),new Point(0,1)});
+    // Piece1x5 [ ][ ][X][ ][ ]
+    PIECE1x5(3, Color.green, new Point[]{
+            new Point(0, -2),
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(0, 2)}),
+
+    // Piece2x1
+    // [X]
+    // [ ]
+    PIECE2x1(1, Color.green, new Point[]{
+            new Point(0, 0),
+            new Point(1, 0)}),
+
+    // Piece2x2
+    // [X][ ]
+    // [ ][ ]
+    PIECE2x2(1, Color.green, new Point[]{
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(1, 0),
+            new Point(1, 1)}),
+
+    // Piece3x1
+    // [ ]
+    // [X]
+    // [ ]
+    PIECE3x1(2, Color.green, new Point[]{
+            new Point(-1, 0),
+            new Point(0, 0),
+            new Point(1, 0)}),
+
+    // Piece3x3
+    // [ ][ ][ ]
+    // [ ][X][ ]
+    // [ ][ ][ ]
+    PIECE3x3(4, Color.green, new Point[]{
+            new Point(-1, -1),
+            new Point(-1, 0),
+            new Point(-1, 1),
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(1, -1),
+            new Point(1, 0),
+            new Point(1, 1)}),
+
+    // Piece4x1
+    // [ ]
+    // [X]
+    // [ ]
+    // [ ]
+    PIECE4x1(2, Color.green, new Point[]{
+            new Point(-1, 0),
+            new Point(0, 0),
+            new Point(1, 0),
+            new Point(2, 0)}),
+
+    // PieceBigL
+    // [ ][ ][X]
+    //       [ ]
+    //       [ ]
+    PIECEBIGL(4, Color.green, new Point[]{
+            new Point(0, -2),
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(1, 0),
+            new Point(2, 0)}),
+
+    // PieceHorJ
+    // [ ]
+    // [X][ ][ ]
+    PIECEHORJ(3, Color.green, new Point[]{
+            new Point(-1, 0),
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(0, 2)}),
+
+    // PieceS
+    //    [X][ ]
+    // [ ][ ]
+    PIECES(4, Color.green, new Point[]{
+            new Point(1, -1),
+            new Point(1, 0),
+            new Point(0, 0),
+            new Point(0, 1)}),
+
+    // PieceSmallL
+    // [X][ ]
+    // [ ]
+    PIECESMALLL(2, Color.green, new Point[]{
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(0, 1)}),
+
+    // PieceT
+    //    [ ]
+    // [ ][X][ ]
+    PIECET(3, Color.green, new Point[]{
+            new Point(-1, 0),
+            new Point(0, -1),
+            new Point(0, 0),
+            new Point(0, 1)}),
+
+    // PieceVertJ
+    // [X][ ]
+    // [ ]
+    // [ ]
+    PIECEVERTJ(3, Color.green, new Point[]{
+            new Point(0, 0),
+            new Point(0, 1),
+            new Point(1, 0),
+            new Point(2, 0)});
 
 
     /**
@@ -39,7 +159,7 @@ public enum Piece {
      */
     private final int value;
     private final Color color;
-    private final Point[] tiles;
+    private final Point[] blockTiles;
 
 
     /**
@@ -48,14 +168,14 @@ public enum Piece {
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
         this.color = color;
-        this.tiles = tiles;
+        this.blockTiles = tiles;
     }
 
     /**
      * Krijg de vorm van de blok
      */
     public Point[] getTiles() {
-        return tiles;
+        return blockTiles;
     }
 
 
@@ -65,4 +185,16 @@ public enum Piece {
     public int getValue() {
         return value;
     }
+
+    /**
+     * tostring van de block
+     */
+    //@Override
+    //public String toString() {
+    //    //idk man afwerken dit
+     //   for (Point point: blockTiles) {
+     //       System.out.print(point.toString());
+     //   }
+     //   return "";
+    //}
 }

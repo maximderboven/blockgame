@@ -67,4 +67,18 @@ public class Tile {
     public void setUsed(boolean used) {
         this.used = used;
     }
+
+    /**
+     * toString van het veld voor de console applicatie (X or 0) (kan gebruik gemaakt worden van attr color)
+     */
+    @Override
+    public String toString() {
+        String s = "";
+        if (isUsed()){
+            s += String.format("\033[1;31m" + "%1s", "x");
+        }else {
+            s += String.format("\033[0m" + "%1s", "o");
+        }
+        return s;
+    }
 }

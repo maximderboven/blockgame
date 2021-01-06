@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Maxim Derboven & Alexie Chaerle
  * @version 1.0 17/12/2020 10:27
  */
-public class Management {
+public class FileManagement {
     /**
      * ATTRIBUTEN
      * Arraylist van highscores.txt

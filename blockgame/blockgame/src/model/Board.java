@@ -74,19 +74,16 @@ public class Board {
     */
     @Override
     public String toString() {
+        String s = "";
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-                if (grid[i][j].isUsed()){
-                    System.out.printf("\033[1;31m" + "%1s", "x");
-                }else {
-                    System.out.printf("\033[0m" + "%1s", "o");
-                }
+                s += grid[i][j];
             }
-            System.out.println();
+            s += "\n";
         }
-        return "";
+        return s;
     }
 
 

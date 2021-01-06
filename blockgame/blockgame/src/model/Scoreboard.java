@@ -35,8 +35,7 @@ public class Scoreboard {
 
     @Override
     public String toString() {
-        System.out.println( "--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------");
-        return "";
+        return "--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------";
     }
 
 
