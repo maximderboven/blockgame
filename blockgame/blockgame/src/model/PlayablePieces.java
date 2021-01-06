@@ -18,6 +18,8 @@ public class PlayablePieces {
     private int capacity = 3;
     private ArrayList<Piece> pieces = new ArrayList<>(capacity);
     private Random random = new Random();
+    //settings
+    private boolean grading = true;
 
 
     /**
@@ -37,6 +39,33 @@ public class PlayablePieces {
     /**
      * Vult de Array opnieuw moet worden opgeroepen na elke zet.
      */
+    public void newPieces(int score) {
+        if (grading) {
+            if (pieces.isEmpty()) {
+                for (int i = 0; i < capacity; i++) {
+                    Piece piece = Piece.values()[random.nextInt(Piece.values().length)];
+                    if (score < 100) {
+                        pieces.add(piece);
+                    } else if (score < 150) {
+                        if (piece.getValue() >= 2) {
+                            pieces.add(piece);
+                        }
+                    } else if (score < 200) {
+                        if (piece.getValue() >= 3) {
+                            pieces.add(piece);
+                        }
+                    } else if (score < 250) {
+                        if (piece.getValue() >= 4) {
+                            pieces.add(piece);
+                        }
+                    }
+                }
+            }
+        } else {
+            newPieces();
+        }
+    }
+
     public void newPieces() {
         if (pieces.isEmpty()) {
             for (int i = 0; i < capacity; i++) {
@@ -76,9 +105,17 @@ public class PlayablePieces {
     @Override
     public String toString() {
         String s = "------------\n";
-        for (Piece piece : pieces){
+        for (Piece piece : pieces) {
             s += String.format("[%s] ", piece.toString());
         }
         return s;
+    }
+
+    public boolean isGrading() {
+        return grading;
+    }
+
+    public void setGrading(boolean grading) {
+        this.grading = grading;
     }
 }

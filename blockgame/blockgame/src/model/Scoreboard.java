@@ -56,4 +56,8 @@ public class Scoreboard {
             player.setHighscore(score);
         }
     }
+
+    public int getScore() {
+        return score;
+    }
 }

@@ -209,4 +209,8 @@ public class Board {
         }
         return points;
     }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

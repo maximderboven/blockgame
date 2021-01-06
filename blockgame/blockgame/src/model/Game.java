@@ -53,6 +53,7 @@ public class Game {
             this.board = new Board(10);
             this.scoreboard = new Scoreboard(player);
             this.playablePieces = new PlayablePieces();
+            settings();
             start();
         }
     }
@@ -95,7 +96,7 @@ public class Game {
         while (isPossible()) {
             play();
             showHUD();
-            playablePieces.newPieces();
+            playablePieces.newPieces(scoreboard.getScore());
 
 
             try {
@@ -134,16 +135,16 @@ public class Game {
         System.out.println("(1) Login");
         System.out.println("(2) Register");
         System.out.print("Choice : ");
-        int keuze = 0;
+        int choice = 0;
         try {
-            keuze = keyboard.nextInt();
+            choice = keyboard.nextInt();
         }catch (InputMismatchException e){
             System.out.println("Please choose one of the following options: [1 for login, 2 for register]");
             return false;
         }
         String username = "";
         String password = "";
-        switch (keuze) {
+        switch (choice) {
             case 1:
                 System.out.println("");
                 System.out.print("-------------- \nLOGIN\n--------------\n");
@@ -195,4 +196,50 @@ public class Game {
     }
 
 
+    public boolean settings() {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("");
+        System.out.print("-------------- \nMENU\n--------------\n");
+        System.out.println("(1) Settings");
+        System.out.println("(2) Start game");
+        System.out.print("Choice : ");
+        int choice = 0;
+        try {
+            choice = keyboard.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Please choose one of the following options: [1 for settings, 2 for starting the game]");
+            return false;
+        }
+        switch (choice) {
+            case 1:
+                System.out.println("");
+                System.out.print("-------------- \nSETTINGS\n--------------\n");
+                System.out.println("(1) board size: " + "\u001B[34m" + board.getSize() + "\033[0m");
+                System.out.println("(2) with grading: " + "\u001B[34m" + playablePieces.isGrading() + "\033[0m");
+                System.out.println("(3) return");
+                System.out.print("Choice : ");
+                choice = keyboard.nextInt();
+                switch (choice) {
+                    case 1:
+                        System.out.println("");
+                        System.out.print("-------------- \nSETTINGS\n--------------\n");
+                        System.out.print("board size: ");
+                        board.setSize(keyboard.nextInt());
+                        settings();
+                        break;
+                    case 2:
+                        System.out.println("");
+                        System.out.print("-------------- \nSETTINGS\n--------------\n");
+                        System.out.print("grading (true/false): ");
+                        playablePieces.setGrading(keyboard.nextBoolean());
+                        settings();
+                        break;
+                    case 3:
+                        settings();
+                }
+            case 2:
+                return true;
+        }
+        return true;
+    }
 }
