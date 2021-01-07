@@ -48,7 +48,7 @@ public class Scoreboard {
      * Highescore updaten na het spel
      */
     public void updateHighscore() {
-        if (this.score > player.getHighscore()) {
+        if (this.score == player.getHighscore()) {
             player.updateHighscore();
         }
     }

@@ -2,6 +2,9 @@ package model;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * @author Maxim Derboven & Alexie Chaerle
@@ -122,13 +125,17 @@ public class FileManagement {
 
     public String getLeaderboard() {
         StringBuilder buffer = new StringBuilder();
-        String[] line;
+        String[] split;
         int teller = 0;
+        ArrayList<Player> players = new ArrayList<Player>();
         for (String row : rows) {
+            split = row.split(":");
+            players.add(new Player(split[0],Integer.parseInt(split[2])));
+        }
+
+        for (Player p : players.stream().sorted(Comparator.comparing(Player::getHighscore).reversed()).collect(Collectors.toList())) {
             if (teller++ < 10) {
-                line = row.split(":");
-                buffer.append(String.format("%s - %s\n", line[0], line[2]));
-                //stream().sorted(Comparator.comparing(User::getHighscore).reversed()).collect(Collectors.toList());
+                buffer.append(p + " - " + p.getHighscore() +"\n");
             }
         }
         return buffer.toString();

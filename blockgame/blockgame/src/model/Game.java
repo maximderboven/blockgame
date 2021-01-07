@@ -174,7 +174,7 @@ public class Game {
                 }
             case 3:
                 System.out.println();
-                System.out.println("-------------- \nLEADERBOARD\n--------------\n");
+                System.out.println("-------------- \nLEADERBOARD\n--------------");
                 System.out.print(am.getLeaderboard());
                 System.out.println("--------------");
                 System.out.println("(1) return");
