@@ -23,10 +23,12 @@ public class Game {
      */
     private Player player;
     private Scoreboard scoreboard;
-    private Random random = new Random();
     private PlayablePieces playablePieces;
     private Board board;
     private FileManagement am = new FileManagement();
+
+    //Console
+    private Random random = new Random();
 
 
     /**
@@ -87,15 +89,15 @@ public class Game {
         }
 
         /* Na het spel: */
-        if (playablePieces.isGrading()) {
-            scoreboard.updateHighscore();
+        if (scoreboard.getScore() == player.getHighscore() && playablePieces.isGrading()) {
+            am.save(player);
         }
         System.out.println("Game over: (╯°□°）╯︵ ┻━┻");
     }
 
 
     /**
-     * Toont de HUD
+     * Toont de HUD*
      */
     public void showHUD() {
         System.out.println(scoreboard);
@@ -149,13 +151,14 @@ public class Game {
                 System.out.print("Password: ");
                 password = keyboard.next();
 
-                if (am.login(username, password)) {
-                    this.player = new Player(username, am.getHighscore(username));
+                try {
+                    this.player = am.login(username, password);
                     return true;
-                } else {
-                    System.out.println("Incorrect credentials");
-                    return false;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                break;
+
             case 2:
                 System.out.println();
                 System.out.print("-------------- \nREGISTER\n--------------\n");
@@ -165,13 +168,14 @@ public class Game {
                 System.out.print("Password: ");
                 password = keyboard.next();
 
-                if (am.register(username, password)) {
-                    this.player = new Player(username);
+                try {
+                    this.player = am.register(username, password);
                     return true;
-                } else {
-                    System.out.println("Username already exists");
-                    return false;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                break;
+
             case 3:
                 System.out.println();
                 System.out.println("-------------- \nLEADERBOARD\n--------------");
@@ -181,12 +185,12 @@ public class Game {
                 System.out.print("Choice : ");
                 try {
                     choice = keyboard.nextInt();
-                    if (choice == 1){
+                    if (choice == 1) {
                         identify();
-                    }else{
+                    } else {
                         System.out.println("Please select a valid choice");
                     }
-                }catch (InputMismatchException e){
+                } catch (InputMismatchException e) {
                     System.out.println("Please select a valid choice");
                 }
                 break;
@@ -221,7 +225,8 @@ public class Game {
                 System.out.println("(1) board size: " + "\u001B[34m" + board.getSize() + "\033[0m");
                 System.out.println("(2) with grading: " + "\u001B[34m" + playablePieces.isGrading() + "\033[0m");
                 System.out.println("(3) playable pieces: " + "\u001B[34m" + playablePieces.getCapacity() + "\033[0m");
-                System.out.println("(4) return");
+                System.out.println("(4) file location: " + "\u001B[34m" + am.getLocation() + "\033[0m");
+                System.out.println("(5) return");
                 System.out.print("Choice : ");
                 choice = keyboard.nextInt();
                 switch (choice) {
@@ -248,6 +253,13 @@ public class Game {
                         settings();
                         break;
                     case 4:
+                        System.out.println();
+                        System.out.print("-------------- \nSETTINGS\n--------------\n");
+                        System.out.print("location : ");
+                        am.setLocation(keyboard.next());
+                        settings();
+                        break;
+                    case 5:
                         settings();
                 }
             case 2:

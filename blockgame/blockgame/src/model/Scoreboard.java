@@ -45,16 +45,6 @@ public class Scoreboard {
 
 
     /**
-     * Highescore updaten na het spel
-     */
-    public void updateHighscore() {
-        if (this.score == player.getHighscore()) {
-            player.updateHighscore();
-        }
-    }
-
-
-    /**
      * @return huidig behaalde score
      */
     public int getScore() {

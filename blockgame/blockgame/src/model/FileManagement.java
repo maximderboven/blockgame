@@ -2,8 +2,8 @@ package model;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -15,107 +15,94 @@ public class FileManagement {
      * ATTRIBUTEN
      * Arraylist van highscores.txt
      */
-    private ArrayList<String> rows = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
+    private String location = "../blockgame/blockgame/src/model/resources/highscores.txt";
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 
     public FileManagement() {
-        readFile();
+        readPlayers();
     }
 
     /**
      * File highscores.txt inlezen en in een ArrayList steken.
      * (Wordt enkel in deze klasse gebruikt)
      */
-    private void readFile() {
+    private void readPlayers() {
         try {
-            BufferedReader file = new BufferedReader(new FileReader("../blockgame/blockgame/src/model/resources/highscores.txt"));
+            BufferedReader file = new BufferedReader(new FileReader(location));
             String line;
+            List<String> rows = new ArrayList<>();
             while ((line = file.readLine()) != null) {
                 rows.add(line);
             }
             file.close();
+            String[] cutted;
+            for (String row : rows) {
+                cutted = row.split(":");
+                players.add(new Player(cutted[0], cutted[1], Integer.parseInt(cutted[2])));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
-
-
-    /**
-     * Laat de gebruiker inloggen + controle van wachtwoord.
-     */
-    public boolean login(String username, String password) {
-        if (playerExists(username)) {
-            return checkPassword(username, password);
-        }
-        return false;
-    }
-
 
     /**
      * Gaat een gebruiker aanmaken door een lijn toe te voegen in het bestand highscores.txt
      */
-    public boolean register(String username, String password) {
-        if (!playerExists(username)) {
-            if (password.contains(":") | username.contains(":")) {
-                return false;
+    public Player register(String username, String password) throws Exception {
+        for (Player player : players) {
+            if (player.getUsername().equalsIgnoreCase(username)) {
+                throw new Exception("Username is already in use.");
             }
-            try {
-                Writer output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../blockgame/blockgame/src/model/resources/highscores.txt", true), "UTF-8"));
-                output.append(String.format("\n%s:%s:%d", username, password, 0));
-                output.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
         }
-        return false;
+        if (password.contains(":") | username.contains(":")) {
+            throw new Exception("Username can not contain ':'");
+        }
+
+        Player player = new Player(username, password);
+        players.add(player);
+
+        try {
+            Writer output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(location, true), "UTF-8"));
+            output.append(String.format("\n%s:%s:%d", username, password, 0));
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return player;
     }
 
-
     /**
-     * Geeft de highscore van de huidige gebruiker terug.
+     * laat de gebruiker inloggen
+     * @param args Unused.
+     * @return Nothing.
+     * @exception IOException On input error.
+     * @see IOException
      */
-    public int getHighscore(String username) {
-        String[] line;
-        for (String row : rows) {
-            if (row.contains(username)) {
-                line = row.split(":");
-                return Integer.parseInt(line[2]);
+    public Player login(String username, String password) throws Exception {
+        for (Player player : players) {
+            if (player.getUsername().equalsIgnoreCase(username)) {
+                if (player.getPassword().equals(password)) {
+                    return player;
+                } else {
+                    throw new Exception("Incorrect password.");
+                }
             }
         }
-        return 0;
-    }
-
-
-    /**
-     * Kijkt na of speler bestaat doormiddel van ArrayList te splitten.
-     * (Wordt enkel in deze klasse gebruikt)
-     */
-    private boolean playerExists(String username) {
-        String[] credentials;
-        // Elke lijn van bestand splitten {username}:{password}:{highscore}
-        for (String row : rows) {
-            credentials = row.split(":");
-            if (credentials[0].equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * Controleert het wachtwoord van een gebruiker.
-     * (wordt enkel in deze klasse gebruikt).
-     */
-    private boolean checkPassword(String username, String password) {
-        String[] line;
-        for (String row : rows) {
-            line = row.split(":");
-            if (line[0].equals(username) && line[1].equals(password)) {
-                return true;
-            }
-        }
-        return false;
+        throw new Exception("User: " + username + " does not exist.");
     }
 
 
@@ -124,20 +111,41 @@ public class FileManagement {
      */
 
     public String getLeaderboard() {
+        //misschien geen stream gebruiken maar wat we hebben geleerd (custom comperator)
         StringBuilder buffer = new StringBuilder();
-        String[] split;
-        int teller = 0;
-        ArrayList<Player> players = new ArrayList<Player>();
-        for (String row : rows) {
-            split = row.split(":");
-            players.add(new Player(split[0],Integer.parseInt(split[2])));
-        }
-
         for (Player p : players.stream().sorted(Comparator.comparing(Player::getHighscore).reversed()).collect(Collectors.toList())) {
-            if (teller++ < 10) {
-                buffer.append(p + " - " + p.getHighscore() +"\n");
-            }
+            buffer.append(p + " - " + p.getHighscore() + "\n");
         }
         return buffer.toString();
+    }
+
+    /**
+     * nieuwe highscore (zetten na game)
+     */
+    public void save(Player player) {
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(location));
+            StringBuilder buffer = new StringBuilder();
+            String line;
+
+            while ((line = file.readLine()) != null) {
+                if (line.contains(player.getUsername())) {
+                    // If line contains the current player's name:
+                    String[] credentials = line.split(":");
+                    line = credentials[0] + ":" + credentials[1] + ":" + player.getHighscore();
+                }
+                buffer.append(line);
+                buffer.append('\n');
+            }
+            file.close();
+
+            // Write new line to highscores.txt
+            FileOutputStream fileOut = new FileOutputStream(location);
+            fileOut.write(buffer.toString().getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println("File not found");
+        }
     }
 }

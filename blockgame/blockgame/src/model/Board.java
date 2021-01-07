@@ -1,22 +1,22 @@
 package model;
-
 import java.awt.*;
 
 /**
  * @author Maxim Derboven & Alexie Chaerle
  * @version 1.0 9/12/2020 18:44
- * @description Deze klasse bevat het spelbord. Het bord is een 2 dimensional array die bestaat uit allemaal tegels (klasse Tile). De speler plaats hier blokken op.
+ * @since 1.0
+ * @description
+ * Deze klasse bevat het spelbord. Het bord is een 2 dimensional array die bestaat uit allemaal tegels (klasse Tile). De speler plaats hier blokken op.
  * De taak van deze klasse is om het bord te beheren na het plaatsen van de blokken maw het weghalen van de rijen of volle kolommen en aan scoreboard vragen om de score te verhogen.
  */
 
 public class Board {
 
     /**
-     * Attributen
-     * grid[][] - Grid van tegels
-     * size - Grootte van het spelbord.
-     * DEFAULT_COLOR - Standaard kleur van de tegels op het bord.
-     * BASE_POINTS - Standaard punten voor het vervolledigen van een rij of kolom.
+     * grid[][]          Grid van tegels.
+     * size              Grootte van het spelbord.
+     * DEFAULT_COLOR     Standaard kleur van de tegels op het bord.
+     * BASE_POINT        Standaard punten voor het vervolledigen van een rij of kolom.
      */
     private Tile grid[][];
     private int size;
@@ -25,9 +25,7 @@ public class Board {
 
 
     /**
-     * Constructors
-     * Constructor met size van het bord x by y
-     * Constructor vult de grid met instanties van Tile
+     * Constructor zet de size van het bord vast en vult het bord met met tiles.
      */
     public Board(int size) {
         this.size = size;
@@ -35,14 +33,12 @@ public class Board {
         fillBoard();
     }
     public Board() {
-        this.size = 10;
-        this.grid = new Tile[size][size];
-        fillBoard();
+        this(10);
     }
 
 
     /**
-     * Vult het bord met tiles
+     * Deze methode vult het bord met tiles.
      */
     private void fillBoard() {
         this.grid = new Tile[size][size];
@@ -55,28 +51,34 @@ public class Board {
         }
     }
 
+
     /**
-    * @return Het bord wordt weergegeven
-    * de toStrings van de tiles worden geprint.
-    */
-    @Override
-    public String toString() {
-        String s = "";
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                s += grid[i][j];
-            }
-            s += "\n";
-        }
-        return s;
+     * Geeft de grootte van het speelveld terug.
+     * @return  int   De grootte van het spelbord.
+     */
+    public int getSize() {
+        return size;
     }
 
 
     /**
-     * Plaatste een blokje meegegeven blokje op het bord op het opgegeven punt.
-     * @return boolean of de move succesvol was.
+     * Stelt de grootte van het speelveld in.
+     * En vult het bord opnieuw met tiles.
+     * @param   size    De grootte waarin hij veranderd moet worden.
+     */
+    public void setSize(int size) {
+        if (size > 4 && size < 100) {
+            this.size = size;
+            fillBoard();
+        }
+    }
+
+
+    /**
+     * Deze methode simuleert een "zet".
+     * @param   piece   Het blokje dat geplaatst gaat worden.
+     * @param   point   De locatie op het bord waar het geplaatst moet worden.
+     * @return  boolean Dit geeft terug of de blok succesvol geplaatst is.
      */
     public boolean Move(Piece piece, Point point) {
         return placeBlock(piece, point);
@@ -84,7 +86,10 @@ public class Board {
 
 
     /**
-     * @return boolean of de plaats vrij is voor dat soort blok op point point.
+     * Deze methode kijkt na of er plaats is voor het betreffende piece op locatie point.
+     * @param   piece   Het betreffende blokje
+     * @param   point   De betreffende locatie
+     * @return  boolean De plaats vrij is voor dat soort blok op de lcoatie.
      */
     private boolean isFree(Piece piece, Point point) {
         for (Point p : piece.getTiles()) {
@@ -99,8 +104,10 @@ public class Board {
 
 
     /**
-     * Plaats een block op het speelvel
-     * @return of de tiles succesvol op used gezet zijn
+     * Plaatst een block op het speelvel
+     * @param   piece   Het betreffende blokje
+     * @param   point   De betreffende locatie
+     * @return  boolean De tiles succesvol op used gezet zijn / block is geplaatst.
      */
     private boolean placeBlock(Piece piece, Point point) {
         if (isFree(piece,point)) {
@@ -117,7 +124,9 @@ public class Board {
 
 
     /**
-     * @return of het mogelijk is om de blok eender waar te plaatsen
+     * Plaatst een block op het speelveld.
+     * @param   piece   Het betreffende blokje
+     * @return  boolean Mogelijk om de blok nog ergens te plaatsen
      */
     public boolean isPossible(Piece piece) {
         for(int i = 0; i < size; i++) {
@@ -130,10 +139,9 @@ public class Board {
         return false;
     }
 
-
     /**
      * Verwijdert alle horizontale en verticale rijen.
-     * @return score verkregen door de verwijderde rijen of kollommen
+     * @return  int  Score verkregen door de verwijderde rijen of kollommen
      */
     public int clearLines() {
         int points = 0;
@@ -180,21 +188,22 @@ public class Board {
 
 
     /**
-     * Stelt de grootte van het speelveld in.
+     * Met de toString wordt het bord agedrukt adhv de tostrings van tiles.
+     * @return  string   Het bord wordt teruggegeven
+     * @see String
      */
-    public void setSize(int size) {
-        if (size > 4 && size < 100) {
-            this.size = size;
-            fillBoard();
+    @Override
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                s += grid[i][j];
+            }
+            s += "\n";
         }
-    }
-
-
-    /**
-     * Geeft de grootte van het speelveld terug.
-     */
-    public int getSize() {
-        return size;
+        return s;
     }
 
 }
