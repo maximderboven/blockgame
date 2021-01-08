@@ -8,27 +8,27 @@ import java.util.Scanner;
 /**
  * @author Maxim Derboven & Alexie Chaerle
  * @version 1.0 9/12/2020 18:44
- * @description Dit is het beheer van het spel, deze klasse leid de andere klasse die deel uitmaken van het spel.
+ * @description Dit is het beheer van het spel, deze klasse leidt de andere klasse die deel uitmaken van het spel.
+ * @since 1.0
  */
 
 public class Game {
     /**
-     * ATTRIBUTEN:
-     * Welke speler er gaat spelen:
-     * Welk scoreboard er gebruikt gaat worden:
-     * Random voor de console aplicatie
-     * Zetten die de speler gaat doen
-     * Welk bord er gebruikt wordt:
-     * User beheer voor gebruiker te registreren en in te loggen
+     * player          Welke speler er gaat spelen.
+     * scoreboard      Welk scoreboard er gebruikt gaat worden.
+     * playeblePieces  De speelblokken.
+     * board           Welk bord er gebruikt wordt.
+     * am              User beheer voor gebruikers te registreren en in te loggen
+     * random          Random
      */
     private Player player;
     private Scoreboard scoreboard;
     private PlayablePieces playablePieces;
     private Board board;
-    private FileManagement am = new FileManagement();
+    private final FileManagement am = new FileManagement();
 
     //Console
-    private Random random = new Random();
+    private final Random random = new Random();
 
 
     /**
@@ -36,20 +36,17 @@ public class Game {
      * Deze constructor omvat het hele spelverloop
      */
     public Game() {
-        if (this.identify()) {
-            this.board = new Board(10);
-            this.scoreboard = new Scoreboard(player);
-            this.playablePieces = new PlayablePieces(3);
-            settings();
-            start();
-        }
+        this.board = new Board(10);
+        this.playablePieces = new PlayablePieces(3);
     }
 
 
     /**
-     * Controleert of het spel gedaan is adhv het bord dat gaat kijken of een van de blokken nog geplaatst kan worden
+     * Controleert of het spel gedaan is a.d.h.v. het bord dat gaat kijken of een van de blokken nog geplaatst kan worden.
+     *
+     * @return boolean True als een zet mogelijk is, False als het niet mogelijk is.
      */
-    public boolean isPossible() {
+    private boolean isPossible() {
         for (Piece piece : playablePieces.getPieces()) {
             if (board.isPossible(piece)) {
                 return true;
@@ -60,22 +57,12 @@ public class Game {
 
 
     /**
-     * Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt)
+     * Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt).
      */
     public void start() {
         /* Voor het spel start: */
-        System.out.println();
-        System.out.println("Loading...");
-        System.out.println();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.scoreboard = new Scoreboard(player);
         showHUD();
-
-
-
         /* Tijdens het spel: */
         while (isPossible()) {
             play();
@@ -87,19 +74,17 @@ public class Game {
                 e.printStackTrace();
             }
         }
-
         /* Na het spel: */
-        if (scoreboard.getScore() == player.getHighscore() && playablePieces.isGrading()) {
+        if (scoreboard.getScore() == player.getHighscore() && playablePieces.isDifficulty()) {
             am.save(player);
         }
-        System.out.println("Game over: (╯°□°）╯︵ ┻━┻");
     }
 
 
     /**
-     * Toont de HUD*
+     * Toont de HUD (Display)
      */
-    public void showHUD() {
+    private void showHUD() {
         System.out.println(scoreboard);
         System.out.print(board);
         System.out.println(playablePieces);
@@ -112,7 +97,7 @@ public class Game {
     /**
      * Play doet een spelzet op het bord.
      */
-    public void play() {
+    private void play() {
         Piece selectedPiece = playablePieces.randomPiece();
         if (board.Move(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
             scoreboard.updateScore(selectedPiece.getValue() + board.clearLines());
@@ -120,149 +105,49 @@ public class Game {
         }
     }
 
-
     /**
-     * Loginsysteem van de user alvorens het spel kan starten
+     * Gebruiker registreren.
+     * @param username Gebruikersnaam.
+     * @param password Wachtwoord.
+     * @throws Exception Als de gegevens incorrect zijn.
      */
-    public boolean identify() {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println();
-        System.out.print("-------------- \nMENU\n--------------\n");
-        System.out.println("(1) Login");
-        System.out.println("(2) Register");
-        System.out.println("(3) Leaderboard");
-        System.out.print("Choice : ");
-        int choice;
-        try {
-            choice = keyboard.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Please choose one of the following options: [1 for login, 2 for register]");
-            return false;
-        }
-        String username;
-        String password;
-        switch (choice) {
-            case 1:
-                System.out.println();
-                System.out.print("-------------- \nLOGIN\n--------------\n");
-                System.out.print("Username: ");
-                username = keyboard.next();
-
-                System.out.print("Password: ");
-                password = keyboard.next();
-
-                try {
-                    this.player = am.login(username, password);
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case 2:
-                System.out.println();
-                System.out.print("-------------- \nREGISTER\n--------------\n");
-                System.out.print("Username: ");
-                username = keyboard.next();
-
-                System.out.print("Password: ");
-                password = keyboard.next();
-
-                try {
-                    this.player = am.register(username, password);
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case 3:
-                System.out.println();
-                System.out.println("-------------- \nLEADERBOARD\n--------------");
-                System.out.print(am.getLeaderboard());
-                System.out.println("--------------");
-                System.out.println("(1) return");
-                System.out.print("Choice : ");
-                try {
-                    choice = keyboard.nextInt();
-                    if (choice == 1) {
-                        identify();
-                    } else {
-                        System.out.println("Please select a valid choice");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Please select a valid choice");
-                }
-                break;
-            default:
-                System.out.println("Please select a valid choice");
-                break;
-        }
-        return false;
+    public void register(String username, String password) throws Exception {
+        this.player = am.register(username, password);
     }
 
 
     /**
-     * Instellingen menu
+     * Gebruiker laten aanmelden.
+     * @param lusername Gebruikersnaam.
+     * @param lpassword Wachtwoord.
+     * @throws Exception Als de gegevens incorrect zijn.
      */
-    public void settings() {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println();
-        System.out.print("-------------- \nMENU\n--------------\n");
-        System.out.println("(1) Settings");
-        System.out.println("(2) Start game");
-        System.out.print("Choice : ");
-        int choice = 0;
-        try {
-            choice = keyboard.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Please choose one of the following options: [1 for settings, 2 for starting the game]");
-        }
-        switch (choice) {
-            case 1:
-                System.out.println();
-                System.out.print("-------------- \nSETTINGS\n--------------\n");
-                System.out.println("(1) board size: " + "\u001B[34m" + board.getSize() + "\033[0m");
-                System.out.println("(2) with grading: " + "\u001B[34m" + playablePieces.isGrading() + "\033[0m");
-                System.out.println("(3) playable pieces: " + "\u001B[34m" + playablePieces.getCapacity() + "\033[0m");
-                System.out.println("(4) file location: " + "\u001B[34m" + am.getLocation() + "\033[0m");
-                System.out.println("(5) return");
-                System.out.print("Choice : ");
-                choice = keyboard.nextInt();
-                switch (choice) {
-                    case 1:
-                        System.out.println();
-                        System.out.print("-------------- \nSETTINGS\n--------------\n");
-                        System.out.print("board size: ");
-                        board.setSize(keyboard.nextInt());
-                        settings();
-                        break;
-                    case 2:
-                        System.out.println();
-                        System.out.print("-------------- \nSETTINGS\n--------------\n");
-                        System.out.print("[Highscores do not count when grading is disabled.]\n");
-                        System.out.print("grading (true/false): ");
-                        playablePieces.setGrading(keyboard.nextBoolean());
-                        settings();
-                        break;
-                    case 3:
-                        System.out.println();
-                        System.out.print("-------------- \nSETTINGS\n--------------\n");
-                        System.out.print("capacity : ");
-                        playablePieces.setCapacity(keyboard.nextInt());
-                        settings();
-                        break;
-                    case 4:
-                        System.out.println();
-                        System.out.print("-------------- \nSETTINGS\n--------------\n");
-                        System.out.print("location : ");
-                        am.setLocation(keyboard.next());
-                        settings();
-                        break;
-                    case 5:
-                        settings();
-                }
-            case 2:
-        }
+    public void login(String lusername, String lpassword) throws Exception {
+        this.player = am.login(lusername, lpassword);
     }
+
+
+    /**
+     * @return de instantie van de klasse PlayablePieces.
+     */
+    public PlayablePieces getPlayablePieces() {
+        return playablePieces;
+    }
+
+
+    /**
+     * @return de instantie van de klasse Board.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+
+    /**
+     * @return de instantie van de klasse FileManagement.
+     */
+    public FileManagement getAm() {
+        return am;
+    }
+
 }

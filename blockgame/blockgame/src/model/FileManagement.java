@@ -1,6 +1,7 @@
 package model;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,35 +9,50 @@ import java.util.stream.Collectors;
 
 /**
  * @author Maxim Derboven & Alexie Chaerle
- * @version 1.0 17/12/2020 10:27
+ * @version 1.0 9/12/2020 18:44
+ * @since 1.2
+ * @description
+ * De klasse FileManagement beheert de highscores.txt file en zorgt voor het inloggen/registreren van een speler.
  */
+
 public class FileManagement {
     /**
-     * ATTRIBUTEN
-     * Arraylist van highscores.txt
+     * players          Verzameling objecten van players.
+     * location         De path naar highscores.txt bestand.
      */
     private List<Player> players = new ArrayList<>();
     private String location = "../blockgame/blockgame/src/model/resources/highscores.txt";
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
+    /**
+     * Constructor: bij het instantiëren wordt het highscores.txt bestand ingelezen en in de ArrayList players opgeslagen.
+     */
     public FileManagement() {
         readPlayers();
     }
 
+
+    /**
+     * Geeft de huidige locatie van highscores.txt weer.
+     * @return String  De locatie van highscores.txt.
+     */
+    public String getLocation() {
+        return location;
+    }
+
+
+    /**
+     * Methode om de locatie van het highscores.txt bestand te wijzigen.
+     * @param location  De (nieuwe) locatie van highscores.txt
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
     /**
      * File highscores.txt inlezen en in een ArrayList steken.
-     * (Wordt enkel in deze klasse gebruikt)
+     * Private omdat deze methode enkel in deze klasse gebruikt wordt.
      */
     private void readPlayers() {
         try {
@@ -55,12 +71,16 @@ public class FileManagement {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
+
     /**
-     * Gaat een gebruiker aanmaken door een lijn toe te voegen in het bestand highscores.txt
+     * Methode om (nieuwe) gebruikers te registreren.
+     * Er wordt een extra lijn toegevoegd in het highscores.txt bestand.
+     * @param username  De gebruikersnaam van de player.
+     * @param password  Het wachtwoord van de player.
+     * @return Player  Instantie van de klasse Player (die gaat spelen).
+     * @exception Exception Als de gebruikersnaam al in gebruik is of als het een illegal character bevat (":").
      */
     public Player register(String username, String password) throws Exception {
         for (Player player : players) {
@@ -76,7 +96,7 @@ public class FileManagement {
         players.add(player);
 
         try {
-            Writer output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(location, true), "UTF-8"));
+            Writer output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(location, true), StandardCharsets.UTF_8));
             output.append(String.format("\n%s:%s:%d", username, password, 0));
             output.close();
         } catch (Exception e) {
@@ -85,12 +105,13 @@ public class FileManagement {
         return player;
     }
 
+
     /**
-     * laat de gebruiker inloggen
-     * @param args Unused.
-     * @return Nothing.
-     * @exception IOException On input error.
-     * @see IOException
+     * Zorgt ervoor dat de gebruiker zich kan inloggen.
+     * @param username De gebruikersnaam van de player.
+     * @param password Het wachtwoord van de player.
+     * @return Player  Instantie van de klasse Player (degene die gaat spelen).
+     * @exception Exception Indien het wachtwoord onjuist is of de gebruiker niet bestaat.
      */
     public Player login(String username, String password) throws Exception {
         for (Player player : players) {
@@ -107,11 +128,12 @@ public class FileManagement {
 
 
     /**
-     * Toont een overzicht van de Leaderboard
+     * Toont de Leaderboard.
+     * Top 10 spelers: Naam + Highscore.
+     * @return String  Geformatteerde string(buffer) met de top 10 spelers.
      */
-
     public String getLeaderboard() {
-        //misschien geen stream gebruiken maar wat we hebben geleerd (custom comperator)
+        //misschien geen stream gebruiken maar wat we hebben geleerd (custom comparator)
         StringBuilder buffer = new StringBuilder();
         for (Player p : players.stream().sorted(Comparator.comparing(Player::getHighscore).reversed()).collect(Collectors.toList())) {
             buffer.append(p + " - " + p.getHighscore() + "\n");
@@ -119,8 +141,11 @@ public class FileManagement {
         return buffer.toString();
     }
 
+
     /**
-     * nieuwe highscore (zetten na game)
+     * Highscore van de huidige speler oplsaan in highscores.txt.
+     * Toepassen nadat het spel beëindigd is.
+     * @param player  Instantie van de klasse Player (de huidige speler).
      */
     public void save(Player player) {
         try {

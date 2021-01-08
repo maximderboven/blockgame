@@ -5,13 +5,14 @@ import java.awt.*;
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:45
+ * @since 1.0
  * @description Deze klasse bevat alle soorten blokken die door de speler op het bord geplaatst kunnen worden
- */
+ * */
 public enum Piece {
 
     /**
      * De blokken bevatten een locatie die wordt vergeleken met de locatie op het bord. Zo worden de tegels op die plaatsen aangepast.
-     */
+     * */
     // Piece1x1 [X]
     PIECE1x1(1, Color.green, new Point[]{
             new Point(0, 0)}),
@@ -151,36 +152,39 @@ public enum Piece {
 
 
     /**
-     * ATTRIBUTEN
-     * value = hoeveel punten hij waard is
-     * color = kleur dat deze blok heeft
-     * tiles = Welke vorm adhv tegels die ten opzichte van punt 0x0 worden gelegd met Point
-     */
+     * value          Hoeveel punten hij waard is.
+     * color          Kleur dat deze blok heeft.
+     * tiles          Welke vorm a.d.h.v. tegels die ten opzichte van punt 0x0 worden gelegd met Point.
+     * */
     private final int value;
     private final Color color;
     private final Point[] blockTiles;
 
 
     /**
-     * Constructor voor een Piece
-     */
+     * Constructor voor een Piece.
+     * @param value Hoeveel punten het blok waard zal zijn.
+     * @param color Kleur dat deze blok zal hebben.
+     * @param tiles Welke vorm a.d.h.v. tegels die ten opzichte van punt 0x0 worden gelegd met Point.
+     * */
     Piece(int value, Color color, Point[] tiles) {
         this.value = value;
         this.color = color;
         this.blockTiles = tiles;
     }
 
+
     /**
-     * @return de vorm/locaties van de blocktiles van de blok
-     */
+     * @return Point[] De vorm/locaties van de blocktiles van de blok.
+     * */
     public Point[] getTiles() {
         return blockTiles;
     }
 
 
     /**
-     * @return de waarde van de blok
-     */
+     * @return int De waarde van de blok.
+     * */
     public int getValue() {
         return value;
     }

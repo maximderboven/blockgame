@@ -1,4 +1,3 @@
+maxim:test2:20
 tom:test:10
-maxim:test2:39
-alexie:test:5
-pieter:test2:205
+alexie:test:15

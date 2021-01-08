@@ -1,70 +1,88 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:44
+ * @since 1.0
  * @description De speler speelt het spel. Deze klasse bevat de gegevens van de huidige speler.
- */
+ * */
 public class Player {
     /**
-     * ATTRIBUTEN
-     * naam = naam van de speler
-     * highscore = highscore van deze speler
-     */
+     * naam          Naam van de speler.
+     * password      Wachtwoord van de speler.
+     * highscore     Highscore van deze speler.
+     * */
     private String username;
     private String password;
     private int highscore;
 
+
     /**
-     * CONSTRUCTORS
-     * Nieuwe speler zonder highscore en een speler met highscore
-     */
+     * Constructor mer 3 parameters.
+     * Nieuwe speler met highscore.
+     * @param username Naam.
+     * @param password Wachtwoord.
+     * @param highscore Highscore.
+     * */
     public Player(String username, String password, int highscore){
         this.username = username;
         this.password = password;
         this.highscore = highscore;
     }
 
+
+    /**
+     * Constructor mer 3 parameters.
+     * Speler zonder highscore.
+     * @param username Naam.
+     * @param password Wachtwoord.
+     * */
     public Player(String username, String password){
         this(username, password, 0);
     }
 
 
     /**
-     * @return huidige highscore verkrijgen
-     */
+     * @return int Huidige highscore verkrijgen.
+     * */
     public int getHighscore() {
         return highscore;
     }
 
 
     /**
-     * nieuwe highscore zetten (tijdens game)
-     */
+     * Nieuwe highscore zetten (tijdens game).
+     * @param highscore Highscore.
+     * */
     public void setHighscore(int highscore) {
         this.highscore = highscore;
     }
 
 
     /**
-     * @return password van de user
-     */
-    public String getPassword() {
+     * Geeft het wachtwoord van de gebruiker
+     * @return String Wachtwoord van de user.
+     * */
+    protected String getPassword() {
         return password;
     }
 
+
     /**
-     * Geeft de naam van de speler weer
-     */
+     * Geeft de naam van de speler weer (ToString() methode).
+     * @return String Naam van de speler.
+     * */
     @Override
     public String toString() {
-        return String.format(this.username);
+        return this.username;
     }
 
+
+    /**
+     *  Geeft de naam van de speler weer
+     * @return String Naam van de speler.
+     * */
     public String getUsername() {
         return username;
     }

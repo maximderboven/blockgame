@@ -10,25 +10,33 @@ import java.util.Random;
  */
 public class PlayablePieces {
     /**
-     * ATTRIBUTEN
-     * capacity = aantal blokken
-     * Aantal blokken met capacity
-     * Random voor de rudimentaire vorm
-     */
+     * ATTRIBUTEN:
+     * capacity          Aantal blokken.
+     * pieces            Aantal blokken met capacity.
+     * random            Random voor de rudimentaire vorm.
+     * difficulty        Difficulty(modus) van het spel.
+     * */
     private int capacity;
     private ArrayList<Piece> pieces = new ArrayList<>(capacity);
-    private Random random = new Random();
-    private boolean grading = true;
+    private final Random random = new Random();
+    private boolean difficulty = true;
 
 
     /**
-     * CONSTRUCTOR
-     * Eentje met standaard capacity en eentje met een aanpasbare
-     */
+     * Constructor zonder parameter(s):
+     * Inclusief standaard capacity.
+     * */
     public PlayablePieces() {
         this.capacity = 3;
         newPieces();
     }
+
+
+    /**
+     * Constructor met parameter(s):
+     * Inclusief aanpasbare capacity.
+     * @param capacity  Aantal blokken in het spel.
+     * */
     public PlayablePieces(int capacity) {
         this.capacity = capacity;
         newPieces();
@@ -36,11 +44,12 @@ public class PlayablePieces {
 
 
     /**
-     * Vult de Array met nieuwe blokken
-     * eerste is op basis van grading
-     */
+     * Vult de Array met nieuwe blokken.
+     * Eerste blok is op basis van score (difficulty).
+     * @param score  Huidige score om moeilijkheidsgraad te bepalen.
+     * */
     public void newPieces(int score) {
-        if (grading) {
+        if (difficulty) {
             if (pieces.isEmpty()) {
                 for (int i = 0; i < capacity; i++) {
                     Piece piece = Piece.values()[random.nextInt(Piece.values().length)];
@@ -65,7 +74,12 @@ public class PlayablePieces {
             newPieces();
         }
     }
-    public void newPieces() {
+
+
+    /**
+     * Vult de Array met nieuwe blokken.
+     * */
+    private void newPieces() {
         if (pieces.isEmpty()) {
             for (int i = 0; i < capacity; i++) {
                 pieces.add(Piece.values()[random.nextInt(Piece.values().length)]);
@@ -75,69 +89,72 @@ public class PlayablePieces {
 
 
     /**
-     * @return de huidige arraylist
-     */
+     * @return ArrayList<Piece>  De huidige arraylist.
+     * */
     public ArrayList<Piece> getPieces() {
         return pieces;
     }
 
 
     /**
-     * @return  geeft een random piece terug (console)
-     */
+     * @return Piece Geeft een random piece terug (console).
+     * */
     public Piece randomPiece() {
         return pieces.get(random.nextInt(pieces.size()));
     }
 
 
     /**
-     * Verwijderd de gegeven blok uit de array
-     */
+     * Verwijderd de gegeven blok uit de array.
+     * @param selectedPiece  de geselecteerde blok.
+     * */
     public void remove(Piece selectedPiece) {
         pieces.remove(selectedPiece);
     }
 
 
     /**
-     * Print de huidige blokken uit
-     */
+     * Print de huidige blokken uit.
+     * */
     @Override
     public String toString() {
-        String s = "------------\n";
+        StringBuilder s = new StringBuilder("------------\n");
         for (Piece piece : pieces) {
-            s += String.format("[%s] ", piece.toString());
+            s.append(String.format("[%s] ", piece.toString()));
         }
-        return s;
+        return s.toString();
     }
 
 
     /**
-     * @return moeilijkheids vordering staat aan of af.
-     */
-    public boolean isGrading() {
-        return grading;
+     * @return boolean Toestand van de moeilijkheidsgraad.
+     * */
+    public boolean isDifficulty() {
+        return difficulty;
     }
 
 
     /**
-     * toggle de moeilijkheid vordering
-     */
-    public void setGrading(boolean grading) {
-        this.grading = grading;
+     * Toggle de moeilijkheidsgraad.
+     * @param difficulty  Ingegeven toestand van de moeilijkheidsgraad.
+     * */
+    public void setDifficulty(boolean difficulty) {
+        this.difficulty = difficulty;
     }
 
 
     /**
-     * @return hoeveelheid van blokken waarmee gespeeld word.
-     */
+     * @return int Hoeveelheid van blokken waarmee gespeeld wordt.
+     * */
     public int getCapacity() {
         return capacity;
     }
 
 
     /**
-     * @return Verander da hoeveelheid blokken van dit spel.
-     */
+     * Verander de hoeveelheid blokken van dit spel.
+     * @param capacity Hoeveelheid blokken.
+     * */
     public void setCapacity(int capacity) {
         if (capacity > 2 && capacity < 11) {
         this.capacity = capacity;

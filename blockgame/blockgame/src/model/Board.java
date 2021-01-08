@@ -140,8 +140,8 @@ public class Board {
     }
 
     /**
-     * Verwijdert alle horizontale en verticale rijen.
-     * @return  int  Score verkregen door de verwijderde rijen of kollommen
+     * Verwijderd alle horizontale en verticale rijen.
+     * @return  int  Score verkregen door de verwijderde rijen of kolommen
      */
     public int clearLines() {
         int points = 0;
@@ -194,16 +194,16 @@ public class Board {
      */
     @Override
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-                s += grid[i][j];
+                s.append(grid[i][j]);
             }
-            s += "\n";
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 
 }
