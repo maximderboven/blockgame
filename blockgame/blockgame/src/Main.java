@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
 
     private static model.Game game;
-    private static Scanner keyboard = new Scanner(System.in);
+    private static final Scanner keyboard = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -88,7 +88,7 @@ public class Main {
                     System.out.println();
                     System.out.print("-------------- \nSETTINGS\n--------------\n");
                     System.out.println("(1) board size: " + "\u001B[34m" + game.getBoard().getSize() + "\033[0m");
-                    System.out.println("(2) with grading: " + "\u001B[34m" + game.getPlayablePieces().isDifficulty() + "\033[0m");
+                    System.out.println("(2) with difficulty: " + "\u001B[34m" + game.getPlayablePieces().isDifficulty() + "\033[0m");
                     System.out.println("(3) playable pieces: " + "\u001B[34m" + game.getPlayablePieces().getCapacity() + "\033[0m");
                     System.out.println("(4) file location (experimental): " + "\u001B[34m" + game.getAm().getLocation() + "\033[0m");
                     System.out.println("(5) return");
