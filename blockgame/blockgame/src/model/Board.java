@@ -93,8 +93,8 @@ public class Board {
      */
     private boolean isFree(Piece piece, Point point) {
         for (Point p : piece.getTiles()) {
-            int r = point.x + p.x;
-            int c = point.y + p.y;
+            int r = point.getX() + p.getX();
+            int c = point.getY() + p.getY();
             if (!((r >= 0 && r < size) && (c >= 0 && c < size)) || grid[r][c].isUsed()) {
                 return false;
             }
@@ -112,8 +112,8 @@ public class Board {
     private boolean placeBlock(Piece piece, Point point) {
         if (isFree(piece,point)) {
             for (Point p : piece.getTiles()) {
-                int r = point.x + p.x;
-                int c = point.y + p.y;
+                int r = point.getX() + p.getX();
+                int c = point.getX() + p.getY();
                 grid[r][c].setUsed(true);
             }
             return true;

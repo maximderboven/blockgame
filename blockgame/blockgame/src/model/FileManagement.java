@@ -21,7 +21,7 @@ public class FileManagement {
      * location         De path naar highscores.txt bestand.
      */
     private List<Player> players = new ArrayList<>();
-    private String location = "../blockgame/blockgame/src/model/resources/highscores.txt";
+    private String location = "../blockgame/blockgame/resources/data/highscores.txt";
 
 
     /**
@@ -170,6 +170,7 @@ public class FileManagement {
             fileOut.close();
 
         } catch (Exception e) {
+            //moet weg
             System.out.println("File not found");
         }
     }

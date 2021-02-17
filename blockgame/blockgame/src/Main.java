@@ -139,7 +139,10 @@ public class Main {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    game.start();
+                    while (game.isPossible()) {
+                        System.out.println(game.showHUD());
+                        game.start();
+                    }
                     System.out.println("Game over: (╯°□°）╯︵ ┻━┻");
                     break;
             }

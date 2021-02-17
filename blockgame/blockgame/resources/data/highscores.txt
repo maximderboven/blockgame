@@ -1,3 +1,4 @@
 maxim:test2:20
 tom:test:10
 alexie:test:15
+john:test:0

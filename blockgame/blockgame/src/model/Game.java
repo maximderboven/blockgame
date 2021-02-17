@@ -46,7 +46,7 @@ public class Game {
      *
      * @return boolean True als een zet mogelijk is, False als het niet mogelijk is.
      */
-    private boolean isPossible() {
+    public boolean isPossible() {
         for (Piece piece : playablePieces.getPieces()) {
             if (board.isPossible(piece)) {
                 return true;
@@ -61,22 +61,20 @@ public class Game {
      */
     public void start() {
         /* Voor het spel start: */
-        this.scoreboard = new Scoreboard(player);
-        showHUD();
+        //this.scoreboard = new Scoreboard(player);
         /* Tijdens het spel: */
-        while (isPossible()) {
-            play();
-            showHUD();
-            playablePieces.newPieces(scoreboard.getScore());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        play();
+        playablePieces.newPieces(scoreboard.getScore());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         /* Na het spel: */
-        if (scoreboard.getScore() == player.getHighscore() && playablePieces.isDifficulty()) {
-            am.save(player);
+        if (!isPossible()) {
+            if (scoreboard.getScore() == player.getHighscore() && playablePieces.isDifficulty()) {
+                am.save(player);
+            }
         }
     }
 
@@ -84,13 +82,15 @@ public class Game {
     /**
      * Toont de HUD (Display)
      */
-    private void showHUD() {
-        System.out.println(scoreboard);
-        System.out.print(board);
-        System.out.println(playablePieces);
+    public String showHUD() {
+        StringBuilder sb = new StringBuilder("");
+        sb.append(scoreboard).append("\n");
+        sb.append(board).append("\n");
+        sb.append(playablePieces).append("\n");
         for (int i = 0; i < 5; i++) {
-            System.out.println();
+            sb.append("\n");
         }
+        return sb.toString();
     }
 
 
@@ -107,6 +107,7 @@ public class Game {
 
     /**
      * Gebruiker registreren.
+     *
      * @param username Gebruikersnaam.
      * @param password Wachtwoord.
      * @throws Exception Als de gegevens incorrect zijn.
@@ -118,12 +119,14 @@ public class Game {
 
     /**
      * Gebruiker laten aanmelden.
+     *
      * @param lusername Gebruikersnaam.
      * @param lpassword Wachtwoord.
      * @throws Exception Als de gegevens incorrect zijn.
      */
     public void login(String lusername, String lpassword) throws Exception {
         this.player = am.login(lusername, lpassword);
+        this.scoreboard = new Scoreboard(player);
     }
 
 
