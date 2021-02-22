@@ -1,16 +1,17 @@
-package blockgame.view.registerScreen;
+package blockgame.view.loginScreen;
 
 import blockgame.model.Game;
+import blockgame.view.registerScreen.RegisterView;
 
 /**
  * Alexie Chaerle
- * 17/02/2021
+ * 22/02/2021
  */
-public class RegisterPresenter {
+public class LoginPresenter extends RegisterView {
     private Game model;
-    private RegisterView view;
+    private LoginView view;
 
-    public RegisterPresenter(Game model, RegisterView view) {
+    public LoginPresenter(Game model, LoginView view) {
         this.model = model;
         this.view = view;
         this.addEventHandlers();
@@ -24,5 +25,4 @@ public class RegisterPresenter {
     private void updateView() {
 
     }
-
 }
