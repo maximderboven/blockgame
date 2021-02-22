@@ -1,6 +1,8 @@
 package blockgame.view.registerScreen;
 
 import blockgame.model.Game;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * Alexie Chaerle
@@ -18,7 +20,12 @@ public class RegisterPresenter {
     }
 
     private void addEventHandlers() {
+        view.getBtnLogin().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
 
+            }
+        });
     }
 
     private void updateView() {

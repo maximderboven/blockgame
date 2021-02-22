@@ -1,16 +1,10 @@
 package blockgame.view.registerScreen;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
 import javafx.scene.control.*;
-
-import java.awt.*;
+import javafx.scene.layout.GridPane;
 
 /**
  * Alexie Chaerle
@@ -25,6 +19,8 @@ public class RegisterView extends GridPane {
     private Button btnRegister;
     private TextField txtUsername;
     private PasswordField txtPassword;
+    private Separator sep;
+    private Label lblLogin;
 
     // Constructor
     public RegisterView() {
@@ -41,35 +37,47 @@ public class RegisterView extends GridPane {
         this.btnRegister = new Button("Register");
         this.txtUsername = new TextField();
         this.txtPassword = new PasswordField();
+        this.sep = new Separator();
+        this.lblLogin = new Label("Click the button below if you want to login.");
     }
 
     // Layout van de Nodes
     private void layoutNodes() {
 
         // Algemeen
-        this.setPadding(new Insets(15));
-        this.setAlignment(Pos.CENTER);
-        this.setHgap(10);
-        this.setVgap(10);
+        setMinHeight(280);
+        setMinWidth(250);
+        setPadding(new Insets(15));
+        setHgap(10);
+        setVgap(10);
+        setAlignment(Pos.CENTER);
 
         // Items toevoegen aan de grid
-        this.add(lblRegister, 0, 0);
-        this.add(lblUsername, 0, 1);
-        this.add(lblPassword, 0, 2);
-        this.add(txtUsername, 1, 1);
-        this.add(txtPassword, 1, 2);
-        this.add(btnLogin, 0, 4);
-        this.add(btnRegister, 1, 4);
+        add(lblRegister, 0, 0);
+        add(lblUsername, 0, 1);
+        add(lblPassword, 0, 2);
+        add(txtUsername, 1, 1);
+        add(txtPassword, 1, 2);
+        add(btnRegister, 1, 4);
+        add(sep, 0,5,4,1);
+        add(lblLogin, 0,6,2,1);
+        add(btnLogin, 0, 7);
 
         // CSS + overige
-        this.lblRegister.setStyle("-fx-font-weight: bold; -fx-font-size: 22px");
-        this.lblUsername.setStyle("-fx-font-size: 14px");
-        this.lblPassword.setStyle("-fx-font-size: 14px");
-        this.btnRegister.setStyle("-fx-background-color: #1687a7; -fx-text-fill: #fff; -fx-font-weight: bolder;");
-        this.btnRegister.setPrefSize(80, 20);
-        this.btnRegister.setCursor(Cursor.HAND);
-        this.btnLogin.setStyle("-fx-background-color: #a6a9b6; -fx-text-fill: #fff; -fx-font-weight: bolder");
-        this.btnLogin.setCursor(Cursor.HAND);
+        lblRegister.setStyle("-fx-font-weight: bold; -fx-font-size: 22px");
+        lblUsername.setStyle("-fx-font-size: 14px");
+        lblPassword.setStyle("-fx-font-size: 14px");
+        btnRegister.setStyle("-fx-background-color: #1687a7; -fx-text-fill: #fff; -fx-font-weight: bolder;");
+        btnRegister.setPrefSize(80, 20);
+        btnRegister.setCursor(Cursor.HAND);
+        btnLogin.setStyle("-fx-background-color: #a6a9b6; -fx-text-fill: #fff; -fx-font-weight: bolder");
+        btnLogin.setCursor(Cursor.HAND);
+        sep.setPadding(new Insets(15,0,0,0));
+    }
 
+    // Getters
+
+    Button getBtnLogin() {
+        return btnLogin;
     }
 }
