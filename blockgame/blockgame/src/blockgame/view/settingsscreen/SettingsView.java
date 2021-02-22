@@ -1,81 +1,96 @@
 package blockgame.view.settingsscreen;
 
+import blockgame.view.menuBarScreen.MenuBarView;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-
-import java.awt.*;
 
 /**
  * @author Maxim Derboven
  * @version 1.0 17/02/2021 13:17
  */
-public class SettingsView extends GridPane {
+public class SettingsView extends BorderPane {
+
+    // Attributen
+    private Label lblSettings;
     private Slider slSize;
-    private ToggleButton tbtnDifficulty;
+    private CheckBox tbtnDifficulty;
     private TextField tfPieces;
     private TextField tfFileLocation;
     private Button btnMap;
+    private Button btnClose;
+    private Button btnSave;
+    private MenuBarView menu;
+    private GridPane grid;
+    private Label lblSize;
+    private Label lblDifficulty;
+    private Label lblPlayablePieces;
+    private Label lblFileLocation;
 
+    // Constructor
     public SettingsView() {
         initialiseNodes();
         layoutNodes();
     }
+
+    // Initialise nodes
     private void initialiseNodes() {
+        lblSettings = new Label("SETTINGS");
         slSize = new Slider();
-        tbtnDifficulty = new ToggleButton();
+        tbtnDifficulty = new CheckBox();
         tfPieces = new TextField();
         tfFileLocation = new TextField();
         btnMap = new Button();
+        btnClose = new Button("Close");
+        btnSave = new Button("Save Changes");
+        menu = new MenuBarView();
+        grid = new GridPane();
+        lblSize = new Label("Board size:");
+        lblDifficulty = new Label("Difficulty:");
+        lblPlayablePieces = new Label("Playable Pieces:");
+        lblFileLocation = new Label("File location:");
     }
 
+    // Layout nodes
     private void layoutNodes() {
+
         // Algemeen
-        //this.setPadding(new Insets(15));
-        this.setAlignment(Pos.CENTER);
-        this.setHgap(10);
-        this.setVgap(10);
+        this.setTop(menu);
+        this.setCenter(grid);
+        this.setMinHeight(650);
+        this.setMinWidth(500);
 
-        // Items toevoegen aan de grid
-        this.add(slSize, 0, 0);
-        this.add(tbtnDifficulty, 0, 1);
-        this.add(tfFileLocation, 0, 2);
-        this.add(tfPieces, 1, 1);
-        this.add(btnMap, 1, 2);
+        // Grid Settings
+        grid.setHgap(35);
+        grid.setVgap(30);
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.add(lblSettings, 0, 0, 2, 1);
+        grid.add(new Separator(), 0, 1, 2, 1);
+        grid.add(lblSize, 0, 2);
+        grid.add(slSize, 1, 2);
+        grid.add(new Separator(), 0, 3, 2, 1);
+        grid.add(lblDifficulty, 0, 4);
+        grid.add(tbtnDifficulty, 1, 4);
+        grid.add(new Separator(), 0, 5, 2, 1);
+        grid.add(lblPlayablePieces, 0, 6);
+        grid.add(tfPieces, 1, 6);
+        grid.add(new Separator(), 0, 7, 2, 1);
+        grid.add(lblFileLocation, 0, 8);
+        grid.add(tfFileLocation, 1, 8);
+        grid.add(btnClose, 0, 9);
+        grid.add(btnSave, 1, 9);
 
-        /* CSS + overige
-        this.lblRegister.setStyle("-fx-font-weight: bold; -fx-font-size: 22px");
-        this.lblUsername.setStyle("-fx-font-size: 14px");
-        this.lblPassword.setStyle("-fx-font-size: 14px");
-        this.btnRegister.setStyle("-fx-background-color: #1687a7; -fx-text-fill: #fff; -fx-font-weight: bolder;");
-        this.btnRegister.setPrefSize(80, 20);
-        this.btnRegister.setCursor(Cursor.HAND);
-        this.btnLogin.setStyle("-fx-background-color: #a6a9b6; -fx-text-fill: #fff; -fx-font-weight: bolder");
-        this.btnLogin.setCursor(Cursor.HAND);*/
+        // CSS layout + overige layout
+        // grid.setGridLinesVisible(true);
+        lblSize.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
+        lblDifficulty.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
+        lblSettings.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
+        lblFileLocation.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
+        lblPlayablePieces.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
+        btnSave.setStyle("-fx-background-color: #1687a7; -fx-text-fill: #fff; -fx-font-weight: bolder;");
+        btnClose.setStyle("-fx-background-color: #a6a9b6; -fx-text-fill: #fff; -fx-font-weight: bolder");
+        lblSettings.setStyle("-fx-font-size: 36");
     }
 
-
-    Slider getSlSize() {
-        return slSize;
-    }
-
-    ToggleButton getTbtnDifficulty() {
-        return tbtnDifficulty;
-    }
-
-    TextField getTfPieces() {
-        return tfPieces;
-    }
-
-    TextField getTfFileLocation() {
-        return tfFileLocation;
-    }
-
-    Button getBtnMap() {
-        return btnMap;
-    }
 }
