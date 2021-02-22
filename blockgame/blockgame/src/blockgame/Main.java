@@ -1,12 +1,8 @@
 package blockgame;
 
 import blockgame.model.Game;
-import blockgame.view.loginScreen.LoginPresenter;
-import blockgame.view.loginScreen.LoginView;
-import blockgame.view.registerScreen.RegisterPresenter;
-import blockgame.view.registerScreen.RegisterView;
+import blockgame.view.aboutScreen.AboutAlert;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -18,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game model = new Game();
-
+        /*
         RegisterView view1 = new RegisterView();
         new RegisterPresenter(model, view1);
 
@@ -28,12 +24,15 @@ public class Main extends Application {
         st.setScene(new Scene(view2));
         st.setResizable(false);
         st.setTitle("Login");
-        st.show();
-
+        //st.show();
         primaryStage.setScene(new Scene(view1));
         primaryStage.setResizable(false);
         primaryStage.setTitle("Register");
-        primaryStage.show();
+        //primaryStage.show();
+        */
+        AboutAlert about = new AboutAlert();
+        about.showAndWait();
+
     }
 
     private static blockgame.model.Game game;
