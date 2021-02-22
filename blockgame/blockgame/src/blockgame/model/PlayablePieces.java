@@ -1,4 +1,4 @@
-package model;
+package blockgame.model;
 
 import java.util.ArrayList;
 import java.util.Random;

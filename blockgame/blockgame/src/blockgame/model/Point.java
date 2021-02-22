@@ -1,4 +1,4 @@
-package model;
+package blockgame.model;
 
 /**
  * @author Maxim Derboven & Alexie Chaerle

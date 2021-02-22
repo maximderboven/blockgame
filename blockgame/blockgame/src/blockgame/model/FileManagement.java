@@ -1,4 +1,4 @@
-package model;
+package blockgame.model;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

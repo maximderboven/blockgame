@@ -1,9 +1,6 @@
-package model;
+package blockgame.model;
 
-import java.awt.*;
-import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * @author Maxim Derboven & Alexie Chaerle
