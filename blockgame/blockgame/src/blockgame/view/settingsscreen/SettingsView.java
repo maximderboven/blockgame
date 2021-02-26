@@ -1,6 +1,5 @@
 package blockgame.view.settingsscreen;
 
-import blockgame.view.menuBarScreen.MenuBarView;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -21,7 +20,7 @@ public class SettingsView extends BorderPane {
     private Button btnMap;
     private Button btnClose;
     private Button btnSave;
-    private MenuBarView menu;
+    //private MenuBarView menu;
     private GridPane grid;
     private Label lblSize;
     private Label lblDifficulty;
@@ -44,7 +43,7 @@ public class SettingsView extends BorderPane {
         btnMap = new Button();
         btnClose = new Button("Close");
         btnSave = new Button("Save Changes");
-        menu = new MenuBarView();
+        //menu = new MenuBarView();
         grid = new GridPane();
         lblSize = new Label("Board size:");
         lblDifficulty = new Label("Difficulty:");
@@ -56,7 +55,7 @@ public class SettingsView extends BorderPane {
     private void layoutNodes() {
 
         // Algemeen
-        this.setTop(menu);
+        //this.setTop(menu);
         this.setCenter(grid);
         this.setMinHeight(650);
         this.setMinWidth(500);
