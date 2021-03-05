@@ -1,6 +1,4 @@
-package blockgame.view.registerScreen;
-
-import blockgame.view.idScreen.idView;
+package blockgame.view.identificationScreen;
 
 /**
  * Alexie Chaerle

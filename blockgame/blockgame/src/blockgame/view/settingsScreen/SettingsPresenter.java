@@ -1,4 +1,4 @@
-package blockgame.view.settingsscreen;
+package blockgame.view.settingsScreen;
 
 import blockgame.model.Game;
 

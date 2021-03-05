@@ -1,4 +1,4 @@
-package blockgame.view.settingsscreen;
+package blockgame.view.settingsScreen;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -58,7 +58,7 @@ public class SettingsView extends BorderPane {
         //this.setTop(menu);
         this.setCenter(grid);
         this.setMinHeight(650);
-        this.setMinWidth(500);
+        this.setMinWidth(400);
 
         // Grid Settings
         grid.setHgap(35);

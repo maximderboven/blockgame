@@ -1,8 +1,8 @@
 package blockgame;
 
 import blockgame.model.Game;
-import blockgame.view.loginScreen.LoginPresenter;
-import blockgame.view.loginScreen.LoginView;
+import blockgame.view.identificationScreen.LoginPresenter;
+import blockgame.view.identificationScreen.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -23,8 +23,9 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(lv));
         primaryStage.setTitle("Authorization");
         primaryStage.setResizable(false);
-        primaryStage.getIcons().add(new Image("/data/admin-icon.png"));
+        primaryStage.getIcons().add(new Image("/images/logo.png"));
         primaryStage.show();
+
     }
 
     private static blockgame.model.Game game;
