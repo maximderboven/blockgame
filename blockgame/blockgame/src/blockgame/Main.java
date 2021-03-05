@@ -1,8 +1,8 @@
 package blockgame;
 
 import blockgame.model.Game;
-import blockgame.view.identificationScreen.LoginPresenter;
-import blockgame.view.identificationScreen.LoginView;
+import blockgame.view.identification.LoginPresenter;
+import blockgame.view.identification.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
