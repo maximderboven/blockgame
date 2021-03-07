@@ -9,5 +9,4 @@ import javafx.geometry.Insets;
  */
 public class UISettings {
     public static final Insets DEFAULT_MARGIN = new Insets(10,10,10,10);
-
 }

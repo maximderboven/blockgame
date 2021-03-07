@@ -4,7 +4,7 @@ package blockgame.view.identification;
  * Alexie Chaerle
  * 22/02/2021
  */
-public class LoginView extends idView {
+public class LoginView extends AuthorizationView {
 
     // Constructor
     public LoginView() {

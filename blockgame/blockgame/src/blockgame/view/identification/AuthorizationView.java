@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
  * Alexie Chaerle
  * 26/02/2021
  */
-public class idView extends GridPane {
+public class AuthorizationView extends GridPane {
 
     // Attributen (gemeenschappelijk voor login en register)
     private Label lblTitel;
@@ -23,10 +23,11 @@ public class idView extends GridPane {
     private PasswordField txtPassword;
     private Button btnId;
     private Label lblRedirect;
+    private Label lblError;
 
 
     // Constructor
-    public idView() {
+    public AuthorizationView() {
         initialiseNodes();
         layoutNodes();
     }
@@ -40,6 +41,7 @@ public class idView extends GridPane {
         this.txtPassword = new PasswordField();
         this.btnId = new Button();
         this.lblRedirect = new Label();
+        this.lblError = new Label("");
 
         super.add(lblTitel, 0, 0, 2, 1);
         super.add(lblUsername, 0, 1);
@@ -48,6 +50,7 @@ public class idView extends GridPane {
         super.add(txtPassword, 1, 2);
         super.add(lblRedirect, 0, 3, 2, 1);
         super.add(btnId, 0, 4);
+        super.add(lblError,0,5,2,1);
     }
 
     // Layout van de nodes
@@ -56,6 +59,7 @@ public class idView extends GridPane {
         lblTitel.setStyle("-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: white");
         lblUsername.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white");
         lblPassword.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white");
+        lblError.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red");
         lblRedirect.setStyle("-fx-font-size: 12px; -fx-text-fill: white");
         btnId.setMinWidth(80);
         super.setVgap(15);
@@ -74,6 +78,22 @@ public class idView extends GridPane {
     // Setter om de titel van de button in te stellen
     protected void setBtnIdTitel(String text) {
         this.btnId.setText(text);
+    }
+
+    public TextField getTxtUsername() {
+        return txtUsername;
+    }
+
+    public void setLblError(String text) {
+        this.lblError.setText(text);
+    }
+
+    public PasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
+    public Button getBtnId() {
+        return btnId;
     }
 
     public void setLblRedirect(String text) {

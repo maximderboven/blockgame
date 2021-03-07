@@ -1,6 +1,8 @@
 package blockgame.view.identification;
 
 import blockgame.model.Game;
+import blockgame.view.game.GamePresenter;
+import blockgame.view.game.GameView;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -28,6 +30,21 @@ public class LoginPresenter {
                 RegisterPresenter registerPresenter = new RegisterPresenter(model, registerView);
                 view.getScene().setRoot(registerView);
                 registerView.getScene().getWindow().sizeToScene();
+            }
+        });
+
+        view.getBtnId().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    model.login(view.getTxtUsername().getText(),view.getTxtPassword().getText());
+                    GameView gameView = new GameView();
+                    GamePresenter gameRegister = new GamePresenter(model,gameView);
+                    view.getScene().setRoot(gameView);
+                    gameView.getScene().getWindow().sizeToScene();
+                } catch (Exception e) {
+                    view.setLblError(e.getMessage());
+                }
             }
         });
     }
