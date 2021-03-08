@@ -1,5 +1,6 @@
 package blockgame.view.highscores;
 
+import blockgame.view.menu.MenuView;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -11,6 +12,8 @@ import javafx.scene.layout.GridPane;
  */
 public class HighscoresView extends BorderPane {
 
+    private MenuView mv;
+
     // Constructor
     public HighscoresView() {
         initialiseNodes();
@@ -19,11 +22,16 @@ public class HighscoresView extends BorderPane {
 
     // Initialise nodes
     private void initialiseNodes() {
+        mv = new MenuView();
     }
 
     // Layout nodes
     private void layoutNodes() {
         // Algemeen
-        //this.setTop(menu);
+        this.setTop(mv);
+    }
+
+    public MenuView getMv() {
+        return mv;
     }
 }

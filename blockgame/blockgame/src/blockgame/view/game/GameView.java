@@ -1,16 +1,14 @@
 package blockgame.view.game;
 
 import blockgame.view.menu.MenuView;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 /**
  * Alexie Chaerle
  * 26/02/2021
  */
-public class GameView extends MenuView {
+public class GameView extends BorderPane {
 
     private Label lblUser;
     private Label lblScore;
@@ -24,14 +22,17 @@ public class GameView extends MenuView {
     private Label imgBlock2;
     private Label imgBlock3;
 
+    private MenuView mv;
+
+
     // Constructor
     public GameView() {
-        super();
         initialiseNodes();
         layoutNodes();
     }
 
     private void initialiseNodes() {
+        mv = new MenuView();
         lblUser = new Label("Logged in as: ");
         lblScore = new Label("Current score: ");
         lblHighscores = new Label("Highscore: ");
@@ -46,11 +47,13 @@ public class GameView extends MenuView {
     }
 
     private void layoutNodes() {
-        super.setCenter(vbox);
+        this.setTop(mv);
+        this.setCenter(vbox);
         this.setMinHeight(800);
         this.setMinWidth(500);
     }
 
-
-
+    public MenuView getMv() {
+        return mv;
+    }
 }
