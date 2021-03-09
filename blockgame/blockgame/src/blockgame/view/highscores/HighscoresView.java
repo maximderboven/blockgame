@@ -1,11 +1,13 @@
 package blockgame.view.highscores;
 
-import blockgame.view.menu.MenuView;
+import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 
 /**
@@ -19,7 +21,7 @@ public class HighscoresView extends BorderPane {
     private NumberAxis scores;
     private BarChart<String, Number> chart;
     private XYChart.Series<String, Number> info = new XYChart.Series<>();
-    private MenuView mv;
+    private ImageView imgClose;
 
     // Constructor
     public HighscoresView() {
@@ -32,27 +34,33 @@ public class HighscoresView extends BorderPane {
         namen = new CategoryAxis();
         scores = new NumberAxis();
         chart = new BarChart<>(namen, scores);
-        mv = new MenuView();
+        imgClose = new ImageView("/images/menu/close.png");
     }
 
     // Layout nodes
     private void layoutNodes() {
-        super.setTop(mv);
+        super.setPadding(new Insets(90));
+        super.setRight(imgClose);
         super.setCenter(chart);
+        imgClose.setFitHeight(40);
+        imgClose.setFitWidth(40);
+        setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         chart.setLegendVisible(false);
         chart.setVerticalGridLinesVisible(false);
-        chart.setTitle("Scores");
+        chart.setHorizontalGridLinesVisible(false);
+        chart.setTitle("Highscores");
     }
 
+    // Getters
     BarChart<String, Number> getChart() {
         return chart;
     }
 
-    public XYChart.Series<String, Number> getInfo() {
+    XYChart.Series<String, Number> getInfo() {
         return info;
     }
 
-    public MenuView getMv() {
-        return mv;
+    ImageView getImgClose() {
+        return imgClose;
     }
 }

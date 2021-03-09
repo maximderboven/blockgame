@@ -1,11 +1,13 @@
 package blockgame.view.identification;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 
@@ -13,7 +15,7 @@ import javafx.scene.layout.*;
  * Alexie Chaerle
  * 26/02/2021
  */
-public class AuthorizationView extends GridPane {
+public class AuthorizationView extends BorderPane {
 
     // Attributen (gemeenschappelijk voor login en register)
     private Label lblTitel;
@@ -24,6 +26,8 @@ public class AuthorizationView extends GridPane {
     private Button btnId;
     private Label lblRedirect;
     private Label lblError;
+    private ImageView imgClose;
+    private GridPane grid;
 
 
     // Constructor
@@ -42,19 +46,28 @@ public class AuthorizationView extends GridPane {
         this.btnId = new Button();
         this.lblRedirect = new Label();
         this.lblError = new Label("");
-
-        super.add(lblTitel, 0, 0, 2, 1);
-        super.add(lblUsername, 0, 1);
-        super.add(txtUsername, 1, 1);
-        super.add(lblPassword, 0, 2);
-        super.add(txtPassword, 1, 2);
-        super.add(lblRedirect, 0, 3, 2, 1);
-        super.add(btnId, 0, 4);
-        super.add(lblError,0,5,2,1);
+        this.grid = new GridPane();
+        this.imgClose = new ImageView("/images/menu/close.png");
     }
 
     // Layout van de nodes
     private void layoutNodes() {
+        super.setPadding(new Insets(90));
+        super.setRight(imgClose);
+        super.setCenter(grid);
+        imgClose.setFitWidth(40);
+        imgClose.setFitHeight(40);
+
+        grid.setAlignment(Pos.CENTER);
+
+        grid.add(lblTitel, 0, 0, 2, 1);
+        grid.add(lblUsername, 0, 1);
+        grid.add(txtUsername, 1, 1);
+        grid.add(lblPassword, 0, 2);
+        grid.add(txtPassword, 1, 2);
+        grid.add(lblRedirect, 0, 3, 2, 1);
+        grid.add(btnId, 0, 4);
+        grid.add(lblError, 0, 5, 2, 1);
 
         lblTitel.setStyle("-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: white");
         lblUsername.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white");
@@ -62,45 +75,46 @@ public class AuthorizationView extends GridPane {
         lblError.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red");
         lblRedirect.setStyle("-fx-font-size: 12px; -fx-text-fill: white");
         btnId.setMinWidth(80);
-        super.setVgap(15);
-        super.setHgap(15);
-        super.setAlignment(Pos.CENTER);
-        this.setBackground(new Background(new BackgroundImage(new Image("/images/woodenbggray.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
-        this.setMinHeight(350);
-        this.setMinWidth(500);
+        grid.setVgap(15);
+        grid.setHgap(15);
+        this.setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
     }
 
     // Setter om de hoofdtitel in te stellen
-    protected void setLblTitel(String text) {
+    void setLblTitel(String text) {
         this.lblTitel.setText(text);
     }
 
     // Setter om de titel van de button in te stellen
-    protected void setBtnIdTitel(String text) {
+    void setBtnIdTitel(String text) {
         this.btnId.setText(text);
     }
 
-    public TextField getTxtUsername() {
+    TextField getTxtUsername() {
         return txtUsername;
     }
 
-    public void setLblError(String text) {
+    void setLblError(String text) {
         this.lblError.setText(text);
     }
 
-    public PasswordField getTxtPassword() {
+    PasswordField getTxtPassword() {
         return txtPassword;
     }
 
-    public Button getBtnId() {
+    Button getBtnId() {
         return btnId;
     }
 
-    public void setLblRedirect(String text) {
+    void setLblRedirect(String text) {
         this.lblRedirect.setText(text);
     }
 
-    public Label getLblRedirect() {
+    Label getLblRedirect() {
         return lblRedirect;
+    }
+
+    ImageView getImgClose() {
+        return imgClose;
     }
 }

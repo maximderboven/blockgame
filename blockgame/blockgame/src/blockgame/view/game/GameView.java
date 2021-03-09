@@ -1,14 +1,9 @@
 package blockgame.view.game;
 
-import blockgame.model.Board;
 import blockgame.model.Piece;
-import blockgame.view.menu.MenuView;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
-import javax.swing.border.AbstractBorder;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +19,6 @@ public class GameView extends BorderPane {
     private VBox vbox;
     private HBox hbox2;
 
-    private MenuView mv;
 
     private int boardsize;
 
@@ -39,7 +33,6 @@ public class GameView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        mv = new MenuView();
         lblUser = new Label("Logged in as: ");
         lblScore = new Label("Current score: ");
         lblHighscores = new Label("Highscore: ");
@@ -80,7 +73,6 @@ public class GameView extends BorderPane {
         }
         hbox2 = new HBox();
         vbox = new VBox(hbox1,Board,hbox2);
-        this.setTop(mv);
         this.setCenter(vbox);
         this.setMinHeight(500);
         this.setMinWidth(500);
@@ -104,9 +96,6 @@ public class GameView extends BorderPane {
         this.lblHighscores.setText(text);
     }
 
-    public MenuView getMv() {
-        return mv;
-    }
 
     public ArrayList<Piece> getPieces() {
         return pieces;

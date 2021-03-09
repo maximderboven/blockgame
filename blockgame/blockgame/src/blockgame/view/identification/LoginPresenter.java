@@ -3,7 +3,10 @@ package blockgame.view.identification;
 import blockgame.model.Game;
 import blockgame.view.game.GamePresenter;
 import blockgame.view.game.GameView;
+import blockgame.view.mainMenu.MainMenuPresenter;
+import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -46,6 +49,19 @@ public class LoginPresenter {
                     //view.setLblError(e.getMessage());
                     System.out.println(e.getMessage());
                 }
+            }
+        });
+
+        view.getImgClose().setOnMouseClicked(mouseEvent -> {
+            MainMenuView mv = new MainMenuView();
+            MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+            view.getScene().setRoot(mv);
+        });
+
+        view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgClose().setCursor(Cursor.HAND);
             }
         });
     }

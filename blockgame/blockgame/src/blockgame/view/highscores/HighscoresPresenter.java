@@ -1,13 +1,12 @@
 package blockgame.view.highscores;
 
 import blockgame.model.Game;
-import blockgame.view.about.AboutAlert;
-import blockgame.view.game.GamePresenter;
-import blockgame.view.game.GameView;
-import blockgame.view.menu.MenuView;
-import blockgame.view.settings.SettingsPresenter;
-import blockgame.view.settings.SettingsView;
+import blockgame.view.mainMenu.MainMenuPresenter;
+import blockgame.view.mainMenu.MainMenuView;
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.chart.XYChart;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author Maxim Derboven
@@ -26,7 +25,7 @@ public class HighscoresPresenter {
     }
 
     private void updateView() {
-        //fill view with data from model
+        //xx
     }
 
     private void addEventHandlers() {
@@ -37,21 +36,21 @@ public class HighscoresPresenter {
             view.getInfo().getData().add(new XYChart.Data<>(cutted[0], Integer.parseInt(cutted[1])));
         }
         view.getChart().getData().add(view.getInfo());
-        view.getMv().getLblAbout().setOnMouseClicked(mouseEvent -> {
-            AboutAlert aboutAlert = new AboutAlert();
-            aboutAlert.showAndWait();
+
+        view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgClose().setCursor(Cursor.HAND);
+            }
         });
-        view.getMv().getLblGame().setOnMouseClicked(mouseEvent -> {
-            GameView gameView = new GameView();
-            GamePresenter gamePresenter = new GamePresenter(model, gameView);
-            view.getScene().setRoot(gameView);
-            gameView.getScene().getWindow().sizeToScene();
-        });
-        view.getMv().getLblSettings().setOnMouseClicked(mouseEvent -> {
-            SettingsView settingsView = new SettingsView();
-            SettingsPresenter settingsPresenter = new SettingsPresenter(model, settingsView);
-            view.getScene().setRoot(settingsView);
-            settingsView.getScene().getWindow().sizeToScene();
+
+        view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                MainMenuView mv = new MainMenuView();
+                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                view.getScene().setRoot(mv);
+            }
         });
     }
 

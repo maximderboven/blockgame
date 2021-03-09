@@ -57,6 +57,7 @@ public class Game {
         if (board.Move(piece, point)) {
             scoreboard.updateScore(piece.getValue() + board.clearLines());
             playablePieces.remove(piece);
+            playablePieces.newPieces(scoreboard.getScore());
         }
     }
 

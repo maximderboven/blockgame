@@ -1,0 +1,21 @@
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #D2B48C;
+}
+
+
+.chart-title
+{
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+}

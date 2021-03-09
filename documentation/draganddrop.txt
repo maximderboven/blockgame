@@ -1,0 +1,65 @@
+        /*
+
+        ! DIT IS VOOR DRAG EN DROP !
+
+        for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+            int finalJ = j;
+            view.getHbox2().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    selectedblock = finalJ;
+                    System.out.println(selectedblock);
+                    ImageView source = (ImageView) event.getSource();
+                    //Het image wordt in het DragBoard gestopt tijdens de transfer
+                    Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(source.getImage());
+                    dragboard.setContent(content);
+                }
+            });
+        }
+
+        GridPane target = view.getBoard();
+
+        target.setOnDragOver(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                if (event.getDragboard().hasImage()) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+                event.consume();
+            }
+        });
+
+        target.setOnDragDropped(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasImage()) {
+                    new MediaPlayer(droppingsound).play();
+                    success = true;
+                }
+
+                Node node = event.getPickResult().getIntersectedNode();
+                if (node != target && db.hasImage()) {
+                    Integer cIndex = GridPane.getColumnIndex(node);
+                    Integer rIndex = GridPane.getRowIndex(node);
+                    int x = cIndex == null ? 0 : cIndex;
+                    int y = rIndex == null ? 0 : rIndex;
+                    model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
+                    success = true;
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            }
+        });
+
+        for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+            view.getHbox2().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
+                @Override
+                public void handle(DragEvent dragEvent) {
+                    updateView();
+                    addEventHandlers();
+                    dragEvent.consume();
+                }
+            });
+        }*/

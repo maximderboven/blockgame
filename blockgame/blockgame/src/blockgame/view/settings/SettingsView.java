@@ -1,13 +1,11 @@
 package blockgame.view.settings;
 
-import blockgame.view.menu.MenuView;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -26,16 +24,13 @@ public class SettingsView extends BorderPane {
     private Label lblDifficulty;
     private Label lblPlayablePieces;
     private Label lblFileLocation;
-
     private TextField tfPlayablePieces;
     private TextField tfFileLocation;
-
     private Button btnSave;
-
     private Slider slSize;
     private CheckBox chkDifficulty;
+    private ImageView imgClose;
 
-    private MenuView mv;
 
     // Constructor
     public SettingsView() {
@@ -45,29 +40,23 @@ public class SettingsView extends BorderPane {
 
     // Initialise nodes
     private void initialiseNodes() {
-        mv = new MenuView();
         lblTitel = new Label("SETTINGS");
         lblBoardSize = new Label("Board size");
         lblBoardSizeSlider = new Label("Size: 5x5 ");
         lblDifficulty = new Label("Difficulty");
         lblPlayablePieces = new Label("Playable Pieces");
         lblFileLocation = new Label("File location");
-
         tfPlayablePieces = new TextField();
         tfFileLocation = new TextField();
-
         btnSave = new Button("Save Changes");
-
-        slSize = new Slider(1, 10, 1);
-
+        slSize = new Slider(5, 10, 5);
         chkDifficulty = new CheckBox();
+        imgClose = new ImageView("/images/menu/close.png");
     }
 
     // Layout nodes
     private void layoutNodes() {
 
-        // Algemeen
-        super.setTop(mv);
         // Extra node declaration
         GridPane grid = new GridPane();
         VBox vb1 = new VBox(lblBoardSizeSlider, slSize);
@@ -92,10 +81,14 @@ public class SettingsView extends BorderPane {
 
 
         // CSS
-        grid.setPadding(new Insets(30));
+        super.setPadding(new Insets(90));
+        super.setCenter(grid);
+        super.setRight(imgClose);
+        imgClose.setFitHeight(40);
+        imgClose.setFitWidth(40);
         Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         this.getStylesheets().add("/stylesheets/settings.css");
-        this.setBackground(new Background(new BackgroundImage(new Image("/images/bg.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+        this.setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         tfFileLocation.setDisable(true);
         lblFileLocation.setDisable(true);
         tfFileLocation.setText("Experimental");
@@ -114,10 +107,6 @@ public class SettingsView extends BorderPane {
         grid.add(lblFileLocation, 0, 8);
         grid.add(tfFileLocation, 1, 8);
         grid.add(btnSave, 1, 9);
-        setCenter(grid);
-    }
-    public MenuView getMv() {
-        return mv;
     }
 
     /**
@@ -155,5 +144,7 @@ public class SettingsView extends BorderPane {
         return tfPlayablePieces;
     }
 
-
+    ImageView getImgClose() {
+        return imgClose;
+    }
 }

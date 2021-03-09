@@ -1,6 +1,8 @@
 package blockgame.view.about;
 
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
  * Alexie Chaerle
@@ -17,6 +19,9 @@ public class AboutAlert extends Alert {
         this.setTitle("About");
         this.setHeaderText("About this game");
         this.setContentText("Wooden Block Puzzle - JavaFX\nAuthors: Maxim Derboven & Alexie Chaerle\nVersion: 1.0\nGroup: INF105A");
+        Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(this.getClass().getResource("/images/logo.png").toString()));
+
     }
 
 }

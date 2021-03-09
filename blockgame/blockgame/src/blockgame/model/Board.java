@@ -94,7 +94,7 @@ public class Board {
      * @param   point   De betreffende locatie
      * @return  boolean De plaats vrij is voor dat soort blok op de lcoatie.
      */
-    private boolean isFree(Piece piece, Point point) {
+    public boolean isFree(Piece piece, Point point) {
         for (Point p : piece.getTiles()) {
             int r = point.getX() + p.getX();
             int c = point.getY() + p.getY();
@@ -116,7 +116,7 @@ public class Board {
         if (isFree(piece,point)) {
             for (Point p : piece.getTiles()) {
                 int r = point.getX() + p.getX();
-                int c = point.getX() + p.getY();
+                int c = point.getY() + p.getY();
                 grid[r][c].setUsed(true);
             }
             return true;

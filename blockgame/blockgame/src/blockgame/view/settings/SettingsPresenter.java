@@ -7,8 +7,11 @@ import blockgame.view.game.GameView;
 import blockgame.view.highscores.HighscoresPresenter;
 import blockgame.view.highscores.HighscoresView;
 import blockgame.model.Game;
+import blockgame.view.mainMenu.MainMenuPresenter;
+import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -60,25 +63,28 @@ public class SettingsPresenter {
             }
         });
 
-        view.getMv().getLblAbout().setOnMouseClicked(mouseEvent -> {
-            AboutAlert aboutAlert = new AboutAlert();
-            aboutAlert.showAndWait();
+        view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                MainMenuView mv = new MainMenuView();
+                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                view.getScene().setRoot(mv);
+            }
         });
 
-        view.getMv().getLblGame().setOnMouseClicked(mouseEvent -> {
-            GameView gameView = new GameView();
-            GamePresenter gamePresenter = new GamePresenter(model, gameView);
-            view.getScene().setRoot(gameView);
-            gameView.getScene().getWindow().sizeToScene();
+        view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgClose().setCursor(Cursor.HAND);
+            }
         });
 
-        view.getMv().getLblHighscores().setOnMouseClicked(mouseEvent -> {
-            HighscoresView highscoresView = new HighscoresView();
-            HighscoresPresenter highscoresPresenter = new HighscoresPresenter(model, highscoresView);
-            view.getScene().setRoot(highscoresView);
-            highscoresView.getScene().getWindow().sizeToScene();
+        view.getBtnSave().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getBtnSave().setCursor(Cursor.HAND);
+            }
         });
-
     }
 
 }

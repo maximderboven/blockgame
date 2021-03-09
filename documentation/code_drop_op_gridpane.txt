@@ -15,3 +15,50 @@
                 }
             });
         }
+
+
+
+
+        for (int i = 0; i < view.getHbox2().getChildren().size(); i++) {
+            int finalI = i;
+            view.getHbox2().getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println(model.getPlayablePieces().getPieces().get(finalI).name());
+                }
+            });
+        }
+
+        /*view.getBoard().setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                for (int k = 0; k < view.getHbox2().getChildren().size(); k++) {
+                    int finalK = k;
+                    view.getHbox2().getChildren().get(finalK).setOnMouseReleased(e -> {
+                        for (int i = 0; i < model.getBoard().getSize(); i++) {
+                            for (int j = 0; j < model.getBoard().getSize(); j++) {
+                                int search = (i * model.getBoard().getSize() + j);
+                                int finalJ = j;
+                                int finalI = i;
+                                search1 = search;
+                                view.getBoard().getChildren().get(search).setOnMouseMoved(event1 -> {
+                                    if (search != search1) {
+                                        if (model.getBoard().isPossible(model.getPlayablePieces().getPieces().get(finalK))) {
+                                            for (Point p : model.getPlayablePieces().getPieces().get(finalK).getTiles()) {
+                                                int r = p.getX() + p.getX();
+                                                int c = p.getX() + p.getY();
+                                                view.getBoard().getChildren().get(r * model.getBoard().getSize() + c).getStyleClass().add("game-grid-cell-active");
+                                            }
+                                        }
+                                        view.getBoard().getChildren().get(search1).getStyleClass().remove("game-grid-cell-active");
+                                        search1 = search;
+                                    }
+
+                                });
+                                //model.play(model.getPlayablePieces().getPieces().get(0), new Point(finalI, finalJ));
+                            }
+                        }
+                    });
+                }
+            }
+        });*/
