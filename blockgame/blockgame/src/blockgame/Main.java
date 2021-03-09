@@ -21,11 +21,10 @@ public class Main extends Application {
         LoginPresenter lp = new LoginPresenter(model, lv);
 
         primaryStage.setScene(new Scene(lv));
-        primaryStage.setTitle("Authorization");
+        primaryStage.setTitle("KDG BLOCK GAME");
         primaryStage.setResizable(false);
         primaryStage.getIcons().add(new Image("/images/logo.png"));
         primaryStage.show();
-
     }
 
     private static blockgame.model.Game game;

@@ -5,6 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+
 
 /**
  * @author Maxim Derboven
@@ -13,20 +20,20 @@ import javafx.scene.layout.GridPane;
 public class SettingsView extends BorderPane {
 
     // Attributen
-    private Label lblSettings;
-    private Slider slSize;
-    private CheckBox tbtnDifficulty;
-    private TextField tfPieces;
-    private TextField tfFileLocation;
-    private Button btnMap;
-    private Button btnClose;
-    private Button btnSave;
-    //private MenuBarView menu;
-    private GridPane grid;
-    private Label lblSize;
+    private Label lblTitel;
+    private Label lblBoardSize;
+    private Label lblBoardSizeSlider;
     private Label lblDifficulty;
     private Label lblPlayablePieces;
     private Label lblFileLocation;
+
+    private TextField tfPlayablePieces;
+    private TextField tfFileLocation;
+
+    private Button btnSave;
+
+    private Slider slSize;
+    private CheckBox chkDifficulty;
 
     private MenuView mv;
 
@@ -39,65 +46,113 @@ public class SettingsView extends BorderPane {
     // Initialise nodes
     private void initialiseNodes() {
         mv = new MenuView();
-        lblSettings = new Label("SETTINGS");
-        slSize = new Slider();
-        tbtnDifficulty = new CheckBox();
-        tfPieces = new TextField();
+        lblTitel = new Label("SETTINGS");
+        lblBoardSize = new Label("Board size");
+        lblBoardSizeSlider = new Label("Size: 5x5 ");
+        lblDifficulty = new Label("Difficulty");
+        lblPlayablePieces = new Label("Playable Pieces");
+        lblFileLocation = new Label("File location");
+
+        tfPlayablePieces = new TextField();
         tfFileLocation = new TextField();
-        btnMap = new Button();
-        btnClose = new Button("Close");
+
         btnSave = new Button("Save Changes");
-        //menu = new MenuBarView();
-        grid = new GridPane();
-        lblSize = new Label("Board size:");
-        lblDifficulty = new Label("Difficulty:");
-        lblPlayablePieces = new Label("Playable Pieces:");
-        lblFileLocation = new Label("File location:");
+
+        slSize = new Slider(1, 10, 1);
+
+        chkDifficulty = new CheckBox();
     }
 
     // Layout nodes
     private void layoutNodes() {
 
         // Algemeen
-        //this.setTop(menu);
-        super.setCenter(grid);
         super.setTop(mv);
-        super.setMinHeight(650);
-        super.setMinWidth(400);
+        // Extra node declaration
+        GridPane grid = new GridPane();
+        VBox vb1 = new VBox(lblBoardSizeSlider, slSize);
 
-        // Grid Settings
-        grid.setHgap(35);
-        grid.setVgap(30);
-        grid.setAlignment(Pos.TOP_CENTER);
-        grid.add(lblSettings, 0, 0, 2, 1);
-        grid.add(new Separator(), 0, 1, 2, 1);
-        grid.add(lblSize, 0, 2);
-        grid.add(slSize, 1, 2);
-        grid.add(new Separator(), 0, 3, 2, 1);
+        // Node settings
+        chkDifficulty.setSelected(true);
+
+        slSize.setBlockIncrement(1);
+        slSize.setMajorTickUnit(1);
+        slSize.setMinorTickCount(0);
+        slSize.setShowTickLabels(true);
+        slSize.setSnapToTicks(true);
+
+        lblTitel.setId("title");
+        btnSave.setId("btnSave");
+
+        lblBoardSize.setId("label-settings");
+        lblBoardSizeSlider.setId("label-settings");
+        lblDifficulty.setId("label-settings");
+        lblFileLocation.setId("label-settings");
+        lblPlayablePieces.setId("label-settings");
+
+
+        // CSS
+        grid.setPadding(new Insets(30));
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
+        this.getStylesheets().add("/stylesheets/settings.css");
+        this.setBackground(new Background(new BackgroundImage(new Image("/images/bg.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+        tfFileLocation.setDisable(true);
+        lblFileLocation.setDisable(true);
+        tfFileLocation.setText("Experimental");
+
+        // Grid settings --> node, kolom, rij, ...
+        grid.setHgap(20);
+        grid.setVgap(15);
+        grid.setAlignment(Pos.BASELINE_CENTER);
+        grid.add(lblTitel, 0, 0, 2, 1);
+        grid.add(lblBoardSize, 0, 2);
+        grid.add(vb1, 1, 2);
         grid.add(lblDifficulty, 0, 4);
-        grid.add(tbtnDifficulty, 1, 4);
-        grid.add(new Separator(), 0, 5, 2, 1);
+        grid.add(chkDifficulty, 1, 4);
         grid.add(lblPlayablePieces, 0, 6);
-        grid.add(tfPieces, 1, 6);
-        grid.add(new Separator(), 0, 7, 2, 1);
+        grid.add(tfPlayablePieces, 1, 6);
         grid.add(lblFileLocation, 0, 8);
         grid.add(tfFileLocation, 1, 8);
-        grid.add(btnClose, 0, 9);
         grid.add(btnSave, 1, 9);
-
-        // CSS layout + overige layout
-        // grid.setGridLinesVisible(true);
-        lblSize.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
-        lblDifficulty.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
-        lblSettings.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
-        lblFileLocation.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
-        lblPlayablePieces.setStyle("-fx-font-size: 24; -fx-font-weight: bolder");
-        btnSave.setStyle("-fx-background-color: #1687a7; -fx-text-fill: #fff; -fx-font-weight: bolder;");
-        btnClose.setStyle("-fx-background-color: #a6a9b6; -fx-text-fill: #fff; -fx-font-weight: bolder");
-        lblSettings.setStyle("-fx-font-size: 36");
+        setCenter(grid);
     }
     public MenuView getMv() {
         return mv;
+    }
+
+    /**
+     * Returns: checkbox van de difficulty
+     */
+    CheckBox getChkDifficulty() {
+        return chkDifficulty;
+    }
+
+    /**
+     * Returns: save changes button
+     */
+    Button getBtnSave() {
+        return btnSave;
+    }
+
+    /**
+     * Returns: Label van de board slider
+     */
+    Label getBoardSizeSliderLabel() {
+        return lblBoardSizeSlider;
+    }
+
+    /**
+     * Returns: Slider size
+     */
+    Slider getSlSize() {
+        return slSize;
+    }
+
+    /**
+     * Returns: Textfield van de playable pieces
+     */
+    TextField getTfPlayablePieces() {
+        return tfPlayablePieces;
     }
 
 

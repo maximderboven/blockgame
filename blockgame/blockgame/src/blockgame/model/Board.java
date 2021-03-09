@@ -51,6 +51,9 @@ public class Board {
         }
     }
 
+    public Tile[][] getGrid() {
+        return grid;
+    }
 
     /**
      * Geeft de grootte van het speelveld terug.

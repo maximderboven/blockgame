@@ -7,6 +7,7 @@ import blockgame.view.game.GameView;
 import blockgame.view.menu.MenuView;
 import blockgame.view.settings.SettingsPresenter;
 import blockgame.view.settings.SettingsView;
+import javafx.scene.chart.XYChart;
 
 /**
  * @author Maxim Derboven
@@ -29,6 +30,13 @@ public class HighscoresPresenter {
     }
 
     private void addEventHandlers() {
+        /* Barchart aanvullen in HighscoresView */
+        String[] cutted;
+        for (String row : model.getAm().getLeaderboard()) {
+            cutted = row.split(";");
+            view.getInfo().getData().add(new XYChart.Data<>(cutted[0], Integer.parseInt(cutted[1])));
+        }
+        view.getChart().getData().add(view.getInfo());
         view.getMv().getLblAbout().setOnMouseClicked(mouseEvent -> {
             AboutAlert aboutAlert = new AboutAlert();
             aboutAlert.showAndWait();

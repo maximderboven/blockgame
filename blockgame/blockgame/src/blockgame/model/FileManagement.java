@@ -132,13 +132,16 @@ public class FileManagement {
      * Top 10 spelers: Naam + Highscore.
      * @return String  Geformatteerde string(buffer) met de top 10 spelers.
      */
-    public String getLeaderboard() {
-        //misschien geen stream gebruiken maar wat we hebben geleerd (custom comparator)
-        StringBuilder buffer = new StringBuilder();
+    public List<String> getLeaderboard() {
+        List<String> array = new ArrayList<>();
+        int index = 0;
         for (Player p : players.stream().sorted(Comparator.comparing(Player::getHighscore).reversed()).collect(Collectors.toList())) {
-            buffer.append(p + " - " + p.getHighscore() + "\n");
+            if (index < 10){
+                array.add(p.getUsername() + ";" + p.getHighscore());
+                index++;
+            }
         }
-        return buffer.toString();
+        return array;
     }
 
 

@@ -43,7 +43,8 @@ public class LoginPresenter {
                     view.getScene().setRoot(gameView);
                     gameView.getScene().getWindow().sizeToScene();
                 } catch (Exception e) {
-                    view.setLblError(e.getMessage());
+                    //view.setLblError(e.getMessage());
+                    System.out.println(e.getMessage());
                 }
             }
         });

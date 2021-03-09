@@ -24,9 +24,6 @@ public class Game {
     private Board board;
     private final FileManagement am = new FileManagement();
 
-    //Console
-    private final Random random = new Random();
-
 
     /**
      * Bij het aanmaken van een nieuwe in de constructor het spel starten.
@@ -54,51 +51,12 @@ public class Game {
 
 
     /**
-     * Start van het spel na het initialiseren van al de nodige klasse (objecten aangemaakt).
-     */
-    public void start() {
-        /* Voor het spel start: */
-        //this.scoreboard = new Scoreboard(player);
-        /* Tijdens het spel: */
-        play();
-        playablePieces.newPieces(scoreboard.getScore());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        /* Na het spel: */
-        if (!isPossible()) {
-            if (scoreboard.getScore() == player.getHighscore() && playablePieces.isDifficulty()) {
-                am.save(player);
-            }
-        }
-    }
-
-
-    /**
-     * Toont de HUD (Display)
-     */
-    public String showHUD() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append(scoreboard).append("\n");
-        sb.append(board).append("\n");
-        sb.append(playablePieces).append("\n");
-        for (int i = 0; i < 5; i++) {
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
-
-
-    /**
      * Play doet een spelzet op het bord.
      */
-    private void play() {
-        Piece selectedPiece = playablePieces.randomPiece();
-        if (board.Move(selectedPiece, new Point(random.nextInt(board.getSize()), random.nextInt(board.getSize())))) {
-            scoreboard.updateScore(selectedPiece.getValue() + board.clearLines());
-            playablePieces.remove(selectedPiece);
+    public void play(Piece piece, Point point) {
+        if (board.Move(piece, point)) {
+            scoreboard.updateScore(piece.getValue() + board.clearLines());
+            playablePieces.remove(piece);
         }
     }
 
@@ -150,4 +108,11 @@ public class Game {
         return am;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Scoreboard getScoreboard() {
+        return scoreboard;
+    }
 }
