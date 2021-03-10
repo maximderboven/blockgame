@@ -97,14 +97,6 @@ public class PlayablePieces {
 
 
     /**
-     * @return Piece Geeft een random piece terug (console).
-     * */
-    public Piece randomPiece() {
-        return pieces.get(random.nextInt(pieces.size()));
-    }
-
-
-    /**
      * Verwijderd de gegeven blok uit de array.
      * @param selectedPiece  de geselecteerde blok.
      * */

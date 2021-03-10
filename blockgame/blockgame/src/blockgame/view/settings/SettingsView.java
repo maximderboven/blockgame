@@ -40,6 +40,9 @@ public class SettingsView extends BorderPane {
 
     // Initialise nodes
     private void initialiseNodes() {
+
+        //SETTINGS DRAG AND DROP TOEVOEGEN
+
         lblTitel = new Label("SETTINGS");
         lblBoardSize = new Label("Board size");
         lblBoardSizeSlider = new Label("Size: 5x5 ");

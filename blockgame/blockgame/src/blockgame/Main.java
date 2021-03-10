@@ -1,6 +1,7 @@
 package blockgame;
 
 import blockgame.model.Game;
+import blockgame.model.Point;
 import blockgame.view.identification.LoginPresenter;
 import blockgame.view.identification.LoginView;
 import blockgame.view.mainMenu.MainMenuPresenter;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 /**
  * @author Maxim Derboven
@@ -55,6 +57,19 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         game = new blockgame.model.Game(); //init
+        /*while (true) {
+        System.out.println(game.getBoard().toString());
+        System.out.println(game.getPlayablePieces().getPieces());
+        int x,y,p;
+        Scanner kb = new Scanner(System.in);
+        p = kb.nextInt()-1;
+        System.out.println("Geef X (horizontaal waar) : ");
+        x = kb.nextInt()-1;
+        System.out.println("Geef Y (verticaal waar) : ");
+        y = kb.nextInt()-1;
+
+        game.play(game.getPlayablePieces().getPieces().get(p),new Point(x,y));
+        }*/
         Application.launch(args);
     }
 

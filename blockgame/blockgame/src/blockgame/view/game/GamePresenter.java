@@ -39,6 +39,9 @@ public class GamePresenter {
 
 
     private void updateView() {
+        if (!model.isPossible()) {
+            System.out.println("Game over scherm");
+        }
         view.setBoardsize(model.getBoard().getSize());
         view.setLblUser("Logged in as: " + model.getPlayer().getUsername());
         view.setLblScore("Current score: " + model.getScoreboard().getScore());
@@ -51,10 +54,17 @@ public class GamePresenter {
                 view.getHbox2().getChildren().addAll(new ImageView(piece.getURL()));
             }
         }
-        for (int i = 0; i < model.getBoard().getSize(); i++) {
-            for (int j = 0; j < model.getBoard().getSize(); j++) {
-                if (model.getBoard().getGrid()[i][j].isUsed()) {
-                    view.getBoard().getChildren().get(i * model.getBoard().getSize() + j).getStyleClass().add(ACTIVE_CELL_CSS);
+
+        //rare shit me da verwijderen bruur
+        for (int x = 0; x < model.getBoard().getSize(); x++) {
+            for (int y = 0; y < model.getBoard().getSize(); y++) {
+                view.getBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
+            }
+        }
+        for (int x = 0; x < model.getBoard().getSize(); x++) {
+            for (int y = 0; y < model.getBoard().getSize(); y++) {
+                if (model.getBoard().getGrid()[x][y].isUsed()) {
+                    view.getBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
                 }
             }
         }
@@ -62,6 +72,9 @@ public class GamePresenter {
 
 
     private void updateLastLocation(Point location) {
+        if (selectedblock == view.getHbox2().getChildren().size()) {
+            selectedblock -= 1;
+        }
         if (location == null) {
             removeLastLocation();
             lastLocation = null;
@@ -70,8 +83,6 @@ public class GamePresenter {
         if (lastLocation != null) {
             removeLastLocation();
         }
-        Node newCell = view.getBoard().getChildren().get(location.getY() * model.getBoard().getSize() + location.getX());
-
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), location)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
                 Node SecondCell = view.getBoard().getChildren().get((location.getY() + point.getY()) * model.getBoard().getSize() + (location.getX() + point.getX()));
@@ -82,106 +93,136 @@ public class GamePresenter {
     }
 
     private void removeLastLocation() {
-        for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
-            view.getBoard().getChildren().get((lastLocation.getY() + point.getY()) * model.getBoard().getSize() + (lastLocation.getX() + point.getX())).getStyleClass().remove(ACTIVE_CELL_CSS);
+        if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), lastLocation)) {
+            for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
+                view.getBoard().getChildren().get((lastLocation.getY() + point.getY()) * model.getBoard().getSize() + (lastLocation.getX() + point.getX())).getStyleClass().remove(ACTIVE_CELL_CSS);
+            }
         }
     }
 
 
     private void addEventHandlers() {
-
-        //add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden)
-        for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
-            int finalJ = j;
-            view.getHbox2().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    selectedblock = finalJ;
-                    System.out.println("Selected block; " + selectedblock);
-                }
-            });
-        }
-
         //voeg aan alle vakjes een handler toe om deze te updaten wanneer er met een object over wordt gehovert.
-        for (int y = 0; y < model.getBoard().getSize(); y++) {
-            for (int x = 0; x < model.getBoard().getSize(); x++) {
-                int location = (y * model.getBoard().getSize() + x);
-                int finalX = x;
-                int finalY = y;
-                view.getBoard().getChildren().get(location).setOnDragOver(new EventHandler<DragEvent>() {
+        GridPane target = view.getBoard();
+        if (!model.getBoard().isDraganddrop()) {
+            //add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden)
+            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+                int finalJ = j;
+                view.getHbox2().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
-                    public void handle(DragEvent event) {
-                        updateLastLocation(new Point(finalX, finalY));
+                    public void handle(MouseEvent event) {
+                        updateLastLocation(null);
+                        selectedblock = finalJ;
+                        System.out.println("Selected block; " + selectedblock);
                     }
                 });
             }
-        }
-
-        //zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok.
-        for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
-            int finalJ = j;
-            view.getHbox2().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
-                @Override
+            //klikken en zet doen
+            target.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    selectedblock = finalJ;
-                    System.out.println(selectedblock);
-                    ImageView source = (ImageView) event.getSource();
-                    //Het image wordt in het DragBoard gestopt tijdens de transfer
-                    Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
-                    ClipboardContent content = new ClipboardContent();
-                    content.putImage(source.getImage());
-                    dragboard.setContent(content);
-                }
-            });
-        }
-
-
-        GridPane target = view.getBoard();
-        //clipboard ondrag bewaren onderweg naar target.
-        target.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                if (event.getDragboard().hasImage()) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
-            }
-        });
-
-        // Droppen en zet doen
-        target.setOnDragDropped(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasImage()) {
-                    new MediaPlayer(droppingsound).play();
-                    success = true;
-                    updateLastLocation(null);
-                }
-
-                Node node = event.getPickResult().getIntersectedNode();
-                if (node != target && db.hasImage()) {
-                    Integer cIndex = GridPane.getColumnIndex(node);
-                    Integer rIndex = GridPane.getRowIndex(node);
-                    int x = cIndex == null ? 0 : cIndex;
-                    int y = rIndex == null ? 0 : rIndex;
-                    model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
-                    success = true;
-                }
-                event.setDropCompleted(success);
-                event.consume();
-            }
-        });
-
-        // Na de drop en zet
-        for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
-            view.getHbox2().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent dragEvent) {
+                    Node node = event.getPickResult().getIntersectedNode();
+                    if (node != target) {
+                        Integer cIndex = GridPane.getColumnIndex(node);
+                        Integer rIndex = GridPane.getRowIndex(node);
+                        int y = cIndex == null ? 0 : cIndex;
+                        int x = rIndex == null ? 0 : rIndex;
+                        model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
+                        new MediaPlayer(droppingsound).play();
+                    }
                     updateView();
                     addEventHandlers();
-                    dragEvent.consume();
+                    event.consume();
                 }
             });
+
+            for (int x = 0; x < model.getBoard().getSize(); x++) {
+                for (int y = 0; y < model.getBoard().getSize(); y++) {
+                    Point locatie = new Point(x, y);
+                    view.getBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnMouseEntered(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            updateLastLocation(locatie);
+                        }
+                    });
+                }
+            }
+        } else {
+
+            //zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok.
+            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+                int finalJ = j;
+                view.getHbox2().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        selectedblock = finalJ;
+                        System.out.println(selectedblock);
+                        ImageView source = (ImageView) event.getSource();
+                        //Het image wordt in het DragBoard gestopt tijdens de transfer
+                        Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
+                        ClipboardContent content = new ClipboardContent();
+                        content.putImage(source.getImage());
+                        dragboard.setContent(content);
+                    }
+                });
+            }
+
+            //clipboard ondrag bewaren onderweg naar target.
+            target.setOnDragOver(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                    if (event.getDragboard().hasImage()) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                    event.consume();
+                }
+            });
+
+            for (int x = 0; x < model.getBoard().getSize(); x++) {
+                for (int y = 0; y < model.getBoard().getSize(); y++) {
+                    Point locatie = new Point(x, y);
+                    view.getBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnDragOver(new EventHandler<DragEvent>() {
+                        @Override
+                        public void handle(DragEvent event) {
+                            updateLastLocation(locatie);
+                        }
+                    });
+                }
+            }
+
+            // Droppen en zet doen
+            target.setOnDragDropped(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                    Dragboard db = event.getDragboard();
+                    boolean success = false;
+                    if (db.hasImage()) {
+                        new MediaPlayer(droppingsound).play();
+                        success = true;
+                        updateLastLocation(null);
+                    }
+
+                    Node node = event.getPickResult().getIntersectedNode();
+                    if (node != target && db.hasImage()) {
+                        Integer cIndex = GridPane.getColumnIndex(node);
+                        Integer rIndex = GridPane.getRowIndex(node);
+                        int y = cIndex == null ? 0 : cIndex;
+                        int x = rIndex == null ? 0 : rIndex;
+                        model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
+                        success = true;
+                    }
+                    event.setDropCompleted(success);
+                    event.consume();
+                }
+            });
+            // Na de drop en zet
+            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+                view.getHbox2().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
+                    @Override
+                    public void handle(DragEvent dragEvent) {
+                        updateView();
+                        addEventHandlers();
+                        dragEvent.consume();
+                    }
+                });
+            }
         }
     }
 }

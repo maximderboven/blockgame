@@ -20,53 +20,53 @@ public enum Piece {
     // Piece1x2 [X][ ]
     PIECE1x2(1, Color.green, "/images/blocks/PIECE1x2.png", new Point[]{
             new Point(0, 0),
-            new Point(1, 0)}),
+            new Point(0, 1)}),
 
     // Piece1x3 [ ][X][ ]
     PIECE1x3(2, Color.green, "/images/blocks/PIECE1x3.png", new Point[]{
-            new Point(-1, 0),
+            new Point(0, -1),
             new Point(0, 0),
-            new Point(1, 0),}),
+            new Point(0, 1),}),
 
     // Piece1x4 [ ][X][ ][ ]
     PIECE1x4(2, Color.green, "/images/blocks/PIECE1x4.png", new Point[]{
-            new Point(-1, 0),
+            new Point(0, -1),
             new Point(0, 0),
-            new Point(1, 0),
-            new Point(2, 0)}),
+            new Point(0, 1),
+            new Point(0, 2)}),
 
     // Piece1x5 [ ][ ][X][ ][ ]
     PIECE1x5(3, Color.green, "/images/blocks/PIECE1x5.png", new Point[]{
-            new Point(-2, 0),
-            new Point(-1, 0),
+            new Point(0, -2),
+            new Point(0, -1),
             new Point(0, 0),
-            new Point(1, 0),
-            new Point(2, 0)}),
+            new Point(0, 1),
+            new Point(0, 2)}),
 
     // Piece2x1
     // [X]
     // [ ]
     PIECE2x1(1, Color.green, "/images/blocks/PIECE2x1.png", new Point[]{
             new Point(0, 0),
-            new Point(0, -1)}),
+            new Point(1, 0)}),
 
     // Piece2x2
     // [X][ ]
     // [ ][ ]
     PIECE2x2(1, Color.green, "/images/blocks/PIECE2x2.png", new Point[]{
             new Point(0, 0),
+            new Point(0, 1),
             new Point(1, 0),
-            new Point(0, -1),
-            new Point(1, -1)}),
+            new Point(1, 1)}),
 
     // Piece3x1
     // [ ]
     // [X]
     // [ ]
     PIECE3x1(2, Color.green, "/images/blocks/PIECE3x1.png", new Point[]{
-            new Point(0, -1),
+            new Point(-1, 0),
             new Point(0, 0),
-            new Point(0, 1)}),
+            new Point(1, 0)}),
 
     // Piece3x3
     // [ ][ ][ ]
@@ -89,10 +89,10 @@ public enum Piece {
     // [X]
     // [ ]
     PIECE4x1(2, Color.green, "/images/blocks/PIECE4x1.png", new Point[]{
-            new Point(0, -1),
+            new Point(-1, 0),
+            new Point(-2, 0),
             new Point(0, 0),
-            new Point(0, 1),
-            new Point(0, 2)}),
+            new Point(1, 0)}),
 
     // PieceBigL
     // [ ][ ][X]
@@ -102,43 +102,43 @@ public enum Piece {
             new Point(0, -2),
             new Point(0, -1),
             new Point(0, 0),
-            new Point(-1, 0),
-            new Point(-2, 0)}),
+            new Point(1, 0),
+            new Point(2, 0)}),
 
     // PieceHorJ
     // [ ]
     // [X][ ][ ]
     PIECEHORJ(3, Color.green, "/images/blocks/PIECEHORJ.png", new Point[]{
-            new Point(2, 0),
             new Point(0, 0),
+            new Point(-1, 0),
             new Point(0, 1),
-            new Point(1, 0)}),
+            new Point(0, 2)}),
 
     // PieceS
     //    [X][ ]
     // [ ][ ]
     PIECES(4, Color.green, "/images/blocks/PIECES.png", new Point[]{
-            new Point(-1, 0),
+            new Point(1, -1),
             new Point(1, 0),
             new Point(0, 0),
-            new Point(-1, -1)}),
+            new Point(0, 1)}),
 
     // PieceSmallL
     // [X][ ]
     // [ ]
     PIECESMALLL(2, Color.green, "/images/blocks/PIECESMALLL.png", new Point[]{
             new Point(0, 0),
-            new Point(1, 0),
-            new Point(-1, 0)}),
+            new Point(0, 1),
+            new Point(1, 0)}),
 
     // PieceT
     //    [ ]
     // [ ][X][ ]
     PIECET(3, Color.green, "/images/blocks/PIECET.png", new Point[]{
+            new Point(0, -1),
             new Point(-1, 0),
-            new Point(0, 1),
             new Point(0, 0),
-            new Point(1, 0)}),
+            new Point(0, 1)}),
 
     // PieceVertJ
     // [X][ ]
@@ -146,9 +146,9 @@ public enum Piece {
     // [ ]
     PIECEVERTJ(3, Color.green, "/images/blocks/PIECEVERTJ.png", new Point[]{
             new Point(0, 0),
-            new Point(0, -1),
-            new Point(0, -2),
-            new Point(1, 0)});
+            new Point(0, 1),
+            new Point(1, 0),
+            new Point(2, 0)});
 
 
     /**

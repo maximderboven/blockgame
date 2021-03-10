@@ -18,3 +18,7 @@
 .game-grid-cell-active {
     -fx-background-color: blue;
 }
+
+.game-grid-cell-example {
+    -fx-background-color: green;
+}

@@ -20,6 +20,7 @@ public class Board {
      */
     private Tile grid[][];
     private int size;
+    private boolean draganddrop;
     public final Color DEFAULT_COLOR = Color.black;
     private final int BASE_POINTS = 5;
 
@@ -29,6 +30,7 @@ public class Board {
      */
     public Board(int size) {
         this.size = size;
+        this.draganddrop = false;
         this.grid = new Tile[size][size];
         fillBoard();
     }
@@ -42,11 +44,11 @@ public class Board {
      */
     private void fillBoard() {
         this.grid = new Tile[size][size];
-        for(int i = 0; i < size; i++)
+        for(int x = 0; x < size; x++)
         {
-            for(int j = 0; j < size; j++)
+            for(int y = 0; y < size; y++)
             {
-                grid[i][j] = new Tile(DEFAULT_COLOR,new Point(i,j));
+                grid[x][y] = new Tile(DEFAULT_COLOR,new Point(x,y));
             }
         }
     }
@@ -63,6 +65,13 @@ public class Board {
         return size;
     }
 
+    public boolean isDraganddrop() {
+        return draganddrop;
+    }
+
+    public void setDraganddrop(boolean draganddrop) {
+        this.draganddrop = draganddrop;
+    }
 
     /**
      * Stelt de grootte van het speelveld in.
@@ -132,9 +141,9 @@ public class Board {
      * @return  boolean Mogelijk om de blok nog ergens te plaatsen
      */
     public boolean isPossible(Piece piece) {
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
-                if(isFree(piece, new Point(i,j))) {
+        for(int x = 0; x < size; x++) {
+            for(int y = 0; y < size; y++) {
+                if(isFree(piece, new Point(x,y))) {
                     return true;
                 }
             }
