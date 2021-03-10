@@ -1,7 +1,12 @@
 package blockgame.view.game;
 
 import blockgame.model.Piece;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -15,13 +20,10 @@ public class GameView extends BorderPane {
     private Label lblUser;
     private Label lblScore;
     private Label lblHighscores;
-    private GridPane Board;
+    private GridPane gridBoard;
     private VBox vbox;
-    private HBox hbox2;
-
-
+    private VBox vBoxBlocks;
     private int boardsize;
-
     private int capacity;
     private ArrayList<Piece> pieces = new ArrayList<>(capacity);
 
@@ -36,28 +38,38 @@ public class GameView extends BorderPane {
         lblUser = new Label("Logged in as: ");
         lblScore = new Label("Current score: ");
         lblHighscores = new Label("Highscore: ");
-        Board = new GridPane();
+        gridBoard = new GridPane();
         boardsize = 10;
     }
 
-    public GridPane getBoard() {
-        return Board;
-    }
 
     private void layoutNodes() {
-        HBox hbox1 = new HBox(lblUser, lblScore, lblHighscores);
-        Board.getStyleClass().add("game-grid");
+
+        // Top
+        GridPane gridInfo = new GridPane();
+        gridInfo.add(lblUser, 0, 0);
+        gridInfo.add(lblScore, 1, 0);
+        gridInfo.add(lblHighscores, 2, 0);
+        gridInfo.setPadding(new Insets(70, 0, 0 ,100));
+        lblScore.setPadding(new Insets(0,0,0,115));
+        lblHighscores.setPadding(new Insets(0,0,0,105));
+        lblScore.getStyleClass().add("game-label");
+        lblHighscores.getStyleClass().add("game-label");
+        lblUser.getStyleClass().add("game-label");
+        super.setTop(gridInfo);
+
+        //gridBoard.getStyleClass().add("game-grid");
+        super.setCenter(gridBoard);
+        gridBoard.setAlignment(Pos.CENTER);
 
         for (int i = 0; i < boardsize; i++) {
             ColumnConstraints column = new ColumnConstraints(40);
-            Board.getColumnConstraints().add(column);
+            gridBoard.getColumnConstraints().add(column);
         }
-
         for (int i = 0; i < boardsize; i++) {
             RowConstraints row = new RowConstraints(40);
-            Board.getRowConstraints().add(row);
+            gridBoard.getRowConstraints().add(row);
         }
-
         for (int i = 0; i < boardsize; i++) {
             for (int j = 0; j < boardsize; j++) {
                 Pane pane = new Pane();
@@ -68,44 +80,53 @@ public class GameView extends BorderPane {
                 if (j == 0) {
                     pane.getStyleClass().add("first-row");
                 }
-                Board.add(pane, i, j);
+                gridBoard.add(pane, i, j);
             }
         }
-        hbox2 = new HBox();
-        vbox = new VBox(hbox1,Board,hbox2);
-        this.setCenter(vbox);
-        this.setMinHeight(500);
-        this.setMinWidth(500);
+        vBoxBlocks = new VBox();
+        vBoxBlocks.setPadding(new Insets(80,0,0,0));
+        vBoxBlocks.setPrefWidth(250);
 
+        for (Node nd : vBoxBlocks.getChildren()){
+            nd.getStyleClass().add("blocks");
+        }
+
+        this.setRight(vBoxBlocks);
+        this.setMinHeight(675);
+        this.setMinWidth(900);
+        setBackground(new Background(new BackgroundImage(new Image("/images/gamebgedit.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         this.getStylesheets().add("/stylesheets/style.css");
     }
 
-    public void setBoardsize(int boardsize) {
+    void setBoardsize(int boardsize) {
         this.boardsize = boardsize;
     }
 
-    public void setLblUser(String text) {
+    void setLblUser(String text) {
         this.lblUser.setText(text);
     }
 
-    public void setLblScore(String text) {
+    void setLblScore(String text) {
         this.lblScore.setText(text);
     }
 
-    public void setLblHighscores(String text) {
+    void setLblHighscores(String text) {
         this.lblHighscores.setText(text);
     }
 
-
-    public ArrayList<Piece> getPieces() {
+    ArrayList<Piece> getPieces() {
         return pieces;
     }
 
-    public void setCapacity(int capacity) {
+    void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public HBox getHbox2() {
-        return hbox2;
+    VBox getBlocksBox() {
+        return vBoxBlocks;
+    }
+
+    GridPane getGridBoard() {
+        return gridBoard;
     }
 }

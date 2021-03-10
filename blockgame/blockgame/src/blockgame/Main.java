@@ -2,8 +2,12 @@ package blockgame;
 
 import blockgame.model.Game;
 import blockgame.model.Point;
+import blockgame.view.game.GamePresenter;
+import blockgame.view.game.GameView;
 import blockgame.view.identification.LoginPresenter;
 import blockgame.view.identification.LoginView;
+import blockgame.view.identification.RegisterPresenter;
+import blockgame.view.identification.RegisterView;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.application.Application;
@@ -32,15 +36,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game model = new Game();
-        MainMenuView mmv = new MainMenuView();
-        MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
-
-        LoginView lv = new LoginView();
-        LoginPresenter lp = new LoginPresenter(model, lv);
-
+        /*
         mediaPlayer.play();
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setVolume(0.2);
+         */
+
+        MainMenuView mmv = new MainMenuView();
+        MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
 
         Scene scene = new Scene(mmv);
         primaryStage.setScene(scene);

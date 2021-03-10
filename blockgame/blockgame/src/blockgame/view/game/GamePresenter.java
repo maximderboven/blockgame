@@ -48,23 +48,23 @@ public class GamePresenter {
         view.setLblHighscores("Highscore: " + model.getPlayer().getHighscore());
         view.setCapacity(model.getPlayablePieces().getCapacity());
 
-        view.getHbox2().getChildren().clear();
+        view.getBlocksBox().getChildren().clear();
         if (model.isPossible()) {
             for (Piece piece : model.getPlayablePieces().getPieces()) {
-                view.getHbox2().getChildren().addAll(new ImageView(piece.getURL()));
+                view.getBlocksBox().getChildren().addAll(new ImageView(piece.getURL()));
             }
         }
 
         //rare shit me da verwijderen bruur
         for (int x = 0; x < model.getBoard().getSize(); x++) {
             for (int y = 0; y < model.getBoard().getSize(); y++) {
-                view.getBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
+                view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
             }
         }
         for (int x = 0; x < model.getBoard().getSize(); x++) {
             for (int y = 0; y < model.getBoard().getSize(); y++) {
                 if (model.getBoard().getGrid()[x][y].isUsed()) {
-                    view.getBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
+                    view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
                 }
             }
         }
@@ -72,7 +72,7 @@ public class GamePresenter {
 
 
     private void updateLastLocation(Point location) {
-        if (selectedblock == view.getHbox2().getChildren().size()) {
+        if (selectedblock == view.getBlocksBox().getChildren().size()) {
             selectedblock -= 1;
         }
         if (location == null) {
@@ -85,7 +85,7 @@ public class GamePresenter {
         }
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), location)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
-                Node SecondCell = view.getBoard().getChildren().get((location.getY() + point.getY()) * model.getBoard().getSize() + (location.getX() + point.getX()));
+                Node SecondCell = view.getGridBoard().getChildren().get((location.getY() + point.getY()) * model.getBoard().getSize() + (location.getX() + point.getX()));
                 SecondCell.getStyleClass().add(ACTIVE_CELL_CSS);
             }
         }
@@ -95,7 +95,7 @@ public class GamePresenter {
     private void removeLastLocation() {
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), lastLocation)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
-                view.getBoard().getChildren().get((lastLocation.getY() + point.getY()) * model.getBoard().getSize() + (lastLocation.getX() + point.getX())).getStyleClass().remove(ACTIVE_CELL_CSS);
+                view.getGridBoard().getChildren().get((lastLocation.getY() + point.getY()) * model.getBoard().getSize() + (lastLocation.getX() + point.getX())).getStyleClass().remove(ACTIVE_CELL_CSS);
             }
         }
     }
@@ -103,12 +103,12 @@ public class GamePresenter {
 
     private void addEventHandlers() {
         //voeg aan alle vakjes een handler toe om deze te updaten wanneer er met een object over wordt gehovert.
-        GridPane target = view.getBoard();
+        GridPane target = view.getGridBoard();
         if (!model.getBoard().isDraganddrop()) {
             //add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden)
-            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+            for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
-                view.getHbox2().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                view.getBlocksBox().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         updateLastLocation(null);
@@ -138,7 +138,7 @@ public class GamePresenter {
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
                     Point locatie = new Point(x, y);
-                    view.getBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    view.getGridBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnMouseEntered(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
                             updateLastLocation(locatie);
@@ -149,9 +149,9 @@ public class GamePresenter {
         } else {
 
             //zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok.
-            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
+            for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
-                view.getHbox2().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
+                view.getBlocksBox().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         selectedblock = finalJ;
@@ -179,7 +179,7 @@ public class GamePresenter {
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
                     Point locatie = new Point(x, y);
-                    view.getBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnDragOver(new EventHandler<DragEvent>() {
+                    view.getGridBoard().getChildren().get(locatie.getY() * model.getBoard().getSize() + locatie.getX()).setOnDragOver(new EventHandler<DragEvent>() {
                         @Override
                         public void handle(DragEvent event) {
                             updateLastLocation(locatie);
@@ -213,8 +213,8 @@ public class GamePresenter {
                 }
             });
             // Na de drop en zet
-            for (int j = 0; j < view.getHbox2().getChildren().size(); j++) {
-                view.getHbox2().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
+            for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
+                view.getBlocksBox().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
                     @Override
                     public void handle(DragEvent dragEvent) {
                         updateView();

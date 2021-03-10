@@ -32,7 +32,7 @@ public class LoginPresenter {
                 RegisterView registerView = new RegisterView();
                 RegisterPresenter registerPresenter = new RegisterPresenter(model, registerView);
                 view.getScene().setRoot(registerView);
-                registerView.getScene().getWindow().sizeToScene();
+                //registerView.getScene().getWindow().sizeToScene();
             }
         });
 

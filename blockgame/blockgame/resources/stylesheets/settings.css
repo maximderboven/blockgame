@@ -28,3 +28,7 @@
 .slider .axis {
     -fx-tick-label-fill: #fff;
 }
+
+.check-box {
+    -fx-text-fill: #fff;
+}

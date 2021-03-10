@@ -1,12 +1,6 @@
 package blockgame.view.settings;
 
 import blockgame.model.Game;
-import blockgame.view.about.AboutAlert;
-import blockgame.view.game.GamePresenter;
-import blockgame.view.game.GameView;
-import blockgame.view.highscores.HighscoresPresenter;
-import blockgame.view.highscores.HighscoresView;
-import blockgame.model.Game;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.ActionEvent;
@@ -34,8 +28,6 @@ public class SettingsPresenter {
     }
 
     private void addEventHandlers() {
-        view.getTfPlayablePieces().setText(String.valueOf(model.getPlayablePieces().getCapacity()));
-
         view.getBtnSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -49,14 +41,22 @@ public class SettingsPresenter {
                 System.out.println(model.getPlayablePieces().isDifficulty());
 
                 /* Playable pieces */
-                model.getPlayablePieces().setCapacity(Integer.parseInt(view.getTfPlayablePieces().getText()));
+                model.getPlayablePieces().setCapacity(view.getSpPlayablePieces().getValueFactory().getValue());
                 System.out.println(model.getPlayablePieces().getPieces());
 
+                model.getBoard().setDraganddrop(view.getChkMode().isSelected());
+                System.out.println(view.getChkMode().isSelected());
             }
         });
 
         /* Slider label dynamisch veranderen */
         view.getSlSize().setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getBoardSizeSliderLabel().setText(String.format("Size: %.0fx%.0f", view.getSlSize().getValue(), view.getSlSize().getValue()));
+            }
+        });
+        view.getSlSize().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 view.getBoardSizeSliderLabel().setText(String.format("Size: %.0fx%.0f", view.getSlSize().getValue(), view.getSlSize().getValue()));
@@ -85,6 +85,20 @@ public class SettingsPresenter {
                 view.getBtnSave().setCursor(Cursor.HAND);
             }
         });
+
+        view.getChkMode().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                if (view.getChkMode().isSelected()){
+                    view.getLblMode().setText("Mode (drag)");
+                }else {
+                    view.getLblMode().setText("Mode (click)");
+                }
+            }
+
+        });
+
     }
 
 }
