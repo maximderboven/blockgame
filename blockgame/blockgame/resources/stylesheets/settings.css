@@ -4,21 +4,6 @@
     -fx-text-fill: #fff;
 }
 
-#btnSave {
-    -fx-font-family: 'Helvetica Struggle Arial';
-    -fx-background-color: #44c767;
-    -fx-background-radius: 15px;
-    -fx-padding: 6px 15px 6px 15px
-}
-
-#btnClose {
-    -fx-font-family: 'Helvetica Struggle Arial';
-    -fx-background-color: #768d87;
-    -fx-background-radius: 15px;
-    -fx-padding: 6px 15px 6px 15px;
-    -fx-fill: #fff;
-}
-
 #label-settings {
     -fx-text-fill: #fff;
     -fx-font-size: 16px;

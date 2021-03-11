@@ -26,12 +26,11 @@ public class SettingsView extends BorderPane {
     private Label lblFileLocation;
     private Spinner<Integer> spPlayablePieces;
     private TextField tfFileLocation;
-    private Button btnSave;
     private Slider slSize;
     private CheckBox chkDifficulty;
-    private ImageView imgClose;
     private Label lblMode;
     private CheckBox chkMode;
+    private ImageView imgSave;
 
 
     // Constructor
@@ -50,12 +49,11 @@ public class SettingsView extends BorderPane {
         lblFileLocation = new Label("File location");
         spPlayablePieces = new Spinner<>();
         tfFileLocation = new TextField();
-        btnSave = new Button("Save Changes");
         slSize = new Slider(5, 10, 5);
         chkDifficulty = new CheckBox();
-        imgClose = new ImageView("/images/menu/close.png");
         lblMode = new Label("Mode (click)");
         chkMode = new CheckBox();
+        imgSave = new ImageView("/images/SaveButton.png");
     }
 
     // Layout nodes
@@ -68,7 +66,6 @@ public class SettingsView extends BorderPane {
         // Algemeen
         super.setPadding(new Insets(90));
         super.setCenter(grid);
-        super.setRight(imgClose);
 
         // Node settings
         // Value factory.
@@ -82,7 +79,6 @@ public class SettingsView extends BorderPane {
         slSize.setShowTickLabels(true);
         slSize.setSnapToTicks(true);
         lblTitel.setId("title");
-        btnSave.setId("btnSave");
         lblBoardSize.setId("label-settings");
         lblBoardSizeSlider.setId("label-settings");
         lblDifficulty.setId("label-settings");
@@ -95,14 +91,12 @@ public class SettingsView extends BorderPane {
         Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         getStylesheets().add("/stylesheets/settings.css");
         setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
-        imgClose.setFitHeight(40);
-        imgClose.setFitWidth(40);
         tfFileLocation.setDisable(true);
         lblFileLocation.setDisable(true);
         tfFileLocation.setText("This feature is disabled");
 
         // Grid settings
-        grid.setPadding(new Insets(50,0,0,50));
+        grid.setPadding(new Insets(50, 0, 0, 50));
         grid.setHgap(20);
         grid.setVgap(15);
         grid.setAlignment(Pos.BASELINE_CENTER);
@@ -117,7 +111,9 @@ public class SettingsView extends BorderPane {
         grid.add(spPlayablePieces, 1, 4);
         grid.add(lblFileLocation, 0, 5);
         grid.add(tfFileLocation, 1, 5);
-        grid.add(btnSave, 1, 6);
+        grid.add(imgSave, 1, 6);
+        imgSave.setFitWidth(100);
+        imgSave.setFitHeight(50);
     }
 
     /**
@@ -130,8 +126,8 @@ public class SettingsView extends BorderPane {
     /**
      * Returns: save changes button
      */
-    Button getBtnSave() {
-        return btnSave;
+    ImageView getImgSave() {
+        return imgSave;
     }
 
     /**
@@ -156,13 +152,6 @@ public class SettingsView extends BorderPane {
     }
 
     /**
-     * Returns: close button
-     */
-    ImageView getImgClose() {
-        return imgClose;
-    }
-
-    /**
      * Returns: checkbox mode button
      */
     CheckBox getChkMode() {
@@ -172,4 +161,5 @@ public class SettingsView extends BorderPane {
     Label getLblMode() {
         return lblMode;
     }
+
 }

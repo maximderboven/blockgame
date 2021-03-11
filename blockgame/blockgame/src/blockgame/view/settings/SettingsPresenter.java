@@ -6,6 +6,7 @@ import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -24,28 +25,49 @@ public class SettingsPresenter {
     }
 
     private void updateView() {
-        //fill view with data from model
+        /* Waarden instellen van de slider */
+        view.getSlSize().setValue(model.getBoard().getSize());
+        view.getBoardSizeSliderLabel().setText(String.format("Size: %dx%d", model.getBoard().getSize(), model.getBoard().getSize()));
+
+        /* Waarden instellen van de difficulty */
+        view.getChkDifficulty().setSelected(model.getPlayablePieces().isDifficulty());
+
+        /* Waarden instellen van de Drag and drop */
+        if (model.getBoard().isDraganddrop()){
+            view.getChkMode().setSelected(true);
+            view.getLblMode().setText("Mode (drag)");
+        }else {
+            view.getLblMode().setText("Mode (click)");
+        }
+
+        /* Waarden instellen van de playable pieces */
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 5, model.getPlayablePieces().getCapacity());
+        view.getSpPlayablePieces().setValueFactory(valueFactory);
     }
 
     private void addEventHandlers() {
-        view.getBtnSave().setOnAction(new EventHandler<ActionEvent>() {
+        view.getImgSave().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
-
+            public void handle(MouseEvent mouseEvent) {
                 /* Board size */
                 model.getBoard().setSize((int) view.getSlSize().getValue());
-                System.out.println(model.getBoard().getSize());
+                System.out.println("Board size: " + model.getBoard().getSize());
 
                 /* Difficulty button */
                 model.getPlayablePieces().setDifficulty(view.getChkDifficulty().isSelected());
-                System.out.println(model.getPlayablePieces().isDifficulty());
+                System.out.println("Difficulty: " + model.getPlayablePieces().isDifficulty());
+
+                /* Drag and drop */
+                model.getBoard().setDraganddrop(view.getChkMode().isSelected());
+                System.out.println("Drag and drop: " + view.getChkMode().isSelected());
 
                 /* Playable pieces */
                 model.getPlayablePieces().setCapacity(view.getSpPlayablePieces().getValueFactory().getValue());
-                System.out.println(model.getPlayablePieces().getPieces());
+                System.out.println("Playable pieces: " + model.getPlayablePieces().getPieces());
 
-                model.getBoard().setDraganddrop(view.getChkMode().isSelected());
-                System.out.println(view.getChkMode().isSelected());
+                MainMenuView mv = new MainMenuView();
+                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                view.getScene().setRoot(mv);
             }
         });
 
@@ -63,40 +85,32 @@ public class SettingsPresenter {
             }
         });
 
-        view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
+        view.getImgSave().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                MainMenuView mv = new MainMenuView();
-                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
-                view.getScene().setRoot(mv);
+                view.getImgSave().setCursor(Cursor.HAND);
+                view.getImgSave().setScaleX(1.1);
+                view.getImgSave().setScaleY(1.1);
             }
         });
 
-        view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
+        view.getImgSave().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                view.getImgClose().setCursor(Cursor.HAND);
-            }
-        });
-
-        view.getBtnSave().setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                view.getBtnSave().setCursor(Cursor.HAND);
+                view.getImgSave().setScaleX(1);
+                view.getImgSave().setScaleY(1);
             }
         });
 
         view.getChkMode().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
                 if (view.getChkMode().isSelected()){
                     view.getLblMode().setText("Mode (drag)");
                 }else {
                     view.getLblMode().setText("Mode (click)");
                 }
             }
-
         });
 
     }
