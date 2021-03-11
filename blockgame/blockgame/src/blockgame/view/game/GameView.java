@@ -51,7 +51,7 @@ public class GameView extends BorderPane {
         gridInfo.add(lblScore, 1, 0);
         gridInfo.add(lblHighscores, 2, 0);
         gridInfo.setPadding(new Insets(70, 0, 0 ,100));
-        lblScore.setPadding(new Insets(0,0,0,115));
+        lblScore.setPadding(new Insets(0,0,0,85));
         lblHighscores.setPadding(new Insets(0,0,0,105));
         lblScore.getStyleClass().add("game-label");
         lblHighscores.getStyleClass().add("game-label");

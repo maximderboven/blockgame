@@ -14,29 +14,29 @@ public enum Piece {
      * De blokken bevatten een locatie die wordt vergeleken met de locatie op het bord. Zo worden de tegels op die plaatsen aangepast.
      * */
     // Piece1x1 [X]
-    PIECE1x1(1, Color.green, "/images/blocks/PIECE1x1.png", new Point[]{
+    PIECE1x1(1, Color.green, "/images/blocks/wood/PIECE1x1.png", new Point[]{
             new Point(0, 0)}),
 
     // Piece1x2 [X][ ]
-    PIECE1x2(1, Color.green, "/images/blocks/PIECE1x2.png", new Point[]{
+    PIECE1x2(1, Color.green, "/images/blocks/wood/PIECE1x2.png", new Point[]{
             new Point(0, 0),
             new Point(0, 1)}),
 
     // Piece1x3 [ ][X][ ]
-    PIECE1x3(2, Color.green, "/images/blocks/PIECE1x3.png", new Point[]{
+    PIECE1x3(2, Color.green, "/images/blocks/wood/PIECE1x3.png", new Point[]{
             new Point(0, -1),
             new Point(0, 0),
             new Point(0, 1),}),
 
     // Piece1x4 [ ][X][ ][ ]
-    PIECE1x4(2, Color.green, "/images/blocks/PIECE1x4.png", new Point[]{
+    PIECE1x4(2, Color.green, "/images/blocks/wood/PIECE1x4.png", new Point[]{
             new Point(0, -1),
             new Point(0, 0),
             new Point(0, 1),
             new Point(0, 2)}),
 
     // Piece1x5 [ ][ ][X][ ][ ]
-    PIECE1x5(3, Color.green, "/images/blocks/PIECE1x5.png", new Point[]{
+    PIECE1x5(3, Color.green, "/images/blocks/wood/PIECE1x5.png", new Point[]{
             new Point(0, -2),
             new Point(0, -1),
             new Point(0, 0),
@@ -46,14 +46,14 @@ public enum Piece {
     // Piece2x1
     // [X]
     // [ ]
-    PIECE2x1(1, Color.green, "/images/blocks/PIECE2x1.png", new Point[]{
+    PIECE2x1(1, Color.green, "/images/blocks/wood/PIECE2x1.png", new Point[]{
             new Point(0, 0),
             new Point(1, 0)}),
 
     // Piece2x2
     // [X][ ]
     // [ ][ ]
-    PIECE2x2(1, Color.green, "/images/blocks/PIECE2x2.png", new Point[]{
+    PIECE2x2(1, Color.green, "/images/blocks/wood/PIECE2x2.png", new Point[]{
             new Point(0, 0),
             new Point(0, 1),
             new Point(1, 0),
@@ -63,7 +63,7 @@ public enum Piece {
     // [ ]
     // [X]
     // [ ]
-    PIECE3x1(2, Color.green, "/images/blocks/PIECE3x1.png", new Point[]{
+    PIECE3x1(2, Color.green, "/images/blocks/wood/PIECE3x1.png", new Point[]{
             new Point(-1, 0),
             new Point(0, 0),
             new Point(1, 0)}),
@@ -72,7 +72,7 @@ public enum Piece {
     // [ ][ ][ ]
     // [ ][X][ ]
     // [ ][ ][ ]
-    PIECE3x3(4, Color.green, "/images/blocks/PIECE3x3.png", new Point[]{
+    PIECE3x3(4, Color.green, "/images/blocks/wood/PIECE3x3.png", new Point[]{
             new Point(-1, -1),
             new Point(-1, 0),
             new Point(-1, 1),
@@ -88,7 +88,7 @@ public enum Piece {
     // [ ]
     // [X]
     // [ ]
-    PIECE4x1(2, Color.green, "/images/blocks/PIECE4x1.png", new Point[]{
+    PIECE4x1(2, Color.green, "/images/blocks/wood/PIECE4x1.png", new Point[]{
             new Point(-1, 0),
             new Point(-2, 0),
             new Point(0, 0),
@@ -98,7 +98,7 @@ public enum Piece {
     // [ ][ ][X]
     //       [ ]
     //       [ ]
-    PIECEBIGL(4, Color.green, "/images/blocks/PIECEBIGL.png", new Point[]{
+    PIECEBIGL(4, Color.green, "/images/blocks/wood/PIECEBIGL.png", new Point[]{
             new Point(0, -2),
             new Point(0, -1),
             new Point(0, 0),
@@ -108,7 +108,7 @@ public enum Piece {
     // PieceHorJ
     // [ ]
     // [X][ ][ ]
-    PIECEHORJ(3, Color.green, "/images/blocks/PIECEHORJ.png", new Point[]{
+    PIECEHORJ(3, Color.green, "/images/blocks/wood/PIECEHORJ.png", new Point[]{
             new Point(0, 0),
             new Point(-1, 0),
             new Point(0, 1),
@@ -117,7 +117,7 @@ public enum Piece {
     // PieceS
     //    [X][ ]
     // [ ][ ]
-    PIECES(4, Color.green, "/images/blocks/PIECES.png", new Point[]{
+    PIECES(4, Color.green, "/images/blocks/wood/PIECES.png", new Point[]{
             new Point(1, -1),
             new Point(1, 0),
             new Point(0, 0),
@@ -126,7 +126,7 @@ public enum Piece {
     // PieceSmallL
     // [X][ ]
     // [ ]
-    PIECESMALLL(2, Color.green, "/images/blocks/PIECESMALLL.png", new Point[]{
+    PIECESMALLL(2, Color.green, "/images/blocks/wood/PIECESMALLL.png", new Point[]{
             new Point(0, 0),
             new Point(0, 1),
             new Point(1, 0)}),
@@ -134,7 +134,7 @@ public enum Piece {
     // PieceT
     //    [ ]
     // [ ][X][ ]
-    PIECET(3, Color.green, "/images/blocks/PIECET.png", new Point[]{
+    PIECET(3, Color.green, "/images/blocks/wood/PIECET.png", new Point[]{
             new Point(0, -1),
             new Point(-1, 0),
             new Point(0, 0),
@@ -144,7 +144,7 @@ public enum Piece {
     // [X][ ]
     // [ ]
     // [ ]
-    PIECEVERTJ(3, Color.green, "/images/blocks/PIECEVERTJ.png", new Point[]{
+    PIECEVERTJ(3, Color.green, "/images/blocks/wood/PIECEVERTJ.png", new Point[]{
             new Point(0, 0),
             new Point(0, 1),
             new Point(1, 0),

@@ -16,7 +16,8 @@
     -fx-background-insets: 0, 1 ;
 }
 .game-grid-cell-active {
-    -fx-background-color: blue;
+    /*-fx-background-color: blue;*/
+    -fx-background-image: url('/images/blocks/wood/bg-block.png');
 }
 
 .game-grid-cell-example {

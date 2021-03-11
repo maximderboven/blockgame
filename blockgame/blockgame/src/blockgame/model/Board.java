@@ -30,7 +30,7 @@ public class Board {
      */
     public Board(int size) {
         this.size = size;
-        this.draganddrop = false;
+        this.draganddrop = true;
         this.grid = new Tile[size][size];
         fillBoard();
     }
