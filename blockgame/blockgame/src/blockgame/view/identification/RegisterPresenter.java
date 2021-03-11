@@ -7,8 +7,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-
 /**
  * Alexie Chaerle
  * 17/02/2021
@@ -45,12 +43,13 @@ public class RegisterPresenter {
         });
 
         // Gebruikers registreren
-        view.getBtnId().setOnMouseClicked(new EventHandler<MouseEvent>() {
+        view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
                     model.getAm().register(view.getTxtUsername().getText(), view.getTxtPassword().getText());
-                }catch (Exception ioe){
+                    System.out.println("gebruiker aangemaakt!");
+                } catch (Exception ioe) {
                     System.out.println("Deze gebruiker bestaat al");
                 }
             }
@@ -62,6 +61,24 @@ public class RegisterPresenter {
                 LoginView lv = new LoginView();
                 LoginPresenter lp = new LoginPresenter(model, lv);
                 view.getScene().setRoot(lv);
+            }
+        });
+
+        view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgId().setScaleX(1.15);
+                view.getImgId().setScaleY(1.15);
+                view.getImgId().setCursor(Cursor.HAND);
+            }
+        });
+
+        view.getImgId().setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgId().setCursor(Cursor.DEFAULT);
+                view.getImgId().setScaleX(1);
+                view.getImgId().setScaleY(1);
             }
         });
 

@@ -32,11 +32,10 @@ public class LoginPresenter {
                 RegisterView registerView = new RegisterView();
                 RegisterPresenter registerPresenter = new RegisterPresenter(model, registerView);
                 view.getScene().setRoot(registerView);
-                //registerView.getScene().getWindow().sizeToScene();
             }
         });
 
-        view.getBtnId().setOnMouseClicked(new EventHandler<MouseEvent>() {
+        view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
@@ -51,6 +50,25 @@ public class LoginPresenter {
                 }
             }
         });
+
+        view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgId().setScaleX(1.15);
+                view.getImgId().setScaleY(1.15);
+                view.getImgId().setCursor(Cursor.HAND);
+            }
+        });
+
+        view.getImgId().setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                view.getImgId().setCursor(Cursor.DEFAULT);
+                view.getImgId().setScaleX(1);
+                view.getImgId().setScaleY(1);
+            }
+        });
+
 
         view.getImgClose().setOnMouseClicked(mouseEvent -> {
             MainMenuView mv = new MainMenuView();

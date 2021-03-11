@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 
 /**
@@ -23,12 +24,11 @@ public class AuthorizationView extends BorderPane {
     private Label lblPassword;
     private TextField txtUsername;
     private PasswordField txtPassword;
-    private Button btnId;
     private Label lblRedirect;
     private Label lblError;
     private ImageView imgClose;
     private GridPane grid;
-
+    private ImageView imgId;
 
     // Constructor
     public AuthorizationView() {
@@ -43,7 +43,6 @@ public class AuthorizationView extends BorderPane {
         this.lblPassword = new Label("Password");
         this.txtUsername = new TextField();
         this.txtPassword = new PasswordField();
-        this.btnId = new Button();
         this.lblRedirect = new Label();
         this.lblError = new Label("");
         this.grid = new GridPane();
@@ -55,6 +54,7 @@ public class AuthorizationView extends BorderPane {
         super.setPadding(new Insets(90));
         super.setRight(imgClose);
         super.setCenter(grid);
+
         imgClose.setFitWidth(40);
         imgClose.setFitHeight(40);
 
@@ -66,15 +66,15 @@ public class AuthorizationView extends BorderPane {
         grid.add(lblPassword, 0, 2);
         grid.add(txtPassword, 1, 2);
         grid.add(lblRedirect, 0, 3, 2, 1);
-        grid.add(btnId, 0, 4);
         grid.add(lblError, 0, 5, 2, 1);
 
-        lblTitel.setStyle("-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: white");
-        lblUsername.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white");
-        lblPassword.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white");
-        lblError.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red");
-        lblRedirect.setStyle("-fx-font-size: 12px; -fx-text-fill: white");
-        btnId.setMinWidth(80);
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
+        getStylesheets().add("/stylesheets/authorization.css");
+        lblTitel.setId("titel");
+        lblUsername.setId("username");
+        lblPassword.setId("password");
+        lblError.setId("error");
+        lblRedirect.setId("redirect");
         grid.setVgap(15);
         grid.setHgap(15);
         this.setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
@@ -83,11 +83,6 @@ public class AuthorizationView extends BorderPane {
     // Setter om de hoofdtitel in te stellen
     void setLblTitel(String text) {
         this.lblTitel.setText(text);
-    }
-
-    // Setter om de titel van de button in te stellen
-    void setBtnIdTitel(String text) {
-        this.btnId.setText(text);
     }
 
     TextField getTxtUsername() {
@@ -102,10 +97,6 @@ public class AuthorizationView extends BorderPane {
         return txtPassword;
     }
 
-    Button getBtnId() {
-        return btnId;
-    }
-
     void setLblRedirect(String text) {
         this.lblRedirect.setText(text);
     }
@@ -116,5 +107,16 @@ public class AuthorizationView extends BorderPane {
 
     ImageView getImgClose() {
         return imgClose;
+    }
+
+    void setImgId(ImageView v) {
+        this.imgId = v;
+        grid.add(v, 0, 4);
+        v.setFitHeight(50);
+        v.setFitWidth(100);
+    }
+
+    ImageView getImgId() {
+        return imgId;
     }
 }

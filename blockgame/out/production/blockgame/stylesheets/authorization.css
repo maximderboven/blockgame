@@ -1,0 +1,29 @@
+#titel {
+    -fx-font-family: Woodtrap;
+    -fx-font-size: 90px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+#username {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+#password {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+#error {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+}
+
+#redirect {
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}

@@ -1,4 +1,3 @@
 john:test:50
 alexie:test:20
 maxim:test:20
-a:a:10
