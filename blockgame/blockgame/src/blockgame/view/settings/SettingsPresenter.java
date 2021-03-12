@@ -25,6 +25,9 @@ public class SettingsPresenter {
     }
 
     private void updateView() {
+        /* Waarden instellen van de file location */
+        view.getTfFileLocation().setText(model.getAm().getLocation());
+
         /* Waarden instellen van de slider */
         view.getSlSize().setValue(model.getBoard().getSize());
         view.getBoardSizeSliderLabel().setText(String.format("Size: %dx%d", model.getBoard().getSize(), model.getBoard().getSize()));
@@ -34,10 +37,9 @@ public class SettingsPresenter {
 
         /* Waarden instellen van de Drag and drop */
         if (model.getBoard().isDraganddrop()){
-            view.getChkMode().setSelected(true);
-            view.getLblMode().setText("Mode (drag)");
+            view.getRbDrag().setSelected(true);
         }else {
-            view.getLblMode().setText("Mode (click)");
+            view.getRbClick().setSelected(true);
         }
 
         /* Waarden instellen van de playable pieces */
@@ -58,8 +60,8 @@ public class SettingsPresenter {
                 System.out.println("Difficulty: " + model.getPlayablePieces().isDifficulty());
 
                 /* Drag and drop */
-                model.getBoard().setDraganddrop(view.getChkMode().isSelected());
-                System.out.println("Drag and drop: " + view.getChkMode().isSelected());
+                model.getBoard().setDraganddrop(view.getRbDrag().isSelected());
+                System.out.println("Drag and drop: " + view.getRbDrag().isSelected());
 
                 /* Playable pieces */
                 model.getPlayablePieces().setCapacity(view.getSpPlayablePieces().getValueFactory().getValue());
@@ -99,17 +101,6 @@ public class SettingsPresenter {
             public void handle(MouseEvent mouseEvent) {
                 view.getImgSave().setScaleX(1);
                 view.getImgSave().setScaleY(1);
-            }
-        });
-
-        view.getChkMode().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (view.getChkMode().isSelected()){
-                    view.getLblMode().setText("Mode (drag)");
-                }else {
-                    view.getLblMode().setText("Mode (click)");
-                }
             }
         });
 

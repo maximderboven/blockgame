@@ -30,7 +30,7 @@ public class Board {
      */
     public Board(int size) {
         this.size = size;
-        this.draganddrop = true;
+        this.draganddrop = false;
         this.grid = new Tile[size][size];
         fillBoard();
     }
@@ -192,6 +192,7 @@ public class Board {
             for(int j = 0; j < size; j++) {
                 if(grid[i][j].isMarkdelete()) {
                     grid[i][j].setUsed(false);
+                    grid[i][j].setMarkdelete(false);
                 }
             }
         }

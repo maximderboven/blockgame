@@ -68,6 +68,7 @@ public class GamePresenter {
                 }
             }
         }
+        System.out.println(model.getBoard().toString());
     }
 
 

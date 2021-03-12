@@ -36,11 +36,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game model = new Game();
-        /*
-        mediaPlayer.play();
+
+        /*mediaPlayer.play();
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setVolume(0.2);
-         */
+        mediaPlayer.setVolume(0.2);*/
+
 
         MainMenuView mmv = new MainMenuView();
         MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
@@ -59,8 +59,8 @@ public class Main extends Application {
     //private static final Scanner keyboard = new Scanner(System.in);
 
     public static void main(String[] args) {
-        game = new blockgame.model.Game(); //init
-        /*while (true) {
+        /*game = new blockgame.model.Game(); //init
+        while (true) {
         System.out.println(game.getBoard().toString());
         System.out.println(game.getPlayablePieces().getPieces());
         int x,y,p;

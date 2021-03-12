@@ -29,7 +29,9 @@ public class SettingsView extends BorderPane {
     private Slider slSize;
     private CheckBox chkDifficulty;
     private Label lblMode;
-    private CheckBox chkMode;
+    private RadioButton rbClick;
+    private RadioButton rbDrag;
+    private ToggleGroup tgMode;
     private ImageView imgSave;
 
 
@@ -51,8 +53,12 @@ public class SettingsView extends BorderPane {
         tfFileLocation = new TextField();
         slSize = new Slider(5, 10, 5);
         chkDifficulty = new CheckBox();
-        lblMode = new Label("Mode (click)");
-        chkMode = new CheckBox();
+        lblMode = new Label("Mode");
+        rbClick = new RadioButton("Click");
+        rbDrag = new RadioButton("Drag");
+        tgMode = new ToggleGroup();
+        rbClick.setToggleGroup(tgMode);
+        rbDrag.setToggleGroup(tgMode);
         imgSave = new ImageView("/images/SaveButton.png");
     }
 
@@ -85,15 +91,16 @@ public class SettingsView extends BorderPane {
         lblFileLocation.setId("label-settings");
         lblPlayablePieces.setId("label-settings");
         lblMode.setId("label-settings");
+        rbDrag.setId("label-settings");
+        rbClick.setId("label-settings");
         spPlayablePieces.setPrefWidth(50);
 
         // CSS + fonts
         Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         getStylesheets().add("/stylesheets/settings.css");
         setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
-        tfFileLocation.setDisable(true);
-        lblFileLocation.setDisable(true);
-        tfFileLocation.setText("This feature is disabled");
+        //tfFileLocation.setDisable(true);
+        //lblFileLocation.setDisable(true);
 
         // Grid settings
         grid.setPadding(new Insets(50, 0, 0, 50));
@@ -103,10 +110,12 @@ public class SettingsView extends BorderPane {
         grid.add(lblTitel, 0, 0, 2, 1);
         grid.add(lblBoardSize, 0, 1);
         grid.add(vb1, 1, 1);
+        //https://stackoverflow.com/questions/23956861/how-to-span-columns-of-a-gridpane-manually-in-javafx
         grid.add(lblDifficulty, 0, 2);
         grid.add(chkDifficulty, 1, 2);
         grid.add(lblMode, 0, 3);
-        grid.add(chkMode, 1, 3);
+        grid.add(rbClick, 1, 3);
+        grid.add(rbDrag, 2, 3);
         grid.add(lblPlayablePieces, 0, 4);
         grid.add(spPlayablePieces, 1, 4);
         grid.add(lblFileLocation, 0, 5);
@@ -114,6 +123,7 @@ public class SettingsView extends BorderPane {
         grid.add(imgSave, 1, 6);
         imgSave.setFitWidth(100);
         imgSave.setFitHeight(50);
+        //grid.setGridLinesVisible(true);
     }
 
     /**
@@ -151,15 +161,15 @@ public class SettingsView extends BorderPane {
         return spPlayablePieces;
     }
 
-    /**
-     * Returns: checkbox mode button
-     */
-    CheckBox getChkMode() {
-        return chkMode;
+    RadioButton getRbDrag() {
+        return rbDrag;
     }
 
-    Label getLblMode() {
-        return lblMode;
+    RadioButton getRbClick() {
+        return rbClick;
     }
 
+    public TextField getTfFileLocation() {
+        return tfFileLocation;
+    }
 }
