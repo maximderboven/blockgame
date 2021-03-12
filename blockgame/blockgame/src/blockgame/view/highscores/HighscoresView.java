@@ -8,6 +8,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 
 /**
@@ -39,6 +40,7 @@ public class HighscoresView extends BorderPane {
 
     // Layout nodes
     private void layoutNodes() {
+        Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         super.setPadding(new Insets(90));
         super.setRight(imgClose);
         super.setCenter(chart);

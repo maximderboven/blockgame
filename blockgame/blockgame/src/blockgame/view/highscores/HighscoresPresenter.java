@@ -25,10 +25,6 @@ public class HighscoresPresenter {
     }
 
     private void updateView() {
-        //xx
-    }
-
-    private void addEventHandlers() {
         /* Barchart aanvullen in HighscoresView */
         String[] cutted;
         for (String row : model.getAm().getLeaderboard()) {
@@ -36,6 +32,9 @@ public class HighscoresPresenter {
             view.getInfo().getData().add(new XYChart.Data<>(cutted[0], Integer.parseInt(cutted[1])));
         }
         view.getChart().getData().add(view.getInfo());
+    }
+
+    private void addEventHandlers() {
 
         view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override

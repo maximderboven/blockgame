@@ -1,0 +1,9 @@
+#label {
+    -fx-font-family: Woodtrap;
+    -fx-text-fill: #fff;
+    -fx-font-size: 33px;
+}
+
+#difficulty {
+    -fx-text-fill: #fff;
+}

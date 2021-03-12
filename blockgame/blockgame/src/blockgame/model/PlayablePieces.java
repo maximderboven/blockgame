@@ -63,7 +63,7 @@ public class PlayablePieces {
                         if (piece.getValue() >= 3) {
                             pieces.add(piece);
                         }
-                    } else if (score < 250) {
+                    } else if (score < 350) {
                         if (piece.getValue() >= 4) {
                             pieces.add(piece);
                         }

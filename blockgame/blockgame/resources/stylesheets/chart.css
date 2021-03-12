@@ -15,7 +15,14 @@
 
 .chart-title
 {
-    -fx-font-size: 24px;
+    -fx-font-family: Woodtrap;
+    -fx-font-size: 46px;
     -fx-font-weight: bold;
     -fx-text-fill: #fff;
+}
+
+.chart .axis {
+    -fx-tick-label-fill: #fff;
+    -fx-tick-label-weight: bold;
+    -fx-tick-label-font-size: 14px;
 }

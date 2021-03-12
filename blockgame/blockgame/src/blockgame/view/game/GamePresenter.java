@@ -3,6 +3,8 @@ package blockgame.view.game;
 import blockgame.model.Game;
 import blockgame.model.Piece;
 import blockgame.model.Point;
+import blockgame.view.gameover.GameOverPresenter;
+import blockgame.view.gameover.GameOverView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -39,36 +41,30 @@ public class GamePresenter {
 
 
     private void updateView() {
-        if (!model.isPossible()) {
-            System.out.println("Game over scherm");
-        }
-        view.setBoardsize(model.getBoard().getSize());
         view.setLblUser("Logged in as: " + model.getPlayer().getUsername());
         view.setLblScore("Current score: " + model.getScoreboard().getScore());
         view.setLblHighscores("Highscore: " + model.getPlayer().getHighscore());
         view.setCapacity(model.getPlayablePieces().getCapacity());
 
-        view.getBlocksBox().getChildren().clear();
         if (model.isPossible()) {
+            view.getBlocksBox().getChildren().clear();
             for (Piece piece : model.getPlayablePieces().getPieces()) {
                 view.getBlocksBox().getChildren().addAll(new ImageView(piece.getURL()));
             }
-        }
-
-        //rare shit me da verwijderen bruur
-        for (int x = 0; x < model.getBoard().getSize(); x++) {
-            for (int y = 0; y < model.getBoard().getSize(); y++) {
-                view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
-            }
-        }
-        for (int x = 0; x < model.getBoard().getSize(); x++) {
-            for (int y = 0; y < model.getBoard().getSize(); y++) {
-                if (model.getBoard().getGrid()[x][y].isUsed()) {
-                    view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
+            for (int x = 0; x < model.getBoard().getSize(); x++) {
+                for (int y = 0; y < model.getBoard().getSize(); y++) {
+                    view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
+                    if (model.getBoard().getGrid()[x][y].isUsed()) {
+                        view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
+                    }
                 }
             }
+            addEventHandlers();
+        } else {
+            GameOverView gv = new GameOverView();
+            GameOverPresenter mp = new GameOverPresenter(model, gv);
+            view.getScene().setRoot(gv);
         }
-        System.out.println(model.getBoard().toString());
     }
 
 
@@ -103,6 +99,7 @@ public class GamePresenter {
 
 
     private void addEventHandlers() {
+
         //voeg aan alle vakjes een handler toe om deze te updaten wanneer er met een object over wordt gehovert.
         GridPane target = view.getGridBoard();
         if (!model.getBoard().isDraganddrop()) {
@@ -112,9 +109,13 @@ public class GamePresenter {
                 view.getBlocksBox().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        updateLastLocation(null);
-                        selectedblock = finalJ;
-                        System.out.println("Selected block; " + selectedblock);
+                        if (selectedblock != finalJ) {
+                            if (lastLocation != null) {
+                                updateLastLocation(null);
+                            }
+                            selectedblock = finalJ;
+                            System.out.println("Selected block; " + selectedblock);
+                        }
                     }
                 });
             }
@@ -131,7 +132,6 @@ public class GamePresenter {
                         new MediaPlayer(droppingsound).play();
                     }
                     updateView();
-                    addEventHandlers();
                     event.consume();
                 }
             });
@@ -219,11 +219,12 @@ public class GamePresenter {
                     @Override
                     public void handle(DragEvent dragEvent) {
                         updateView();
-                        addEventHandlers();
                         dragEvent.consume();
                     }
                 });
             }
+
         }
+
     }
 }

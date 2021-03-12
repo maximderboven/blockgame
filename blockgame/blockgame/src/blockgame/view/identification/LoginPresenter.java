@@ -7,7 +7,9 @@ import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 
 /**
  * Alexie Chaerle
@@ -25,6 +27,7 @@ public class LoginPresenter {
     }
 
     public void addEventHandlers() {
+
         // Om te gaan naar registerview
         view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -40,13 +43,12 @@ public class LoginPresenter {
             public void handle(MouseEvent mouseEvent) {
                 try {
                     model.login(view.getTxtUsername().getText(),view.getTxtPassword().getText());
-                    GameView gameView = new GameView();
+                    GameView gameView = new GameView(model.getBoard().getSize());
                     GamePresenter gameRegister = new GamePresenter(model,gameView);
                     view.getScene().setRoot(gameView);
                     gameView.getScene().getWindow().sizeToScene();
                 } catch (Exception e) {
-                    //view.setLblError(e.getMessage());
-                    System.out.println(e.getMessage());
+                    view.setLblError(e.getMessage());
                 }
             }
         });

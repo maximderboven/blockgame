@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -29,19 +28,18 @@ public class GameView extends BorderPane {
 
 
     // Constructor
-    public GameView() {
-        initialiseNodes();
+    public GameView(int boardsize) {
+        initialiseNodes(boardsize);
         layoutNodes();
     }
 
-    private void initialiseNodes() {
+    private void initialiseNodes(int boardsize) {
         lblUser = new Label("Logged in as: ");
         lblScore = new Label("Current score: ");
         lblHighscores = new Label("Highscore: ");
         gridBoard = new GridPane();
-        boardsize = 10;
+        this.boardsize = boardsize;
     }
-
 
     private void layoutNodes() {
 
@@ -85,6 +83,7 @@ public class GameView extends BorderPane {
         }
         vBoxBlocks = new VBox();
         vBoxBlocks.setPadding(new Insets(80,0,0,0));
+        vBoxBlocks.setSpacing(20);
         vBoxBlocks.setPrefWidth(250);
 
         for (Node nd : vBoxBlocks.getChildren()){
@@ -129,4 +128,5 @@ public class GameView extends BorderPane {
     GridPane getGridBoard() {
         return gridBoard;
     }
+
 }

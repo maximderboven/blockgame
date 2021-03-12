@@ -1,13 +1,9 @@
 package blockgame;
 
 import blockgame.model.Game;
-import blockgame.model.Point;
-import blockgame.view.game.GamePresenter;
-import blockgame.view.game.GameView;
-import blockgame.view.identification.LoginPresenter;
-import blockgame.view.identification.LoginView;
-import blockgame.view.identification.RegisterPresenter;
-import blockgame.view.identification.RegisterView;
+import blockgame.view.alerts.ConfirmationAlertView;
+import blockgame.view.gameover.GameOverPresenter;
+import blockgame.view.gameover.GameOverView;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.application.Application;
@@ -20,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 /**
  * @author Maxim Derboven
@@ -41,9 +36,11 @@ public class Main extends Application {
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setVolume(0.2);*/
 
-
         MainMenuView mmv = new MainMenuView();
         MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
+
+        //GameOverView gv = new GameOverView();
+        //GameOverPresenter gop = new GameOverPresenter(model, gv);
 
         Scene scene = new Scene(mmv);
         primaryStage.setScene(scene);
@@ -53,6 +50,7 @@ public class Main extends Application {
         primaryStage.setHeight(675);
         primaryStage.getIcons().add(new Image("/images/logo.png"));
         primaryStage.show();
+
     }
 
     private static blockgame.model.Game game;
