@@ -15,7 +15,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 /**
  * Alexie Chaerle
  * 12/03/2021
@@ -23,26 +22,53 @@ import java.nio.file.Paths;
 public class GameOverPresenter {
     private Game model;
     private GameOverView view;
+    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media mdGameOver;
     private Media mdGameOverHighscore;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
+    private Media clicksound;
 
     public GameOverPresenter(Game model, GameOverView view) {
         this.model = model;
         this.view = view;
+        Path soundPath1 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "gameover.mp3");
+        mdGameOver = new Media(new File(soundPath1.toString()).toURI().toString());
+        Path soundPath2 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "highscore.mp3");
+        mdGameOverHighscore = new Media(new File(soundPath2.toString()).toURI().toString());
+        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
+        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
-        Path mdPath1 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "gameOver.mp3");
-        mdGameOver = new Media(new File(mdPath1.toString()).toURI().toString());
-        Path mdPath2 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "newHighscore.mp3");
-        mdGameOverHighscore = new Media(new File(mdPath2.toString()).toURI().toString());
+    }
+
+    private void updateView() {
+        // Als de difficulty aan staat, label tonen
+        if (!model.getPlayablePieces().isDifficulty()){
+            view.getLblDifficulty().setText("Difficulty is disabled, score wont be updated.");
+        }
+        // Score en highscore updaten
+        view.getLblScore().setText("Score : " + model.getScoreboard().getScore());
+        view.getLblHighscore().setText("Highscore : " + model.getPlayer().getHighscore());
+        if (model.getPlayer().getHighscore() == model.getScoreboard().getScore()){
+            view.setBackground(new Background(new BackgroundImage(new Image("/images/gameOverNewHighscore.png"),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT)));
+            if (model.isMusic()) {
+                new MediaPlayer(mdGameOverHighscore).play();
+            }
+        }else if (model.isMusic()) {
+            new MediaPlayer(mdGameOver).play();
+        }
     }
 
     private void addEventHandlers() {
         view.getImgSave().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 if (model.getScoreboard().getScore() == model.getPlayer().getHighscore() && model.getPlayablePieces().isDifficulty()) {
                     model.getAm().save();
                 }
@@ -72,31 +98,6 @@ public class GameOverPresenter {
                 view.setCursor(Cursor.DEFAULT);
             }
         });
-    }
-
-    private void updateView() {
-        // Als de difficulty aan staat, label tonen
-        if (!model.getPlayablePieces().isDifficulty()){
-            view.getLblDifficulty().setText("Difficulty is disabled, score wont be updated.");
-        }
-
-        // Score en highscore updaten
-        view.getLblScore().setText("Score : " + model.getScoreboard().getScore());
-        view.getLblHighscore().setText("Highscore : " + model.getPlayer().getHighscore());
-        if (model.getPlayer().getHighscore() == model.getScoreboard().getScore()){
-            view.setBackground(new Background(new BackgroundImage(new Image("/images/gameOverNewHighscore.png"),
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT)));
-            if (model.isMusic()) {
-                new MediaPlayer(mdGameOverHighscore).play();
-            }
-        }else if (model.isMusic()) {
-            new MediaPlayer(mdGameOver).play();
-        }
-
-
     }
 
 }

@@ -9,10 +9,13 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -22,10 +25,15 @@ import java.nio.file.Paths;
 public class SettingsPresenter {
     private Game model;
     private SettingsView view;
+    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
+    private Media clicksound;
+
 
     public SettingsPresenter(Game model, SettingsView view) {
         this.model = model;
         this.view = view;
+        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
+        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
     }
@@ -60,6 +68,9 @@ public class SettingsPresenter {
         view.getImgSave().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 /* Board size */
                 model.getBoard().setSize((int) view.getSlSize().getValue());
                 System.out.println("Board size: " + model.getBoard().getSize());

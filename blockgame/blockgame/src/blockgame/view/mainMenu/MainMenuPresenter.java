@@ -32,10 +32,15 @@ public class MainMenuPresenter {
 
     private Game model;
     private MainMenuView view;
+    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
+    private Media clicksound;
+
 
     public MainMenuPresenter(Game model, MainMenuView view) {
         this.model = model;
         this.view = view;
+        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
+        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
     }
@@ -63,6 +68,9 @@ public class MainMenuPresenter {
         view.getImgPlay().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 LoginView lv = new LoginView();
                 LoginPresenter lp = new LoginPresenter(model, lv);
                 view.getScene().setRoot(lv);
@@ -73,6 +81,9 @@ public class MainMenuPresenter {
         view.getImgHighscores().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 HighscoresView hv = new HighscoresView();
                 HighscoresPresenter hp = new HighscoresPresenter(model, hv);
                 view.getScene().getStylesheets().add("/stylesheets/chart.css");
@@ -101,6 +112,9 @@ public class MainMenuPresenter {
         view.getImgSettings().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 SettingsView sv = new SettingsView();
                 SettingsPresenter sp = new SettingsPresenter(model, sv);
                 view.getScene().setRoot(sv);
@@ -145,6 +159,9 @@ public class MainMenuPresenter {
         view.getImgAbout().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 AboutAlert alert = new AboutAlert();
                 alert.setResizable(false);
                 alert.setGraphic(new ImageView(this.getClass().getResource("/images/logo.png").toString()));

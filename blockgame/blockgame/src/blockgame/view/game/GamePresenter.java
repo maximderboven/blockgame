@@ -35,8 +35,8 @@ public class GamePresenter {
     public GamePresenter(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        updateView();
         addEventHandlers();
+        updateView();
         Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "drop.mp3");
         droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
         Path removePath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "delete.mp3");
@@ -70,9 +70,10 @@ public class GamePresenter {
             }
             addEventHandlers();
         } else {
-            GameOverView gv = new GameOverView();
-            GameOverPresenter mp = new GameOverPresenter(model, gv);
-            view.getScene().setRoot(gv);
+            GameOverView gov = new GameOverView();
+            GameOverPresenter mp = new GameOverPresenter(model, gov);
+            view.getScene().setRoot(gov);
+            return;
         }
         view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
     }
