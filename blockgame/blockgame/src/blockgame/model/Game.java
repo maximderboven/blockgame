@@ -23,6 +23,7 @@ public class Game {
     private PlayablePieces playablePieces;
     private Board board;
     private final FileManagement am = new FileManagement();
+    private boolean music;
 
 
     /**
@@ -32,6 +33,7 @@ public class Game {
     public Game() {
         this.board = new Board(10);
         this.playablePieces = new PlayablePieces(3);
+        this.music = true;
     }
 
 
@@ -115,5 +117,13 @@ public class Game {
 
     public Scoreboard getScoreboard() {
         return scoreboard;
+    }
+
+    public boolean isMusic() {
+        return music;
+    }
+
+    public void setMusic(boolean music) {
+        this.music = music;
     }
 }

@@ -7,9 +7,7 @@ import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.WindowEvent;
 
 /**
  * Alexie Chaerle
@@ -38,20 +36,26 @@ public class LoginPresenter {
             }
         });
 
+
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
-                    model.login(view.getTxtUsername().getText(),view.getTxtPassword().getText());
+                    model.login(view.getTxtUsername().getText(), view.getTxtPassword().getText());
+
+                    System.out.println("ingelogd");
+
                     GameView gameView = new GameView(model.getBoard().getSize());
-                    GamePresenter gameRegister = new GamePresenter(model,gameView);
+                    GamePresenter gp = new GamePresenter(model, gameView);
+
                     view.getScene().setRoot(gameView);
-                    gameView.getScene().getWindow().sizeToScene();
+
                 } catch (Exception e) {
                     view.setLblError(e.getMessage());
                 }
             }
         });
+
 
         view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -71,11 +75,13 @@ public class LoginPresenter {
             }
         });
 
-
-        view.getImgClose().setOnMouseClicked(mouseEvent -> {
-            MainMenuView mv = new MainMenuView();
-            MainMenuPresenter mp = new MainMenuPresenter(model, mv);
-            view.getScene().setRoot(mv);
+        view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                MainMenuView mv = new MainMenuView();
+                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                view.getScene().setRoot(mv);
+            }
         });
 
         view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {

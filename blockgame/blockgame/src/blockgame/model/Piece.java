@@ -52,7 +52,7 @@ public enum Piece {
     // Piece2x2
     // [X][ ]
     // [ ][ ]
-    PIECE2x2(1, "/images/blocks/wood/PIECE2x2.png", new Point[]{
+    PIECE2x2(2, "/images/blocks/wood/PIECE2x2.png", new Point[]{
             new Point(0, 0),
             new Point(0, 1),
             new Point(1, 0),
@@ -62,7 +62,7 @@ public enum Piece {
     // [ ]
     // [X]
     // [ ]
-    PIECE3x1(2, "/images/blocks/wood/PIECE3x1.png", new Point[]{
+    PIECE3x1(3, "/images/blocks/wood/PIECE3x1.png", new Point[]{
             new Point(-1, 0),
             new Point(0, 0),
             new Point(1, 0)}),
@@ -87,7 +87,7 @@ public enum Piece {
     // [ ]
     // [X]
     // [ ]
-    PIECE4x1(2, "/images/blocks/wood/PIECE4x1.png", new Point[]{
+    PIECE4x1(3, "/images/blocks/wood/PIECE4x1.png", new Point[]{
             new Point(-1, 0),
             new Point(-2, 0),
             new Point(0, 0),

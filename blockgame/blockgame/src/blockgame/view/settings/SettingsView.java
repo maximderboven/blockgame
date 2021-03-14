@@ -23,9 +23,12 @@ public class SettingsView extends BorderPane {
     private Label lblBoardSizeSlider;
     private Label lblDifficulty;
     private Label lblPlayablePieces;
+
     private Label lblFileLocation;
+    private TextField txtFileLocation;
+
     private Spinner<Integer> spPlayablePieces;
-    private TextField tfFileLocation;
+    private Button btnFileLocation;
     private Slider slSize;
     private CheckBox chkDifficulty;
     private Label lblMode;
@@ -34,6 +37,8 @@ public class SettingsView extends BorderPane {
     private ToggleGroup tgMode;
     private ImageView imgSave;
 
+    private CheckBox chkSoundEffects;
+    private Label lblSoundEffects;
 
     // Constructor
     public SettingsView() {
@@ -48,9 +53,9 @@ public class SettingsView extends BorderPane {
         lblBoardSizeSlider = new Label("Size: 5x5 ");
         lblDifficulty = new Label("Difficulty");
         lblPlayablePieces = new Label("Playable Pieces");
-        lblFileLocation = new Label("File location");
+        txtFileLocation = new TextField("File location");
         spPlayablePieces = new Spinner<>();
-        tfFileLocation = new TextField();
+        btnFileLocation = new Button("Browse");
         slSize = new Slider(5, 10, 5);
         chkDifficulty = new CheckBox();
         lblMode = new Label("Mode");
@@ -60,6 +65,9 @@ public class SettingsView extends BorderPane {
         rbClick.setToggleGroup(tgMode);
         rbDrag.setToggleGroup(tgMode);
         imgSave = new ImageView("/images/SaveButton.png");
+        lblFileLocation = new Label("File location");
+        chkSoundEffects = new CheckBox();
+        lblSoundEffects = new Label("Sound effects");
     }
 
     // Layout nodes
@@ -75,8 +83,7 @@ public class SettingsView extends BorderPane {
 
         // Node settings
         // Value factory.
-        final int initialValue = 3;
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 5, initialValue);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 5, 3);
         spPlayablePieces.setValueFactory(valueFactory);
         chkDifficulty.setSelected(true);
         slSize.setBlockIncrement(1);
@@ -88,42 +95,48 @@ public class SettingsView extends BorderPane {
         lblBoardSize.setId("label-settings");
         lblBoardSizeSlider.setId("label-settings");
         lblDifficulty.setId("label-settings");
-        lblFileLocation.setId("label-settings");
         lblPlayablePieces.setId("label-settings");
         lblMode.setId("label-settings");
         rbDrag.setId("label-settings");
         rbClick.setId("label-settings");
+        lblFileLocation.setId("label-settings");
         spPlayablePieces.setPrefWidth(50);
 
         // CSS + fonts
         Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         getStylesheets().add("/stylesheets/settings.css");
         setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
-        //tfFileLocation.setDisable(true);
-        //lblFileLocation.setDisable(true);
 
         // Grid settings
-        grid.setPadding(new Insets(50, 0, 0, 50));
+        grid.setPadding(new Insets(0, 0, 0, 50));
         grid.setHgap(20);
         grid.setVgap(15);
         grid.setAlignment(Pos.BASELINE_CENTER);
         grid.add(lblTitel, 0, 0, 2, 1);
         grid.add(lblBoardSize, 0, 1);
         grid.add(vb1, 1, 1);
-        //https://stackoverflow.com/questions/23956861/how-to-span-columns-of-a-gridpane-manually-in-javafx
         grid.add(lblDifficulty, 0, 2);
         grid.add(chkDifficulty, 1, 2);
         grid.add(lblMode, 0, 3);
-        grid.add(rbClick, 1, 3);
-        grid.add(rbDrag, 2, 3);
         grid.add(lblPlayablePieces, 0, 4);
         grid.add(spPlayablePieces, 1, 4);
         grid.add(lblFileLocation, 0, 5);
-        grid.add(tfFileLocation, 1, 5);
-        grid.add(imgSave, 1, 6);
+        grid.add(txtFileLocation, 0, 6);
+        grid.add(lblSoundEffects, 0, 6);
+        grid.add(chkSoundEffects, 1, 6);
+        lblSoundEffects.setId("label-settings");
+        grid.add(imgSave, 0, 8);
+        txtFileLocation.setPrefWidth(200);
+        txtFileLocation.setDisable(true);
         imgSave.setFitWidth(100);
         imgSave.setFitHeight(50);
-        //grid.setGridLinesVisible(true);
+
+        HBox hb1 = new HBox(rbClick, rbDrag);
+        rbDrag.setPadding(new Insets(0,0,0,10));
+        grid.add(hb1, 1, 3);
+
+        HBox hb2 = new HBox(txtFileLocation, btnFileLocation);
+        grid.add(hb2, 1, 5);
     }
 
     /**
@@ -169,7 +182,15 @@ public class SettingsView extends BorderPane {
         return rbClick;
     }
 
-    public TextField getTfFileLocation() {
-        return tfFileLocation;
+    Button getBtnFileLocation() {
+        return btnFileLocation;
+    }
+
+    TextField getTxtFileLocation() {
+        return txtFileLocation;
+    }
+
+    CheckBox getChkSoundEffects() {
+        return chkSoundEffects;
     }
 }

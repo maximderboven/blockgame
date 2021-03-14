@@ -8,6 +8,13 @@ import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 /**
  * Alexie Chaerle
@@ -16,12 +23,19 @@ import javafx.scene.layout.*;
 public class GameOverPresenter {
     private Game model;
     private GameOverView view;
+    private Media mdGameOver;
+    private Media mdGameOverHighscore;
+    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
 
     public GameOverPresenter(Game model, GameOverView view) {
         this.model = model;
         this.view = view;
         addEventHandlers();
         updateView();
+        Path mdPath1 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "gameOver.mp3");
+        mdGameOver = new Media(new File(mdPath1.toString()).toURI().toString());
+        Path mdPath2 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "newHighscore.mp3");
+        mdGameOverHighscore = new Media(new File(mdPath2.toString()).toURI().toString());
     }
 
     private void addEventHandlers() {
@@ -75,6 +89,11 @@ public class GameOverPresenter {
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT)));
+            if (model.isMusic()) {
+                new MediaPlayer(mdGameOverHighscore).play();
+            }
+        }else if (model.isMusic()) {
+            new MediaPlayer(mdGameOver).play();
         }
 
 

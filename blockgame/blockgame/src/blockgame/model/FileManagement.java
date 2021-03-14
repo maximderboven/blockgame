@@ -25,7 +25,6 @@ public class FileManagement {
     private List<Player> players = new ArrayList<>();
     private Path location = Paths.get(".." + File.separator + "blockgame" + File.separator + "blockgame" + File.separator + "resources" + File.separator + "data" + File.separator + "highscores.txt");
 
-
     /**
      * Constructor: bij het instantiëren wordt het highscores.txt bestand ingelezen en in de ArrayList players opgeslagen.
      */
@@ -51,6 +50,19 @@ public class FileManagement {
      */
     public void setLocation(String location) {
         this.location = Paths.get(location);
+        players.clear();
+        readPlayers();
+    }
+
+
+    // Caesar Cipher Encryt Methode
+    // https://www.baeldung.com/java-caesar-cipher
+    private String encrypt(String message) {
+        return message;
+    }
+
+    String decrypt(String message) {
+        return message;
     }
 
 
@@ -62,7 +74,7 @@ public class FileManagement {
         try {
             String[] c;
             for (String line : Files.readAllLines(location)) {
-                c = line.split(":");
+                c = decrypt(line).split(":");
                 players.add(new Player(c[0], c[1], Integer.parseInt(c[2])));
             }
         } catch (IOException ioe) {
@@ -153,7 +165,7 @@ public class FileManagement {
             // Extra lijn toevoegen
             StringBuilder gebruikers = new StringBuilder();
             for (Player pl : players) {
-                gebruikers.append(String.format("%s:%s:%d\n", pl.getUsername(), pl.getPassword(), pl.getHighscore()));
+                gebruikers.append(encrypt(String.format("%s:%s:%d", pl.getUsername(), pl.getPassword(), pl.getHighscore()))).append("\n");
             }
             Files.write(location, gebruikers.toString().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {

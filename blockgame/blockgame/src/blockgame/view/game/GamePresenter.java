@@ -6,6 +6,7 @@ import blockgame.model.Point;
 import blockgame.view.gameover.GameOverPresenter;
 import blockgame.view.gameover.GameOverView;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -29,6 +30,7 @@ public class GamePresenter {
     private int selectedblock = 0;
     private Point lastLocation = null;
     static final String ACTIVE_CELL_CSS = "game-grid-cell-active";
+    private Media removeSound;
 
     public GamePresenter(Game model, GameView view) {
         this.model = model;
@@ -37,8 +39,9 @@ public class GamePresenter {
         addEventHandlers();
         Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "drop.mp3");
         droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
+        Path removePath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "delete.mp3");
+        removeSound = new Media(new File(removePath.toString()).toURI().toString());
     }
-
 
     private void updateView() {
         view.setLblUser("Logged in as: " + model.getPlayer().getUsername());
@@ -46,13 +49,19 @@ public class GamePresenter {
         view.setLblHighscores("Highscore: " + model.getPlayer().getHighscore());
         view.setCapacity(model.getPlayablePieces().getCapacity());
 
+
         if (model.isPossible()) {
             view.getBlocksBox().getChildren().clear();
             for (Piece piece : model.getPlayablePieces().getPieces()) {
                 view.getBlocksBox().getChildren().addAll(new ImageView(piece.getURL()));
             }
+            boolean played = false;
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
+                    if (view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().contains(ACTIVE_CELL_CSS) && !model.getBoard().getGrid()[x][y].isUsed() && !played && model.isMusic()) {
+                        new MediaPlayer(removeSound).play();
+                        played = true;
+                    }
                     view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
                     if (model.getBoard().getGrid()[x][y].isUsed()) {
                         view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
@@ -65,12 +74,12 @@ public class GamePresenter {
             GameOverPresenter mp = new GameOverPresenter(model, gv);
             view.getScene().setRoot(gv);
         }
+        view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
     }
-
 
     private void updateLastLocation(Point location) {
         if (selectedblock == view.getBlocksBox().getChildren().size()) {
-            selectedblock -= 1;
+            selectedblock = 0;
         }
         if (location == null) {
             removeLastLocation();
@@ -97,7 +106,6 @@ public class GamePresenter {
         }
     }
 
-
     private void addEventHandlers() {
 
         //voeg aan alle vakjes een handler toe om deze te updaten wanneer er met een object over wordt gehovert.
@@ -106,6 +114,14 @@ public class GamePresenter {
             //add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden)
             for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
+
+                view.getBlocksBox().getChildren().get(j).setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        view.getBlocksBox().getChildren().get(finalJ).setCursor(Cursor.HAND);
+                    }
+                });
+
                 view.getBlocksBox().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -113,6 +129,12 @@ public class GamePresenter {
                             if (lastLocation != null) {
                                 updateLastLocation(null);
                             }
+                            //glow effect toevoegen & verwijderen bij select:
+                            for (int i = 0; i < model.getPlayablePieces().getPieces().size(); i++) {
+                                view.getBlocksBox().getChildren().get(i).setEffect(null);
+                            }
+                            view.getBlocksBox().getChildren().get(finalJ).setEffect(view.getBorderGlow());
+
                             selectedblock = finalJ;
                             System.out.println("Selected block; " + selectedblock);
                         }
@@ -129,7 +151,12 @@ public class GamePresenter {
                         int y = cIndex == null ? 0 : cIndex;
                         int x = rIndex == null ? 0 : rIndex;
                         model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
-                        new MediaPlayer(droppingsound).play();
+
+                        if (model.isMusic()) {
+                            new MediaPlayer(droppingsound).play();
+                        }
+
+
                     }
                     updateView();
                     event.consume();
@@ -152,6 +179,14 @@ public class GamePresenter {
             //zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok.
             for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
+
+                view.getBlocksBox().getChildren().get(j).setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        view.getBlocksBox().getChildren().get(finalJ).setCursor(Cursor.HAND);
+                    }
+                });
+
                 view.getBlocksBox().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -227,4 +262,5 @@ public class GamePresenter {
         }
 
     }
+
 }

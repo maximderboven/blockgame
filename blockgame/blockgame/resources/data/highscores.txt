@@ -1,3 +1,1 @@
-john:test:1000
-alexie:test:146
-maxim:test:20
+alexie:test:10

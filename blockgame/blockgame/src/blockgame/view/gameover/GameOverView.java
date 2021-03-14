@@ -52,8 +52,8 @@ public class GameOverView extends BorderPane {
         lblScore.setId("label");
         lblHighscore.setId("label");
         lblDifficulty.setId("difficulty");
-        lblScore.setPadding(new Insets(170, 0, 0, 0));
-        lblHighscore.setPadding(new Insets(45, 0, 40, 0));
+        lblScore.setPadding(new Insets(195, 0, 0, 0));
+        lblHighscore.setPadding(new Insets(65, 0, 40, 0));
         imgSave.setFitWidth(120);
         imgSave.setFitHeight(70);
     }

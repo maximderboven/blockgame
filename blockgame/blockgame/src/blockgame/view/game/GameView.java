@@ -5,8 +5,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ public class GameView extends BorderPane {
     private int boardsize;
     private int capacity;
     private ArrayList<Piece> pieces = new ArrayList<>(capacity);
+    private DropShadow borderGlow;
 
 
     // Constructor
@@ -39,9 +43,17 @@ public class GameView extends BorderPane {
         lblHighscores = new Label("Highscore: ");
         gridBoard = new GridPane();
         this.boardsize = boardsize;
+        borderGlow = new DropShadow();
     }
 
     private void layoutNodes() {
+
+        int depth = 70;
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setColor(Color.WHITE);
+        borderGlow.setWidth(depth);
+        borderGlow.setHeight(depth);
 
         // Top
         GridPane gridInfo = new GridPane();
@@ -127,6 +139,10 @@ public class GameView extends BorderPane {
 
     GridPane getGridBoard() {
         return gridBoard;
+    }
+
+    DropShadow getBorderGlow() {
+        return borderGlow;
     }
 
 }

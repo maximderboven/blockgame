@@ -6,8 +6,14 @@ import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author Maxim Derboven
@@ -25,8 +31,6 @@ public class SettingsPresenter {
     }
 
     private void updateView() {
-        /* Waarden instellen van de file location */
-        view.getTfFileLocation().setText(model.getAm().getLocation());
 
         /* Waarden instellen van de slider */
         view.getSlSize().setValue(model.getBoard().getSize());
@@ -36,15 +40,20 @@ public class SettingsPresenter {
         view.getChkDifficulty().setSelected(model.getPlayablePieces().isDifficulty());
 
         /* Waarden instellen van de Drag and drop */
-        if (model.getBoard().isDraganddrop()){
+        if (model.getBoard().isDraganddrop()) {
             view.getRbDrag().setSelected(true);
-        }else {
+        } else {
             view.getRbClick().setSelected(true);
         }
 
         /* Waarden instellen van de playable pieces */
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 5, model.getPlayablePieces().getCapacity());
         view.getSpPlayablePieces().setValueFactory(valueFactory);
+
+        /* Waarden instellen van de file location */
+        view.getTxtFileLocation().setText(model.getAm().getLocation());
+
+        view.getChkSoundEffects().setSelected(model.isMusic());
     }
 
     private void addEventHandlers() {
@@ -70,6 +79,9 @@ public class SettingsPresenter {
                 MainMenuView mv = new MainMenuView();
                 MainMenuPresenter mp = new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
+
+                model.setMusic(view.getChkSoundEffects().isSelected());
+
             }
         });
 
@@ -104,6 +116,27 @@ public class SettingsPresenter {
             }
         });
 
-    }
+        view.getBtnFileLocation().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                // Filechooser
+                FileChooser fc = new FileChooser();
+                fc.setTitle("Choose highscores location");
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Textfiles", "*.txt"));
+                fc.setInitialDirectory(new File("./"));
+                File selectedFile = fc.showOpenDialog(view.getScene().getWindow());
 
+                if ((selectedFile != null) && (Files.isReadable(Paths.get(selectedFile.toURI())))) {
+                    model.getAm().setLocation(selectedFile.getAbsolutePath());
+                    System.out.println("File location: " + model.getAm().getLocation());
+                } else {
+                    Alert errorWindow = new Alert(Alert.AlertType.ERROR);
+                    errorWindow.setHeaderText("Problem with selected file!");
+                    errorWindow.setContentText("Please try again.");
+                    errorWindow.showAndWait();
+                }
+            }
+
+        });
+    }
 }

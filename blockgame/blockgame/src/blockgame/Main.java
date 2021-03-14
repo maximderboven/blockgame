@@ -1,21 +1,12 @@
 package blockgame;
 
 import blockgame.model.Game;
-import blockgame.view.alerts.ConfirmationAlertView;
-import blockgame.view.gameover.GameOverPresenter;
-import blockgame.view.gameover.GameOverView;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * @author Maxim Derboven
@@ -24,24 +15,12 @@ import java.nio.file.Paths;
 public class Main extends Application {
 
     private static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
-    private Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "Lukewarm.mp3");
-    private Media sound = new Media(new File(soundPath.toString()).toURI().toString());
-    private MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game model = new Game();
-
-        /*mediaPlayer.play();
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setVolume(0.2);*/
-
         MainMenuView mmv = new MainMenuView();
         MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
-
-        //GameOverView gv = new GameOverView();
-        //GameOverPresenter gop = new GameOverPresenter(model, gv);
-
         Scene scene = new Scene(mmv);
         primaryStage.setScene(scene);
         primaryStage.setTitle("KDG BLOCK GAME");
@@ -49,6 +28,7 @@ public class Main extends Application {
         primaryStage.setWidth(900);
         primaryStage.setHeight(675);
         primaryStage.getIcons().add(new Image("/images/logo.png"));
+
         primaryStage.show();
 
     }
