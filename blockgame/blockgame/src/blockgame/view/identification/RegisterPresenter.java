@@ -1,6 +1,8 @@
 package blockgame.view.identification;
 
 import blockgame.model.Game;
+import blockgame.view.game.GamePresenter;
+import blockgame.view.game.GameView;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.EventHandler;
@@ -60,14 +62,18 @@ public class RegisterPresenter {
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (model.isMusic()) {
+                    new MediaPlayer(clicksound).play();
+                }
                 try {
-                    if (model.isMusic()) {
-                        new MediaPlayer(clicksound).play();
-                    }
-                    model.getAm().register(view.getTxtUsername().getText(), view.getTxtPassword().getText());
-                    System.out.println("gebruiker aangemaakt!");
+                    model.register(view.getTxtUsername().getText(), view.getTxtPassword().getText());
+
+                    GameView gameView = new GameView(model.getBoard().getSize());
+                    GamePresenter gp = new GamePresenter(model, gameView);
+
+                    view.getScene().setRoot(gameView);
                 } catch (Exception ioe) {
-                    System.out.println("Deze gebruiker bestaat al");
+                    view.setLblError(ioe.getMessage());
                 }
             }
         });

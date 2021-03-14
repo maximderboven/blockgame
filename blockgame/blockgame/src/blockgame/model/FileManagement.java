@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,11 +58,30 @@ public class FileManagement {
 
     // Caesar Cipher Encryt Methode
     private String encrypt(String message) {
-        return message;
+        // https://stackoverflow.com/questions/29226813/simple-encryption-in-java-no-key-password
+        String b64encoded = Base64.getEncoder().encodeToString(message.getBytes());
+
+        // Reverse the string
+        String reverse = new StringBuffer(b64encoded).reverse().toString();
+
+        StringBuilder tmp = new StringBuilder();
+        final int OFFSET = 4;
+        for (int i = 0; i < reverse.length(); i++) {
+            tmp.append((char) (reverse.charAt(i) + OFFSET));
+        }
+        return tmp.toString();
     }
 
     String decrypt(String message) {
-        return message;
+        // https://stackoverflow.com/questions/29226813/simple-encryption-in-java-no-key-password
+        StringBuilder tmp = new StringBuilder();
+        final int OFFSET = 4;
+        for (int i = 0; i < message.length(); i++) {
+            tmp.append((char) (message.charAt(i) - OFFSET));
+        }
+
+        String reversed = new StringBuffer(tmp.toString()).reverse().toString();
+        return new String(Base64.getDecoder().decode(reversed));
     }
 
 
@@ -77,7 +97,7 @@ public class FileManagement {
                 players.add(new Player(c[0], c[1], Integer.parseInt(c[2])));
             }
         } catch (IOException ioe) {
-            System.out.println("Userfile niet gevonden, bekijk de instellingen!");
+            ioe.printStackTrace();
         }
     }
 
@@ -91,7 +111,7 @@ public class FileManagement {
      * @return Player  Instantie van de klasse Player (die gaat spelen).
      * @throws Exception Als de gebruikersnaam al in gebruik is of als het een illegal character bevat (":").
      */
-    public Player register(String username, String password) throws Exception {
+    protected void register(String username, String password) throws Exception {
 
         // Kijken of username al in gebruik is
         for (Player player : players) {
@@ -99,8 +119,11 @@ public class FileManagement {
                 throw new Exception("Username is already in use.");
             }
         }
+        if (username.isEmpty() | password.isEmpty()) {
+            throw new Exception("Fill in all fields.");
+        }
         if (password.contains(":") | username.contains(":")) {
-            throw new Exception("Username can not contain ':'");
+            throw new Exception("Credentials can not contain ':'");
         }
 
         // Als de username die de speler intikt niet in gebruik is komt hij hier:
@@ -109,7 +132,6 @@ public class FileManagement {
 
         // Extra lijn toevoegen
         save();
-        return player;
     }
 
 
@@ -122,12 +144,15 @@ public class FileManagement {
      * @throws Exception Indien het wachtwoord onjuist is of de gebruiker niet bestaat.
      */
     public Player login(String username, String password) throws Exception {
+        if (username.isEmpty() | password.isEmpty()) {
+            throw new Exception("Fill in all fields.");
+        }
         for (Player player : players) {
             if (player.getUsername().equalsIgnoreCase(username)) {
                 if (player.getPassword().equals(password)) {
                     return player;
                 } else {
-                    throw new Exception("Incorrect password.");
+                    throw new Exception("Incorrect credentials.");
                 }
             }
         }
@@ -159,17 +184,13 @@ public class FileManagement {
      * Toepassen nadat het spel beëindigd is.
      */
 
-    public void save() {
-        try {
+    public void save() throws IOException {
             // Extra lijn toevoegen
             StringBuilder gebruikers = new StringBuilder();
             for (Player pl : players) {
                 gebruikers.append(encrypt(String.format("%s:%s:%d", pl.getUsername(), pl.getPassword(), pl.getHighscore()))).append("\n");
             }
             Files.write(location, gebruikers.toString().getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
 }

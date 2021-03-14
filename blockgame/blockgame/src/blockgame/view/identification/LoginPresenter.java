@@ -56,8 +56,6 @@ public class LoginPresenter {
                     }
                     model.login(view.getTxtUsername().getText(), view.getTxtPassword().getText());
 
-                    System.out.println("ingelogd");
-
                     GameView gameView = new GameView(model.getBoard().getSize());
                     GamePresenter gp = new GamePresenter(model, gameView);
 

@@ -20,6 +20,8 @@ public class GameOverView extends BorderPane {
     private Label lblHighscore;
     private ImageView imgSave;
     private Label lblDifficulty;
+    private Label lblError;
+    private HBox hbox;
 
     public GameOverView() {
         initialiseNodes();
@@ -31,6 +33,8 @@ public class GameOverView extends BorderPane {
         lblHighscore = new Label("Highscore: ");
         imgSave = new ImageView("/images/SaveButton.png");
         lblDifficulty = new Label();
+        lblError = new Label();
+        hbox = new HBox(lblDifficulty,lblError);
 
         GridPane grid = new GridPane();
         grid.add(lblScore, 0, 0);
@@ -38,10 +42,11 @@ public class GameOverView extends BorderPane {
         grid.add(imgSave, 0, 2);
         grid.setAlignment(Pos.CENTER);
         super.setCenter(grid);
-        super.setBottom(lblDifficulty);
+        super.setBottom(hbox);
     }
 
     private void layoutNodes() {
+        lblError.setId("error");
         setBackground(new Background(new BackgroundImage(new Image("/images/gameOver.png"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -72,5 +77,9 @@ public class GameOverView extends BorderPane {
 
     Label getLblDifficulty() {
         return lblDifficulty;
+    }
+
+    public Label getLblError() {
+        return lblError;
     }
 }

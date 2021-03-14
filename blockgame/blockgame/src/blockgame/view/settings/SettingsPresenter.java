@@ -139,7 +139,7 @@ public class SettingsPresenter {
 
                 if ((selectedFile != null) && (Files.isReadable(Paths.get(selectedFile.toURI())))) {
                     model.getAm().setLocation(selectedFile.getAbsolutePath());
-                    System.out.println("File location: " + model.getAm().getLocation());
+                    view.getTxtFileLocation().setText(model.getAm().getLocation());
                 } else {
                     Alert errorWindow = new Alert(Alert.AlertType.ERROR);
                     errorWindow.setHeaderText("Problem with selected file!");

@@ -151,13 +151,10 @@ public class GamePresenter {
                         Integer rIndex = GridPane.getRowIndex(node);
                         int y = cIndex == null ? 0 : cIndex;
                         int x = rIndex == null ? 0 : rIndex;
-                        model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
-
-                        if (model.isMusic()) {
+                        if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y)) && model.isMusic()) {
                             new MediaPlayer(droppingsound).play();
                         }
-
-
+                        model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
                     }
                     updateView();
                     event.consume();
@@ -231,7 +228,6 @@ public class GamePresenter {
                     Dragboard db = event.getDragboard();
                     boolean success = false;
                     if (db.hasImage()) {
-                        new MediaPlayer(droppingsound).play();
                         success = true;
                         updateLastLocation(null);
                     }
@@ -242,6 +238,9 @@ public class GamePresenter {
                         Integer rIndex = GridPane.getRowIndex(node);
                         int y = cIndex == null ? 0 : cIndex;
                         int x = rIndex == null ? 0 : rIndex;
+                        if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y)) && model.isMusic()) {
+                            new MediaPlayer(droppingsound).play();
+                        }
                         model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
                         success = true;
                     }

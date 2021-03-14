@@ -12,6 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -70,7 +71,11 @@ public class GameOverPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 if (model.getScoreboard().getScore() == model.getPlayer().getHighscore() && model.getPlayablePieces().isDifficulty()) {
-                    model.getAm().save();
+                    try {
+                        model.getAm().save();
+                    } catch (IOException e) {
+                        view.getLblError().setText(e.getMessage());
+                    }
                 }
 
                 // Terug naar main menu

@@ -71,7 +71,8 @@ public class Game {
      * @throws Exception Als de gegevens incorrect zijn.
      */
     public void register(String username, String password) throws Exception {
-        this.player = am.register(username, password);
+        am.register(username, password);
+        login(username,password);
     }
 
 
