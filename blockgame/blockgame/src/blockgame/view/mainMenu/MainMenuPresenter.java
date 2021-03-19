@@ -2,10 +2,6 @@ package blockgame.view.mainMenu;
 
 import blockgame.model.Game;
 import blockgame.view.about.AboutAlert;
-import blockgame.view.alerts.ConfirmationAlertPresenter;
-import blockgame.view.alerts.ConfirmationAlertView;
-import blockgame.view.game.GamePresenter;
-import blockgame.view.game.GameView;
 import blockgame.view.highscores.HighscoresPresenter;
 import blockgame.view.highscores.HighscoresView;
 import blockgame.view.identification.LoginPresenter;

@@ -79,8 +79,9 @@ public class GameOverPresenter {
                 }
 
                 // Terug naar main menu
+                Game newmodel = new Game();
                 MainMenuView mv = new MainMenuView();
-                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                new MainMenuPresenter(newmodel, mv);
                 view.getScene().setRoot(mv);
 
             }

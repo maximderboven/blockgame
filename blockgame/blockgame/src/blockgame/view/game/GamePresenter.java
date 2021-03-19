@@ -5,18 +5,27 @@ import blockgame.model.Piece;
 import blockgame.model.Point;
 import blockgame.view.gameover.GameOverPresenter;
 import blockgame.view.gameover.GameOverView;
+import blockgame.view.mainMenu.MainMenuPresenter;
+import blockgame.view.mainMenu.MainMenuView;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 /**
  * Maxim Derboven
@@ -35,12 +44,13 @@ public class GamePresenter {
     public GamePresenter(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        addEventHandlers();
-        updateView();
         Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "drop.mp3");
         droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
         Path removePath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "delete.mp3");
         removeSound = new Media(new File(removePath.toString()).toURI().toString());
+        addEventHandlers();
+        updateView();
+        addWindowEventHandlers();
     }
 
     private void updateView() {
@@ -105,6 +115,34 @@ public class GamePresenter {
                 view.getGridBoard().getChildren().get((lastLocation.getY() + point.getY()) * model.getBoard().getSize() + (lastLocation.getX() + point.getX())).getStyleClass().remove(ACTIVE_CELL_CSS);
             }
         }
+    }
+
+    public void addWindowEventHandlers() {
+        view.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText("Sure you want to exit ?");
+                alert.setContentText("Are you sure you want to exit? Your score is not saved.");
+                ButtonType btnExit = new ButtonType("Exit");
+                ButtonType btnMenu = new ButtonType("to Menu");
+                ButtonType btnCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(btnExit, btnMenu, btnCancel);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get().getText().equalsIgnoreCase("Exit")) {
+                    Platform.exit();
+                } else if (result.get().getText().equalsIgnoreCase("to Menu")) {
+                    Game model = new Game();
+                    MainMenuView mv = new MainMenuView();
+                    new MainMenuPresenter(model, mv);
+                    view.getScene().setRoot(mv);
+                } else {
+                    event.consume();
+                }
+            }
+        });
     }
 
     private void addEventHandlers() {
