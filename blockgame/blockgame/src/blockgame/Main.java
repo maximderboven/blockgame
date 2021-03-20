@@ -3,6 +3,8 @@ package blockgame;
 import blockgame.model.Game;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
+import blockgame.view.start.StartScreenPresenter;
+import blockgame.view.start.StartScreenView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,8 +19,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Game model = new Game();
-        MainMenuView mmv = new MainMenuView();
-        new MainMenuPresenter(model, mmv);
+        StartScreenView mmv = new StartScreenView();
+        new StartScreenPresenter(model, mmv);
         Scene scene = new Scene(mmv);
         primaryStage.setScene(scene);
         primaryStage.setTitle("KdG Block Game");
