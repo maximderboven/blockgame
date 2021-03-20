@@ -15,7 +15,6 @@ public class Scoreboard {
     private int score;
     private Player player;
 
-
     /**
      * Constructor:
      * @param player Object van de huidige speler.
@@ -25,7 +24,6 @@ public class Scoreboard {
         this.score = 0;
     }
 
-
     /**
      * Hiermee wordt het scoreboard weergegeven.
      * @return String Geformatteerde scoreboard string.
@@ -34,7 +32,6 @@ public class Scoreboard {
     public String toString() {
         return "--------\nScore: " + score + "\nHighscore: " + player.getHighscore() + "\n--------";
     }
-
 
     /**
      * Score/highscore updaten tijdens het spel.
@@ -46,7 +43,6 @@ public class Scoreboard {
             player.setHighscore(this.score);
         }
     }
-
 
     /**
      * Toont de huidige score.

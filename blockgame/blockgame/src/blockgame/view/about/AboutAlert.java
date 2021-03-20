@@ -1,6 +1,7 @@
 package blockgame.view.about;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 

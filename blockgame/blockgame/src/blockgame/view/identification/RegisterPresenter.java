@@ -67,11 +67,9 @@ public class RegisterPresenter {
                 }
                 try {
                     model.register(view.getTxtUsername().getText(), view.getTxtPassword().getText());
-
                     GameView gameView = new GameView(model.getBoard().getSize());
-                    GamePresenter gp = new GamePresenter(model, gameView);
-
                     view.getScene().setRoot(gameView);
+                    new GamePresenter(model, gameView);
                 } catch (Exception ioe) {
                     view.setLblError(ioe.getMessage());
                 }

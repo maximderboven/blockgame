@@ -90,7 +90,7 @@ public class Game {
 
 
     /**
-     * @return de instantie van de klasse PlayablePieces.
+     * @return PlayablePieces De pieces die in gebruik zijn.
      */
     public PlayablePieces getPlayablePieces() {
         return playablePieces;
@@ -98,7 +98,7 @@ public class Game {
 
 
     /**
-     * @return de instantie van de klasse Board.
+     * @return Board de instantie van de klasse Board.
      */
     public Board getBoard() {
         return board;
@@ -106,24 +106,40 @@ public class Game {
 
 
     /**
-     * @return de instantie van de klasse FileManagement.
+     * @return Filemanagement Welk object de files verzorgt.
      */
     public FileManagement getAm() {
         return am;
     }
 
+
+    /**
+     * @return Player Welke player speelt.
+     */
     public Player getPlayer() {
         return player;
     }
 
+
+    /**
+     * @return Scoreboard Welk scoreboard wordt gebruikt.
+     */
     public Scoreboard getScoreboard() {
         return scoreboard;
     }
 
+
+    /**
+     * @return boolean Music aan of uit.
+     */
     public boolean isMusic() {
         return music;
     }
 
+
+    /**
+     * @param music Boolean, music aan of af zetten.
+     */
     public void setMusic(boolean music) {
         this.music = music;
     }

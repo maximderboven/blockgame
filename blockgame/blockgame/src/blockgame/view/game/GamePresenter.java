@@ -20,6 +20,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
@@ -85,7 +86,9 @@ public class GamePresenter {
             view.getScene().setRoot(gov);
             return;
         }
-        view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
+        if (!model.getBoard().isDraganddrop()) {
+            view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
+        }
     }
 
     private void updateLastLocation(Point location) {
@@ -127,17 +130,17 @@ public class GamePresenter {
                 ButtonType btnExit = new ButtonType("Exit");
                 ButtonType btnMenu = new ButtonType("to Menu");
                 ButtonType btnCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(this.getClass().getResource("/images/logo.png").toString()));
                 alert.getButtonTypes().setAll(btnExit, btnMenu, btnCancel);
-
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get().getText().equalsIgnoreCase("Exit")) {
                     Platform.exit();
                 } else if (result.get().getText().equalsIgnoreCase("to Menu")) {
-                    Game model = new Game();
+                    Game newmodel = new Game();
                     MainMenuView mv = new MainMenuView();
-                    new MainMenuPresenter(model, mv);
                     view.getScene().setRoot(mv);
+                    new MainMenuPresenter(newmodel, mv);
                 } else {
                     event.consume();
                 }

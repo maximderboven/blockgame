@@ -26,6 +26,7 @@ public class FileManagement {
     private List<Player> players = new ArrayList<>();
     private Path location = Paths.get(".." + File.separator + "blockgame" + File.separator + "blockgame" + File.separator + "resources" + File.separator + "data" + File.separator + "highscores.txt");
 
+
     /**
      * Constructor: bij het instantiëren wordt het highscores.txt bestand ingelezen en in de ArrayList players opgeslagen.
      */
@@ -56,13 +57,16 @@ public class FileManagement {
     }
 
 
-    // Caesar Cipher Encryt Methode
+    /**
+     * Caesar Cipher Encryt Methode
+     * @param message de lijn die geenctrypteerd moet worden.
+     * @return String de geecrypteerde lijn
+     */
     private String encrypt(String message) {
         // https://stackoverflow.com/questions/29226813/simple-encryption-in-java-no-key-password
-        String b64encoded = Base64.getEncoder().encodeToString(message.getBytes());
 
         // Reverse the string
-        String reverse = new StringBuffer(b64encoded).reverse().toString();
+        String reverse = new StringBuffer(message).reverse().toString();
 
         StringBuilder tmp = new StringBuilder();
         final int OFFSET = 4;
@@ -72,16 +76,20 @@ public class FileManagement {
         return tmp.toString();
     }
 
-    String decrypt(String message) {
+
+    /**
+     * Caesar Cipher Decrypt Methode
+     * @param message de lijn die gedeenctrypteerd moet worden.
+     * @return String de gedeecrypteerde lijn
+     */
+    private String decrypt(String message) {
         // https://stackoverflow.com/questions/29226813/simple-encryption-in-java-no-key-password
         StringBuilder tmp = new StringBuilder();
         final int OFFSET = 4;
         for (int i = 0; i < message.length(); i++) {
             tmp.append((char) (message.charAt(i) - OFFSET));
         }
-
-        String reversed = new StringBuffer(tmp.toString()).reverse().toString();
-        return new String(Base64.getDecoder().decode(reversed));
+        return new StringBuffer(tmp.toString()).reverse().toString();
     }
 
 

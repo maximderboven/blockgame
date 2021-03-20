@@ -1,9 +1,7 @@
 package blockgame.model;
-import java.awt.*;
-
 /**
  * @author Maxim Derboven & Alexie Chaerle
- * @version 1.0 9/12/2020 18:44
+ * @version 1.5 9/12/2020 18:44
  * @since 1.0
  * @description
  * Deze klasse bevat het spelbord. Het bord is een 2 dimensional array die bestaat uit allemaal tegels (klasse Tile). De speler plaats hier blokken op.
@@ -18,11 +16,9 @@ public class Board {
      * DEFAULT_COLOR     Standaard kleur van de tegels op het bord.
      * BASE_POINT        Standaard punten voor het vervolledigen van een rij of kolom.
      */
-    private Tile grid[][];
+    private Tile[][] grid;
     private int size;
     private boolean draganddrop;
-    public final Color DEFAULT_COLOR = Color.black;
-    private final int BASE_POINTS = 5;
 
 
     /**
@@ -33,9 +29,6 @@ public class Board {
         this.draganddrop = false;
         this.grid = new Tile[size][size];
         fillBoard();
-    }
-    public Board() {
-        this(10);
     }
 
 
@@ -48,14 +41,20 @@ public class Board {
         {
             for(int y = 0; y < size; y++)
             {
-                grid[x][y] = new Tile(DEFAULT_COLOR,new Point(x,y));
+                grid[x][y] = new Tile(new Point(x,y));
             }
         }
     }
 
+
+    /**
+     * Geeft de het spelbord terug
+     * @return  Tile   Geeft een 2nd dimensionale array terug
+     */
     public Tile[][] getGrid() {
         return grid;
     }
+
 
     /**
      * Geeft de grootte van het speelveld terug.
@@ -65,13 +64,24 @@ public class Board {
         return size;
     }
 
+
+    /**
+     * Geeft terug of de functie drag and drop aan staat
+     * @return  boolean   Aan of uit
+     */
     public boolean isDraganddrop() {
         return draganddrop;
     }
 
+
+    /**
+     * Zet de drag and drop aan of af
+     * @param   draganddrop    Boolean aan of af
+     */
     public void setDraganddrop(boolean draganddrop) {
         this.draganddrop = draganddrop;
     }
+
 
     /**
      * Stelt de grootte van het speelveld in.
@@ -151,6 +161,7 @@ public class Board {
         return false;
     }
 
+
     /**
      * Verwijderd alle horizontale en verticale rijen.
      * @return  int  Score verkregen door de verwijderde rijen of kolommen
@@ -172,6 +183,7 @@ public class Board {
                 }
             }
 
+            int BASE_POINTS = 5;
             if(fullHor) {
                 for(int j = 0; j < size; j++) {
                     points += BASE_POINTS;

@@ -1,7 +1,5 @@
 package blockgame.model;
 
-import java.awt.*;
-
 /**
  * @author Maxim Derboven
  * @version 1.0 9/12/2020 18:46
@@ -11,12 +9,10 @@ import java.awt.*;
 public class Tile {
     /**
      * Eigenschappen van een tegel in het speelveld.
-     * color        De Kleur om in te kleuren.
      * point        De locatie op het bord (nodig om used or unused te zetten).
      * used         Of de tegel in gebruik is of niet.
      * markdelete   om rij te "verwijderen" zodat een kolom die een rij splitst niet mee verwijderd wordt.
      */
-    private Color color;
     private Point point;
     private boolean used;
     private boolean markdelete = false;
@@ -28,19 +24,6 @@ public class Tile {
      * @param point Tegel.
      */
     public Tile(Point point) {
-        this.point = point;
-        this.used = false;
-    }
-
-
-    /**
-     * Constructor met 2 parameters.
-     * Tegel met kleur aanmaken.
-     * @param color Kleur van de tegel.
-     * @param point Tegel.
-     */
-    public Tile(Color color, Point point) {
-        this.color = color;
         this.point = point;
         this.used = false;
     }

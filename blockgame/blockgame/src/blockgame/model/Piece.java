@@ -187,6 +187,9 @@ public enum Piece {
         return value;
     }
 
+    /**
+     * @return String de URL van de plaats waar de foto zich bevindt.
+     * */
     public String getURL() {
         return URL;
     }
