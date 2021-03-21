@@ -1,20 +1,15 @@
 package blockgame.view.game;
-
-import blockgame.model.Piece;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-
 /**
- * Alexie Chaerle
+ * Maxim Derboven
  * 26/02/2021
  */
 public class GameView extends BorderPane {
@@ -23,11 +18,8 @@ public class GameView extends BorderPane {
     private Label lblScore;
     private Label lblHighscores;
     private GridPane gridBoard;
-    private VBox vbox;
     private VBox vBoxBlocks;
     private int boardsize;
-    private int capacity;
-    private ArrayList<Piece> pieces = new ArrayList<>(capacity);
     private DropShadow borderGlow;
 
 
@@ -80,6 +72,7 @@ public class GameView extends BorderPane {
             RowConstraints row = new RowConstraints(40);
             gridBoard.getRowConstraints().add(row);
         }
+        /* View gaat het bord aanmaken : Presenter gaat het bord handelen */
         for (int i = 0; i < boardsize; i++) {
             for (int j = 0; j < boardsize; j++) {
                 Pane pane = new Pane();
@@ -109,10 +102,6 @@ public class GameView extends BorderPane {
         this.getStylesheets().add("/stylesheets/style.css");
     }
 
-    void setBoardsize(int boardsize) {
-        this.boardsize = boardsize;
-    }
-
     void setLblUser(String text) {
         this.lblUser.setText(text);
     }
@@ -123,14 +112,6 @@ public class GameView extends BorderPane {
 
     void setLblHighscores(String text) {
         this.lblHighscores.setText(text);
-    }
-
-    ArrayList<Piece> getPieces() {
-        return pieces;
-    }
-
-    void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     VBox getBlocksBox() {
@@ -144,6 +125,5 @@ public class GameView extends BorderPane {
     DropShadow getBorderGlow() {
         return borderGlow;
     }
-
 
 }

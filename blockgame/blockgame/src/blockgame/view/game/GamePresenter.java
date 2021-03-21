@@ -33,84 +33,108 @@ import java.util.Optional;
  * 26/02/2021
  */
 public class GamePresenter {
+
     private Game model;
     private GameView view;
-    private Media droppingsound;
+    private final Media droppingsound;
     private int selectedblock = 0;
     private Point lastLocation = null;
     static final String ACTIVE_CELL_CSS = "game-grid-cell-active";
-    private Media removeSound;
-    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "drop.mp3");
-    private Path removePath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "delete.mp3");
+    private final Media removeSound;
 
+    /**
+     * Constructor voor Het Game scherm
+     * Sounds, (window)Eventhandlers & updaten van de view.
+     */
     public GamePresenter(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        this.droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
-        this.removeSound = new Media(new File(removePath.toString()).toURI().toString());
+        this.droppingsound = new Media(new File(Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "drop.mp3").toString()).toURI().toString());
+        this.removeSound = new Media(new File(Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "delete.mp3").toString()).toURI().toString());
         addEventHandlers();
         updateView();
         addWindowEventHandlers();
     }
 
+    /**
+     * Het scherm updaten bij wijzigingen en start
+     */
     private void updateView() {
+        /* Dynamisch score updaten */
         view.setLblUser("Logged in as: " + model.getPlayer().getUsername());
         view.setLblScore("Current score: " + model.getScoreboard().getScore());
         view.setLblHighscores("Highscore: " + model.getPlayer().getHighscore());
-        view.setCapacity(model.getPlayablePieces().getCapacity());
-
-
+        /* Zolang het mogelijk is om een blok te plaatsen, update doen */
         if (model.isPossible()) {
+            /* Alle foto's weg halen */
             view.getBlocksBox().getChildren().clear();
+            /* Terug alle fotos toevoegen die er over zijn */
+            /* Kon in principe ook enkel de gebruikte op null zetten */
             for (Piece piece : model.getPlayablePieces().getPieces()) {
                 view.getBlocksBox().getChildren().addAll(new ImageView(piece.getURL()));
             }
+
+            /* Voor elk vakje op het bord updaten. */
             boolean played = false;
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
+                    /* Bij vakjes dat verwijderd zijn : */
                     if (view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().contains(ACTIVE_CELL_CSS) && !model.getBoard().getGrid()[x][y].isUsed() && !played && model.isMusic()) {
                         new MediaPlayer(removeSound).play();
                         played = true;
+                        /* Animatie rij verwijderen hier ? */
                     }
+
+                    /* ALle vakjes updaten zowel de geplaatste als de verwijderde (stijlen), dus voort gemak gewoon alle vakjes loopen */
                     view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().remove(ACTIVE_CELL_CSS);
                     if (model.getBoard().getGrid()[x][y].isUsed()) {
                         view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().add(ACTIVE_CELL_CSS);
                     }
                 }
             }
+            /* Event handelers terug toevoegen ander is het niet meer mogelijk om nieuwe blok foto's te slepen (aangezien oude verwijderd worden)*/
             addEventHandlers();
         } else {
+            /* Als het niet meer mogelijk is te spelen : Game over scherm laten zien */
             GameOverView gov = new GameOverView();
             view.getScene().setRoot(gov);
             new GameOverPresenter(model, gov);
             return;
         }
+        /* Als drag and drop uit staat : een border glow rond de foto's zetten zodat de gebruiker weet welke geselecteerd is. */
         if (!model.getBoard().isDraganddrop()) {
             view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
         }
     }
 
+    /* Voorbeeld locatie updaten adhv stand muis */
     private void updateLastLocation(Point location) {
+        /* De geselecteerde blok terug op 0 zetten wanneer gespeeld */
         if (selectedblock == view.getBlocksBox().getChildren().size()) {
             selectedblock = 0;
         }
+        /* Als de huidige locatie leeg is : verwijder de highlight & zet locatie op null (buiten spelbord) & returnen*/
         if (location == null) {
             removeLastLocation();
             lastLocation = null;
             return;
         }
+        /* Als lastlocation niet null is = highlight verwijderen om hieronder een nieuwe aan te maken */
         if (lastLocation != null) {
             removeLastLocation();
         }
+        /* Op locatie kijken of het mogelijk is een blok te plaatsen. Zo ja highlight de vakjes door de Points van de blok te loopen tegenover het spelbord */
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), location)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
                 Node SecondCell = view.getGridBoard().getChildren().get((location.getY() + point.getY()) * model.getBoard().getSize() + (location.getX() + point.getX()));
                 SecondCell.getStyleClass().add(ACTIVE_CELL_CSS);
             }
         }
+        /* Location updaten */
         lastLocation = location;
     }
 
+    /* Highlight verwijderen wordt hierboven aangeroepen na de verandering van muis */
     private void removeLastLocation() {
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), lastLocation)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {
@@ -119,6 +143,7 @@ public class GamePresenter {
         }
     }
 
+    /* Window Alert toevoegen tegen het verlies van score (confirmation box) */
     public void addWindowEventHandlers() {
         view.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -148,15 +173,18 @@ public class GamePresenter {
         });
     }
 
+    /* Even handelers */
     private void addEventHandlers() {
 
-        //voeg aan alle vakjes een handler toe om deze te updaten wanneer er met een object over wordt gehovert.
+        /*Voeg de grid toe als target */
         GridPane target = view.getGridBoard();
+        /* Check welke uit te voeren aan de hand van welke modus aan staat (click of drag and drop) */
         if (!model.getBoard().isDraganddrop()) {
-            //add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden)
+            /*add click event zodat we weten welke blok de gebruiker wilt gaan gebruiken. (sleep event zal ook eebn blok aanduiden) */
             for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
 
+                /* Voor het clicken van de blokken foto's een hand cursor zetten */
                 view.getBlocksBox().getChildren().get(j).setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -164,6 +192,7 @@ public class GamePresenter {
                     }
                 });
 
+                /* Op het klikken van de muis op de fotos : de highlight van de vorige blok die evt nog staat verwijderen, de block als selected block markeren & glowen */
                 view.getBlocksBox().getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -178,12 +207,11 @@ public class GamePresenter {
                             view.getBlocksBox().getChildren().get(finalJ).setEffect(view.getBorderGlow());
 
                             selectedblock = finalJ;
-                            System.out.println("Selected block; " + selectedblock);
                         }
                     }
                 });
             }
-            //klikken en zet doen
+            /* Wanneer er op de target geklicked wordt kijken op welke node (= welk vakje) & daar proberen te playen */
             target.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     Node node = event.getPickResult().getIntersectedNode();
@@ -202,6 +230,7 @@ public class GamePresenter {
                 }
             });
 
+            /* Voor de highlight aan elk vakje een on entered hangen zodat de location dynamisch geupdate blijft */
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
                     Point locatie = new Point(x, y);
@@ -215,17 +244,19 @@ public class GamePresenter {
             }
         } else {
 
-            //zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok.
+            /**/
             for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 int finalJ = j;
 
+                /* hand maken on mouse entered voor drag (CLOSED HAND AANGEZIEN DRAG)*/
                 view.getBlocksBox().getChildren().get(j).setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        view.getBlocksBox().getChildren().get(finalJ).setCursor(Cursor.HAND);
+                        view.getBlocksBox().getChildren().get(finalJ).setCursor(Cursor.CLOSED_HAND);
                     }
                 });
 
+                /* zet de geselecteerde image op de dragboard en zet hem als geselecteerd blok. */
                 view.getBlocksBox().getChildren().get(j).setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -241,7 +272,7 @@ public class GamePresenter {
                 });
             }
 
-            //clipboard ondrag bewaren onderweg naar target.
+            /*Wanneer de drag in actie is (dus wanneer er wordt gesleept) de image laten mee gaan */
             target.setOnDragOver(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                     if (event.getDragboard().hasImage()) {
@@ -251,6 +282,7 @@ public class GamePresenter {
                 }
             });
 
+            /* Voor de highlight aan elk vakje een on drag entered hangen zodat de location dynamisch geupdate blijft (van awt lib) */
             for (int x = 0; x < model.getBoard().getSize(); x++) {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
                     Point locatie = new Point(x, y);
@@ -263,7 +295,7 @@ public class GamePresenter {
                 }
             }
 
-            // Droppen en zet doen
+            /* Wanneer de muis wordt losgelaten maw de drop : zet doen */
             target.setOnDragDropped(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                     Dragboard db = event.getDragboard();
@@ -289,7 +321,8 @@ public class GamePresenter {
                     event.consume();
                 }
             });
-            // Na de drop en zet
+
+            /* Na de drop het dragevent cancelen */
             for (int j = 0; j < view.getBlocksBox().getChildren().size(); j++) {
                 view.getBlocksBox().getChildren().get(j).setOnDragDone(new EventHandler<DragEvent>() {
                     @Override
