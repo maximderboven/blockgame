@@ -21,7 +21,7 @@ public class StartScreenTransition extends Transition {
         fadeIn.setCycleCount(1);
 
         //Finish splash with fade out effect
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), view);
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(5), view);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
         fadeOut.setCycleCount(1);

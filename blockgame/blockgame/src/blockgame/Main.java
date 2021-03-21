@@ -15,11 +15,9 @@ import java.io.File;
  * @version 1.0 9/12/2020 18:44
  */
 public class Main extends Application {
-
     public static void main(String[] args) {
         Application.launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) {
         Game model = new Game();
@@ -34,5 +32,4 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(File.separator + "images" + File.separator + "logo.png"));
         primaryStage.show();
     }
-
 }

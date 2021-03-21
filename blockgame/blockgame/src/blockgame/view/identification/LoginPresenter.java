@@ -40,8 +40,8 @@ public class LoginPresenter {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 RegisterView registerView = new RegisterView();
-                new RegisterPresenter(model, registerView);
                 view.getScene().setRoot(registerView);
+                new RegisterPresenter(model, registerView);
             }
         });
 
@@ -89,8 +89,8 @@ public class LoginPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 MainMenuView mv = new MainMenuView();
-                new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
+                new MainMenuPresenter(model, mv);
             }
         });
 

@@ -59,8 +59,8 @@ public class HighscoresPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 MainMenuView mv = new MainMenuView();
-                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
+                new MainMenuPresenter(model, mv);
             }
         });
     }

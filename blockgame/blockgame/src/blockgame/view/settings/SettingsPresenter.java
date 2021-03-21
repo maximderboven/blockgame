@@ -80,8 +80,8 @@ public class SettingsPresenter {
 
                 // Terug naar Main Menu
                 MainMenuView mv = new MainMenuView();
-                new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
+                new MainMenuPresenter(model, mv);
 
                 model.setMusic(view.getChkSoundEffects().isSelected());
 

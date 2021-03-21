@@ -44,8 +44,9 @@ public class RegisterPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 MainMenuView mmv = new MainMenuView();
-                MainMenuPresenter mmp = new MainMenuPresenter(model, mmv);
                 view.getScene().setRoot(mmv);
+                new MainMenuPresenter(model, mmv);
+
             }
         });
 
@@ -79,8 +80,8 @@ public class RegisterPresenter {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 LoginView lv = new LoginView();
-                LoginPresenter lp = new LoginPresenter(model, lv);
                 view.getScene().setRoot(lv);
+                new LoginPresenter(model, lv);
             }
         });
 

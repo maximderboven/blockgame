@@ -81,8 +81,8 @@ public class GamePresenter {
             addEventHandlers();
         } else {
             GameOverView gov = new GameOverView();
-            new GameOverPresenter(model, gov);
             view.getScene().setRoot(gov);
+            new GameOverPresenter(model, gov);
             return;
         }
         if (!model.getBoard().isDraganddrop()) {
@@ -140,6 +140,7 @@ public class GamePresenter {
                     MainMenuView mv = new MainMenuView();
                     view.getScene().setRoot(mv);
                     new MainMenuPresenter(newmodel, mv);
+                    event.consume();
                 } else {
                     event.consume();
                 }

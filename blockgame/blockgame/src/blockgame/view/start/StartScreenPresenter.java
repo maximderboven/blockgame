@@ -17,13 +17,14 @@ public class StartScreenPresenter {
         addEventHandlers();
     }
 
+    /* Override de andere */
     private void addEventHandlers() {
         view.getTransition().setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 MainMenuView mv = new MainMenuView();
-                new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
+                new MainMenuPresenter(model, mv);
             }
         });
     }

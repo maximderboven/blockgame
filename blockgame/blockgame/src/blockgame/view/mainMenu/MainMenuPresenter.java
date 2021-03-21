@@ -8,16 +8,24 @@ import blockgame.view.identification.LoginPresenter;
 import blockgame.view.identification.LoginView;
 import blockgame.view.settings.SettingsPresenter;
 import blockgame.view.settings.SettingsView;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 /**
  * Alexie Chaerle
@@ -36,6 +44,16 @@ public class MainMenuPresenter {
         this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
+        addWindowEventHandlers();
+    }
+
+    public void addWindowEventHandlers() {
+        view.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+            }
+        });
     }
 
     private void addEventHandlers() {
@@ -63,8 +81,8 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 LoginView lv = new LoginView();
-                new LoginPresenter(model, lv);
                 view.getScene().setRoot(lv);
+                new LoginPresenter(model, lv);
             }
         });
 
@@ -76,9 +94,9 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 HighscoresView hv = new HighscoresView();
-                new HighscoresPresenter(model, hv);
                 view.getScene().getStylesheets().add("/stylesheets/chart.css");
                 view.getScene().setRoot(hv);
+                new HighscoresPresenter(model, hv);
             }
         });
         view.getImgHighscores().setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -105,8 +123,8 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 SettingsView sv = new SettingsView();
-                new SettingsPresenter(model, sv);
                 view.getScene().setRoot(sv);
+                new SettingsPresenter(model, sv);
             }
         });
         view.getImgSettings().setOnMouseEntered(new EventHandler<MouseEvent>() {
