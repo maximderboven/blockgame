@@ -1,6 +1,5 @@
 package blockgame.view.gameover;
 
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -34,7 +33,7 @@ public class GameOverView extends BorderPane {
         imgSave = new ImageView("/images/SaveButton.png");
         lblDifficulty = new Label();
         lblError = new Label();
-        hbox = new HBox(lblDifficulty,lblError);
+        hbox = new HBox(lblDifficulty, lblError);
 
         GridPane grid = new GridPane();
         grid.add(lblScore, 0, 0);
@@ -79,7 +78,7 @@ public class GameOverView extends BorderPane {
         return lblDifficulty;
     }
 
-    public Label getLblError() {
+    Label getLblError() {
         return lblError;
     }
 }

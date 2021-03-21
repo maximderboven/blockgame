@@ -2,7 +2,6 @@ package blockgame.view.identification;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -77,10 +76,13 @@ public class AuthorizationView extends BorderPane {
         lblRedirect.setId("redirect");
         grid.setVgap(15);
         grid.setHgap(15);
-        this.setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+        this.setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
     }
 
-    // Setter om de hoofdtitel in te stellen
     void setLblTitel(String text) {
         this.lblTitel.setText(text);
     }

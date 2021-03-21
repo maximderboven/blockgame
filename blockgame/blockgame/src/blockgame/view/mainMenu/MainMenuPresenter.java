@@ -10,7 +10,6 @@ import blockgame.view.settings.SettingsPresenter;
 import blockgame.view.settings.SettingsView;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -28,22 +27,20 @@ public class MainMenuPresenter {
 
     private Game model;
     private MainMenuView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media clicksound;
-
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
     public MainMenuPresenter(Game model, MainMenuView view) {
         this.model = model;
         this.view = view;
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
-        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
     }
 
     private void addEventHandlers() {
 
-        /* Play */
+        // Play "button"
         view.getImgPlay().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -52,7 +49,6 @@ public class MainMenuPresenter {
                 view.getImgPlay().setScaleY(1.15);
             }
         });
-
         view.getImgPlay().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -60,7 +56,6 @@ public class MainMenuPresenter {
                 view.getImgPlay().setScaleY(1);
             }
         });
-
         view.getImgPlay().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -68,12 +63,12 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 LoginView lv = new LoginView();
-                LoginPresenter lp = new LoginPresenter(model, lv);
+                new LoginPresenter(model, lv);
                 view.getScene().setRoot(lv);
             }
         });
 
-        /* Highscores */
+        // Highscores "button"
         view.getImgHighscores().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -81,12 +76,11 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 HighscoresView hv = new HighscoresView();
-                HighscoresPresenter hp = new HighscoresPresenter(model, hv);
+                new HighscoresPresenter(model, hv);
                 view.getScene().getStylesheets().add("/stylesheets/chart.css");
                 view.getScene().setRoot(hv);
             }
         });
-
         view.getImgHighscores().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -95,7 +89,6 @@ public class MainMenuPresenter {
                 view.getImgHighscores().setScaleY(1.15);
             }
         });
-
         view.getImgHighscores().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -104,7 +97,7 @@ public class MainMenuPresenter {
             }
         });
 
-        /* Settings */
+        // Settings "button"
         view.getImgSettings().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -112,11 +105,10 @@ public class MainMenuPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 SettingsView sv = new SettingsView();
-                SettingsPresenter sp = new SettingsPresenter(model, sv);
+                new SettingsPresenter(model, sv);
                 view.getScene().setRoot(sv);
             }
         });
-
         view.getImgSettings().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -125,7 +117,6 @@ public class MainMenuPresenter {
                 view.getImgSettings().setScaleY(1.15);
             }
         });
-
         view.getImgSettings().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -134,7 +125,7 @@ public class MainMenuPresenter {
             }
         });
 
-        /* About */
+        // About "button"
         view.getImgAbout().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -143,7 +134,6 @@ public class MainMenuPresenter {
                 view.getImgAbout().setScaleY(1.15);
             }
         });
-
         view.getImgAbout().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -151,7 +141,6 @@ public class MainMenuPresenter {
                 view.getImgAbout().setScaleY(1);
             }
         });
-
         view.getImgAbout().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -168,8 +157,7 @@ public class MainMenuPresenter {
     }
 
     private void updateView() {
-
+        // ...
     }
-
 
 }

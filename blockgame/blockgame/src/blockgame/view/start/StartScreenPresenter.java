@@ -4,9 +4,6 @@ import blockgame.model.Game;
 import blockgame.view.mainMenu.MainMenuPresenter;
 import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.*;
-import javafx.scene.control.Alert;
-import javafx.stage.WindowEvent;
-import java.net.MalformedURLException;
 
 public class StartScreenPresenter {
 
@@ -17,13 +14,10 @@ public class StartScreenPresenter {
         this.model = model;
         this.view = view;
         updateView();
-        EventHandlers();
+        addEventHandlers();
     }
 
-    private void updateView() {
-    }
-
-    private void EventHandlers() {
+    private void addEventHandlers() {
         view.getTransition().setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -33,4 +27,8 @@ public class StartScreenPresenter {
             }
         });
     }
+
+    private void updateView() {
+    }
+
 }

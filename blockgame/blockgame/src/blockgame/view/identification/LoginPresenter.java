@@ -22,31 +22,30 @@ import java.nio.file.Paths;
 public class LoginPresenter {
     private Game model;
     private LoginView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media clicksound;
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
     public LoginPresenter(Game model, LoginView view) {
         this.model = model;
         this.view = view;
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
-        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         this.addEventHandlers();
         this.updateView();
     }
 
     public void addEventHandlers() {
 
-        // Om te gaan naar registerview
+        // Redirect naar RegisterView
         view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 RegisterView registerView = new RegisterView();
-                RegisterPresenter registerPresenter = new RegisterPresenter(model, registerView);
+                new RegisterPresenter(model, registerView);
                 view.getScene().setRoot(registerView);
             }
         });
 
-
+        // Login "button"
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -64,7 +63,6 @@ public class LoginPresenter {
                 }
             }
         });
-
 
         view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -91,7 +89,7 @@ public class LoginPresenter {
                     new MediaPlayer(clicksound).play();
                 }
                 MainMenuView mv = new MainMenuView();
-                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
             }
         });

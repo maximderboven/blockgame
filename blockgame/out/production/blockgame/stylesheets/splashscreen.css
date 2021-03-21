@@ -1,5 +1,6 @@
 .progress-bar > .track {
-    -fx-text-box-border: rgb(73,27,3);
-    -fx-control-inner-background: rgb(182,122,64);
-    -fx-padding: 500px;
+    -fx-background-color: rgb(182,122,64);
+}
+.bar {
+    -fx-background-color: rgb(73,27,3);
 }

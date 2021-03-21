@@ -6,16 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class StartScreenView extends BorderPane {
 
     private ProgressIndicator timeProgress;
     private StartScreenTransition trans;
-    private HBox hbox;
 
     public StartScreenView() {
         initialiseNodes();
@@ -25,16 +20,17 @@ public class StartScreenView extends BorderPane {
 
     private void initialiseNodes() {
         this.timeProgress = new ProgressBar();
-        this.hbox = new HBox();
     }
 
     private void layoutNodes() {
         this.getStylesheets().add("/stylesheets/splashscreen.css");
         ImageView centralImage;
-        centralImage = new ImageView(new Image("/images/loadingscherm.png"));
+        centralImage = new ImageView(new Image("/images/load.png"));
         centralImage.setSmooth(true);
-        hbox.getChildren().addAll(centralImage,timeProgress);
-        this.setCenter(hbox);
+        this.setCenter(centralImage);
+        this.setBottom(timeProgress);
+        timeProgress.setPadding(new Insets(10));
+        timeProgress.setPrefWidth(900);
     }
 
     ProgressIndicator getTimeProgress() {

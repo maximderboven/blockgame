@@ -23,33 +23,32 @@ import java.nio.file.Paths;
 public class GameOverPresenter {
     private Game model;
     private GameOverView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media mdGameOver;
     private Media mdGameOverHighscore;
     private Media clicksound;
+    private Path soundPath1 = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "gameover.mp3");
+    private Path soundPath2 = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "highscore.mp3");
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
     public GameOverPresenter(Game model, GameOverView view) {
         this.model = model;
         this.view = view;
-        Path soundPath1 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "gameover.mp3");
-        mdGameOver = new Media(new File(soundPath1.toString()).toURI().toString());
-        Path soundPath2 = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "highscore.mp3");
-        mdGameOverHighscore = new Media(new File(soundPath2.toString()).toURI().toString());
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
-        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.mdGameOver = new Media(new File(soundPath1.toString()).toURI().toString());
+        this.mdGameOverHighscore = new Media(new File(soundPath2.toString()).toURI().toString());
+        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
     }
 
     private void updateView() {
         // Als de difficulty aan staat, label tonen
-        if (!model.getPlayablePieces().isDifficulty()){
+        if (!model.getPlayablePieces().isDifficulty()) {
             view.getLblDifficulty().setText("Difficulty is disabled, score wont be updated.");
         }
         // Score en highscore updaten
         view.getLblScore().setText("Score : " + model.getScoreboard().getScore());
         view.getLblHighscore().setText("Highscore : " + model.getPlayer().getHighscore());
-        if (model.getPlayer().getHighscore() == model.getScoreboard().getScore()){
+        if (model.getPlayer().getHighscore() == model.getScoreboard().getScore()) {
             view.setBackground(new Background(new BackgroundImage(new Image("/images/gameOverNewHighscore.png"),
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT,
@@ -58,7 +57,7 @@ public class GameOverPresenter {
             if (model.isMusic()) {
                 new MediaPlayer(mdGameOverHighscore).play();
             }
-        }else if (model.isMusic()) {
+        } else if (model.isMusic()) {
             new MediaPlayer(mdGameOver).play();
         }
     }
@@ -83,7 +82,6 @@ public class GameOverPresenter {
                 MainMenuView mv = new MainMenuView();
                 new MainMenuPresenter(newmodel, mv);
                 view.getScene().setRoot(mv);
-
             }
         });
 
@@ -104,6 +102,6 @@ public class GameOverPresenter {
                 view.setCursor(Cursor.DEFAULT);
             }
         });
-    }
 
+    }
 }

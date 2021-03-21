@@ -1,7 +1,6 @@
 package blockgame.view.mainMenu;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -37,12 +36,15 @@ public class MainMenuView extends GridPane {
 
     /* Layout van de nodes */
     private void layoutNodes() {
-        // top, left, bottom, right
         setMargin(imgPlay, new Insets(303, 0, 0, 420));
         setMargin(imgHighscores, new Insets(0, 0, 0, 390));
-        setMargin(imgAbout, new Insets(35,0,0,195));
-        setMargin(imgSettings, new Insets(0,50,0,390));
-        setBackground(new Background(new BackgroundImage(new Image("/images/menu/menubgsmall.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+        setMargin(imgAbout, new Insets(35, 0, 0, 195));
+        setMargin(imgSettings, new Insets(0, 50, 0, 390));
+        setBackground(new Background(new BackgroundImage(new Image("/images/menu/menubgsmall.png"),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
 
         add(imgPlay, 0, 0);
         add(imgHighscores, 0, 1);

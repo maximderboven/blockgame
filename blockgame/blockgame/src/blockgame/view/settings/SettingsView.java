@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
+import java.io.File;
+
 
 /**
  * @author Maxim Derboven
@@ -23,10 +25,8 @@ public class SettingsView extends BorderPane {
     private Label lblBoardSizeSlider;
     private Label lblDifficulty;
     private Label lblPlayablePieces;
-
     private Label lblFileLocation;
     private TextField txtFileLocation;
-
     private Spinner<Integer> spPlayablePieces;
     private Button btnFileLocation;
     private Slider slSize;
@@ -36,7 +36,6 @@ public class SettingsView extends BorderPane {
     private RadioButton rbDrag;
     private ToggleGroup tgMode;
     private ImageView imgSave;
-
     private CheckBox chkSoundEffects;
     private Label lblSoundEffects;
 
@@ -64,7 +63,7 @@ public class SettingsView extends BorderPane {
         tgMode = new ToggleGroup();
         rbClick.setToggleGroup(tgMode);
         rbDrag.setToggleGroup(tgMode);
-        imgSave = new ImageView("/images/SaveButton.png");
+        imgSave = new ImageView(File.separator + "images" + File.separator + "SaveButton.png");
         lblFileLocation = new Label("File location");
         chkSoundEffects = new CheckBox();
         lblSoundEffects = new Label("Sound effects");
@@ -100,12 +99,17 @@ public class SettingsView extends BorderPane {
         rbDrag.setId("label-settings");
         rbClick.setId("label-settings");
         lblFileLocation.setId("label-settings");
+        lblSoundEffects.setId("label-settings");
         spPlayablePieces.setPrefWidth(50);
 
         // CSS + fonts
         Font.loadFont(getClass().getResourceAsStream("/fonts/Woodtrap.ttf"), 12);
         getStylesheets().add("/stylesheets/settings.css");
-        setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
+        setBackground(new Background(new BackgroundImage(new Image("/images/menu/bgstandard.png"),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
 
         // Grid settings
         grid.setPadding(new Insets(0, 0, 0, 50));
@@ -124,52 +128,37 @@ public class SettingsView extends BorderPane {
         grid.add(txtFileLocation, 0, 6);
         grid.add(lblSoundEffects, 0, 6);
         grid.add(chkSoundEffects, 1, 6);
-        lblSoundEffects.setId("label-settings");
         grid.add(imgSave, 0, 8);
         txtFileLocation.setPrefWidth(200);
         txtFileLocation.setDisable(true);
         imgSave.setFitWidth(100);
         imgSave.setFitHeight(50);
-
         HBox hb1 = new HBox(rbClick, rbDrag);
-        rbDrag.setPadding(new Insets(0,0,0,10));
+        rbDrag.setPadding(new Insets(0, 0, 0, 10));
         grid.add(hb1, 1, 3);
-
         HBox hb2 = new HBox(txtFileLocation, btnFileLocation);
         grid.add(hb2, 1, 5);
     }
 
-    /**
-     * Returns: checkbox van de difficulty
-     */
+    /*
+    * Getters
+    * */
     CheckBox getChkDifficulty() {
         return chkDifficulty;
     }
 
-    /**
-     * Returns: save changes button
-     */
     ImageView getImgSave() {
         return imgSave;
     }
 
-    /**
-     * Returns: Label van de board slider
-     */
     Label getBoardSizeSliderLabel() {
         return lblBoardSizeSlider;
     }
 
-    /**
-     * Returns: Slider size
-     */
     Slider getSlSize() {
         return slSize;
     }
 
-    /**
-     * Returns: Textfield van de playable pieces
-     */
     Spinner<Integer> getSpPlayablePieces() {
         return spPlayablePieces;
     }

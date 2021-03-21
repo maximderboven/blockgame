@@ -22,15 +22,14 @@ import java.nio.file.Paths;
 public class RegisterPresenter {
     private Game model;
     private RegisterView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media clicksound;
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
 
     public RegisterPresenter(Game model, RegisterView view) {
         this.model = model;
         this.view = view;
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
-        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         this.addEventHandlers();
         this.updateView();
     }
@@ -106,7 +105,7 @@ public class RegisterPresenter {
     }
 
     private void updateView() {
-
+        // ...
     }
 
 }

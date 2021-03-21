@@ -1,7 +1,6 @@
 package blockgame.view.about;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -10,6 +9,7 @@ import javafx.stage.Stage;
  * 22/02/2021
  */
 public class AboutAlert extends Alert {
+    
     // Constructor
     public AboutAlert() {
         super(AlertType.INFORMATION);

@@ -25,22 +25,21 @@ import java.nio.file.Paths;
 public class SettingsPresenter {
     private Game model;
     private SettingsView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media clicksound;
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
 
     public SettingsPresenter(Game model, SettingsView view) {
         this.model = model;
         this.view = view;
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "click.mp3");
-        clicksound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
     }
 
     private void updateView() {
 
-        /* Waarden instellen van de slider */
+        /* Alvorens de settingsview wordt getoond, de waarden van het huidig spel instellen in de view. */
         view.getSlSize().setValue(model.getBoard().getSize());
         view.getBoardSizeSliderLabel().setText(String.format("Size: %dx%d", model.getBoard().getSize(), model.getBoard().getSize()));
 
@@ -65,30 +64,23 @@ public class SettingsPresenter {
     }
 
     private void addEventHandlers() {
+
+        // Settings opslaan:
         view.getImgSave().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (model.isMusic()) {
                     new MediaPlayer(clicksound).play();
                 }
-                /* Board size */
-                model.getBoard().setSize((int) view.getSlSize().getValue());
-                System.out.println("Board size: " + model.getBoard().getSize());
 
-                /* Difficulty button */
-                model.getPlayablePieces().setDifficulty(view.getChkDifficulty().isSelected());
-                System.out.println("Difficulty: " + model.getPlayablePieces().isDifficulty());
+                model.getBoard().setSize((int) view.getSlSize().getValue()); /* Board size */
+                model.getPlayablePieces().setDifficulty(view.getChkDifficulty().isSelected()); /* Difficulty button */
+                model.getBoard().setDraganddrop(view.getRbDrag().isSelected()); /* Drag and drop */
+                model.getPlayablePieces().setCapacity(view.getSpPlayablePieces().getValueFactory().getValue()); /* Playable pieces */
 
-                /* Drag and drop */
-                model.getBoard().setDraganddrop(view.getRbDrag().isSelected());
-                System.out.println("Drag and drop: " + view.getRbDrag().isSelected());
-
-                /* Playable pieces */
-                model.getPlayablePieces().setCapacity(view.getSpPlayablePieces().getValueFactory().getValue());
-                System.out.println("Playable pieces: " + model.getPlayablePieces().getPieces());
-
+                // Terug naar Main Menu
                 MainMenuView mv = new MainMenuView();
-                MainMenuPresenter mp = new MainMenuPresenter(model, mv);
+                new MainMenuPresenter(model, mv);
                 view.getScene().setRoot(mv);
 
                 model.setMusic(view.getChkSoundEffects().isSelected());
@@ -96,7 +88,7 @@ public class SettingsPresenter {
             }
         });
 
-        /* Slider label dynamisch veranderen */
+        // Slider label dynamisch veranderen
         view.getSlSize().setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -110,6 +102,7 @@ public class SettingsPresenter {
             }
         });
 
+        // Button effect (vergroten on hover)
         view.getImgSave().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -118,7 +111,6 @@ public class SettingsPresenter {
                 view.getImgSave().setScaleY(1.1);
             }
         });
-
         view.getImgSave().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -127,17 +119,18 @@ public class SettingsPresenter {
             }
         });
 
+        // File location aanpassen van de highscores
         view.getBtnFileLocation().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                // Filechooser
                 FileChooser fc = new FileChooser();
                 fc.setTitle("Choose highscores location");
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Textfiles", "*.txt"));
                 fc.setInitialDirectory(new File("./"));
                 File selectedFile = fc.showOpenDialog(view.getScene().getWindow());
 
-                if ((selectedFile != null) && (Files.isReadable(Paths.get(selectedFile.toURI())))) {
+                // Kijken of locatie niet NULL is en of het leesbaar/writable is. Anders error alert
+                if ((selectedFile != null) && (Files.isReadable(Paths.get(selectedFile.toURI()))) && (Files.isWritable(Paths.get(selectedFile.toURI())))) {
                     model.getAm().setLocation(selectedFile.getAbsolutePath());
                     view.getTxtFileLocation().setText(model.getAm().getLocation());
                 } else {
@@ -147,7 +140,6 @@ public class SettingsPresenter {
                     errorWindow.showAndWait();
                 }
             }
-
         });
     }
 }

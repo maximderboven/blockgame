@@ -35,20 +35,19 @@ import java.util.Optional;
 public class GamePresenter {
     private Game model;
     private GameView view;
-    public static final char FILE_SEPARATOR = System.getProperties().getProperty("file.separator").charAt(0);
     private Media droppingsound;
     private int selectedblock = 0;
     private Point lastLocation = null;
     static final String ACTIVE_CELL_CSS = "game-grid-cell-active";
     private Media removeSound;
+    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "drop.mp3");
+    private Path removePath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "delete.mp3");
 
     public GamePresenter(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        Path soundPath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "drop.mp3");
-        droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
-        Path removePath = Paths.get("blockgame" + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "sounds" + FILE_SEPARATOR + "delete.mp3");
-        removeSound = new Media(new File(removePath.toString()).toURI().toString());
+        this.droppingsound = new Media(new File(soundPath.toString()).toURI().toString());
+        this.removeSound = new Media(new File(removePath.toString()).toURI().toString());
         addEventHandlers();
         updateView();
         addWindowEventHandlers();
@@ -82,7 +81,7 @@ public class GamePresenter {
             addEventHandlers();
         } else {
             GameOverView gov = new GameOverView();
-            GameOverPresenter mp = new GameOverPresenter(model, gov);
+            new GameOverPresenter(model, gov);
             view.getScene().setRoot(gov);
             return;
         }
