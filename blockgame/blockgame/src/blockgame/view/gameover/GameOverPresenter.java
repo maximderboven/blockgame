@@ -21,6 +21,10 @@ import java.nio.file.Paths;
  * 12/03/2021
  */
 public class GameOverPresenter {
+
+    /**
+     * Attributen
+     */
     private Game model;
     private GameOverView view;
     private Media mdGameOver;
@@ -30,6 +34,10 @@ public class GameOverPresenter {
     private Path soundPath2 = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "highscore.mp3");
     private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
+
+    /**
+     * Constructor
+     */
     public GameOverPresenter(Game model, GameOverView view) {
         this.model = model;
         this.view = view;
@@ -41,34 +49,36 @@ public class GameOverPresenter {
     }
 
     private void updateView() {
-        // Als de difficulty aan staat, label tonen
-        if (!model.getPlayablePieces().isDifficulty()) {
+        /* Als de difficulty NIET aan staat, label tonen (scores worden niet geüpdatet) */
+        if (!model.getPlayablePieces().isDifficulty())
             view.getLblDifficulty().setText("Difficulty is disabled, score wont be updated.");
-        }
-        // Score en highscore updaten
+
+        /* Score en HighScore tonen */
         view.getLblScore().setText("Score : " + model.getScoreboard().getScore());
         view.getLblHighscore().setText("Highscore : " + model.getPlayer().getHighscore());
+
+        /* Als de highscore van de speler gelijk is aan zijn huidige score (highscore==verbroken of gelijk) */
         if (model.getPlayer().getHighscore() == model.getScoreboard().getScore()) {
+            /* Nieuwe achtergrond instellen met custom "Highscore!" */
             view.setBackground(new Background(new BackgroundImage(new Image("/images/gameOverNewHighscore.png"),
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT)));
-            if (model.isMusic()) {
-                new MediaPlayer(mdGameOverHighscore).play();
-            }
+            if (model.isMusic()) new MediaPlayer(mdGameOverHighscore).play();
         } else if (model.isMusic()) {
             new MediaPlayer(mdGameOver).play();
         }
     }
 
+
     private void addEventHandlers() {
+        /* Event voor save button */
         view.getImgSave().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Als de speler zijn highscore verbroken heeft en de difficulty staat aan --> score opslaan */
                 if (model.getScoreboard().getScore() == model.getPlayer().getHighscore() && model.getPlayablePieces().isDifficulty()) {
                     try {
                         model.getAm().save();
@@ -85,6 +95,7 @@ public class GameOverPresenter {
             }
         });
 
+        /* Hover effect voor save button */
         view.getImgSave().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -94,6 +105,7 @@ public class GameOverPresenter {
             }
         });
 
+        /* over effect verwijderen voor save button */
         view.getImgSave().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

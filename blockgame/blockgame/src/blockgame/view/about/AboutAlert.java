@@ -1,4 +1,5 @@
 package blockgame.view.about;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
@@ -13,7 +14,7 @@ public class AboutAlert extends Alert {
     /**
      * Constructor voor Alert About
      */
-    /* tried adding a opener for browser - CONCLUSION: failed */
+    /* tried adding an opener for browser - CONCLUSION: failed */
     Hyperlink link = new Hyperlink("https://youtu.be/dV-fbzXESbo");
 
     public AboutAlert() {

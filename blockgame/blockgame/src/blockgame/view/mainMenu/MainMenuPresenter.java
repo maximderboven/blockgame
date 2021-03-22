@@ -11,21 +11,15 @@ import blockgame.view.settings.SettingsView;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 /**
  * Alexie Chaerle
@@ -33,11 +27,18 @@ import java.util.Optional;
  */
 public class MainMenuPresenter {
 
+    /**
+     * Attributen
+     */
     private Game model;
     private MainMenuView view;
     private Media clicksound;
     private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
+    /**
+     * Constructor voor de MainMenu
+     * Sounds, (window)Eventhandlers & updaten van de view.
+     */
     public MainMenuPresenter(Game model, MainMenuView view) {
         this.model = model;
         this.view = view;
@@ -47,6 +48,7 @@ public class MainMenuPresenter {
         addWindowEventHandlers();
     }
 
+    /* Wanneer de gebruiker op "X" klikt van de window sluit het programma zich af. */
     public void addWindowEventHandlers() {
         view.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -56,9 +58,10 @@ public class MainMenuPresenter {
         });
     }
 
+    /* Eventhandlers */
     private void addEventHandlers() {
 
-        // Play "button"
+        /* Hover effect voor de "Play" button */
         view.getImgPlay().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -67,6 +70,8 @@ public class MainMenuPresenter {
                 view.getImgPlay().setScaleY(1.15);
             }
         });
+
+        /* Hover effect verwijderen voor de "Play" button on mouse exit */
         view.getImgPlay().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -74,31 +79,33 @@ public class MainMenuPresenter {
                 view.getImgPlay().setScaleY(1);
             }
         });
+
+        /* Wanneer de gebruiker op de play button klikt */
         view.getImgPlay().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Naar login scherm gaan */
                 LoginView lv = new LoginView();
                 view.getScene().setRoot(lv);
                 new LoginPresenter(model, lv);
             }
         });
 
-        // Highscores "button"
+        /* Wanneer de gebruiker op de highscores button klikt */
         view.getImgHighscores().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Naar highscores scherm gaan */
                 HighscoresView hv = new HighscoresView();
                 view.getScene().getStylesheets().add("/stylesheets/chart.css");
                 view.getScene().setRoot(hv);
                 new HighscoresPresenter(model, hv);
             }
         });
+
+        /* Hover effect voor de "highscores" button */
         view.getImgHighscores().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -107,6 +114,8 @@ public class MainMenuPresenter {
                 view.getImgHighscores().setScaleY(1.15);
             }
         });
+
+        /* Hover effect verwijderen voor de "highscores" button on mouse exit */
         view.getImgHighscores().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -115,18 +124,19 @@ public class MainMenuPresenter {
             }
         });
 
-        // Settings "button"
+        /* Wanneer de gebruiker op de "Settings" button klikt */
         view.getImgSettings().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Naar de settings gaan */
                 SettingsView sv = new SettingsView();
                 view.getScene().setRoot(sv);
                 new SettingsPresenter(model, sv);
             }
         });
+
+        /* Hover effect voor "Settings" */
         view.getImgSettings().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -135,6 +145,8 @@ public class MainMenuPresenter {
                 view.getImgSettings().setScaleY(1.15);
             }
         });
+
+        /* Hover effect verwijderen voor "Settings" */
         view.getImgSettings().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -143,7 +155,7 @@ public class MainMenuPresenter {
             }
         });
 
-        // About "button"
+        /* Hover effect voor "About" */
         view.getImgAbout().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -152,6 +164,8 @@ public class MainMenuPresenter {
                 view.getImgAbout().setScaleY(1.15);
             }
         });
+
+        /* Hover effect verwijderen voor "About" */
         view.getImgAbout().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -159,12 +173,13 @@ public class MainMenuPresenter {
                 view.getImgAbout().setScaleY(1);
             }
         });
+
+        /* Eventhandler wanneer de gebruiker op de "About" button klikt */
         view.getImgAbout().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Nieuwe AboutAlert aanmaken */
                 AboutAlert alert = new AboutAlert();
                 alert.setResizable(false);
                 alert.setGraphic(new ImageView(this.getClass().getResource("/images/logo.png").toString()));
@@ -175,7 +190,7 @@ public class MainMenuPresenter {
     }
 
     private void updateView() {
-        // ...
+        /* De presenter moet geen wijzigingen in de view zelf teweeg brengen (wat de gebruiker kan zien tenminste). */
     }
 
 }

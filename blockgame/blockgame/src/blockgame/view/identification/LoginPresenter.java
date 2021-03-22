@@ -20,11 +20,20 @@ import java.nio.file.Paths;
  * 22/02/2021
  */
 public class LoginPresenter {
+
+    /**
+     * Attributen
+     */
     private Game model;
     private LoginView view;
     private Media clicksound;
     private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
+
+    /**
+     * Constructor voor de Settings
+     * Sounds, (window)Eventhandlers & updaten van de view.
+     */
     public LoginPresenter(Game model, LoginView view) {
         this.model = model;
         this.view = view;
@@ -35,7 +44,7 @@ public class LoginPresenter {
 
     public void addEventHandlers() {
 
-        // Redirect naar RegisterView
+        /* Redirect naar RegisterView */
         view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -45,16 +54,13 @@ public class LoginPresenter {
             }
         });
 
-        // Login "button"
+        /* Eventhandler wanneer gebruiker op de login button klikt */
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
-                    if (model.isMusic()) {
-                        new MediaPlayer(clicksound).play();
-                    }
+                    if (model.isMusic()) new MediaPlayer(clicksound).play();
                     model.login(view.getTxtUsername().getText(), view.getTxtPassword().getText());
-
                     GameView gameView = new GameView(model.getBoard().getSize());
                     view.getScene().setRoot(gameView);
                     new GamePresenter(model, gameView);
@@ -64,6 +70,7 @@ public class LoginPresenter {
             }
         });
 
+        /* Hover effect voor de Login Button */
         view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -73,6 +80,7 @@ public class LoginPresenter {
             }
         });
 
+        /* Hover effect voor de login button verwijderen */
         view.getImgId().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -82,18 +90,19 @@ public class LoginPresenter {
             }
         });
 
+        /* Eventhandler wanneer de gebruiker op het kruisje (button) klikt. */
         view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
+                /* Terug naar MainMenu gaan */
                 MainMenuView mv = new MainMenuView();
                 view.getScene().setRoot(mv);
                 new MainMenuPresenter(model, mv);
             }
         });
 
+        /* Hover effect voor kruisje (button) */
         view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -103,6 +112,6 @@ public class LoginPresenter {
     }
 
     private void updateView() {
-
+        // ...
     }
 }

@@ -7,9 +7,16 @@ import javafx.event.*;
 
 public class StartScreenPresenter {
 
+    /**
+     * Attributen
+     */
     private Game model;
     private StartScreenView view;
 
+
+    /**
+     * Constructor
+     */
     public StartScreenPresenter(Game model, StartScreenView view) {
         this.model = model;
         this.view = view;
@@ -30,6 +37,7 @@ public class StartScreenPresenter {
     }
 
     private void updateView() {
+        // ...
     }
 
 }

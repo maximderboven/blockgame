@@ -83,24 +83,14 @@ public class AuthorizationView extends BorderPane {
                 BackgroundSize.DEFAULT)));
     }
 
-    void setLblTitel(String text) {
-        this.lblTitel.setText(text);
-    }
 
+    /* Getters */
     TextField getTxtUsername() {
         return txtUsername;
     }
 
-    void setLblError(String text) {
-        this.lblError.setText(text);
-    }
-
     PasswordField getTxtPassword() {
         return txtPassword;
-    }
-
-    void setLblRedirect(String text) {
-        this.lblRedirect.setText(text);
     }
 
     Label getLblRedirect() {
@@ -111,6 +101,24 @@ public class AuthorizationView extends BorderPane {
         return imgClose;
     }
 
+    ImageView getImgId() {
+        return imgId;
+    }
+
+
+    /* Setters */
+    void setLblTitel(String text) {
+        this.lblTitel.setText(text);
+    }
+
+    void setLblError(String text) {
+        this.lblError.setText(text);
+    }
+
+    void setLblRedirect(String text) {
+        this.lblRedirect.setText(text);
+    }
+
     void setImgId(ImageView v) {
         this.imgId = v;
         grid.add(v, 0, 4);
@@ -118,7 +126,4 @@ public class AuthorizationView extends BorderPane {
         v.setFitWidth(100);
     }
 
-    ImageView getImgId() {
-        return imgId;
-    }
 }

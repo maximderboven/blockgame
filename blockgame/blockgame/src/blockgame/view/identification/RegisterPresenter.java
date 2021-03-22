@@ -20,12 +20,20 @@ import java.nio.file.Paths;
  * 17/02/2021
  */
 public class RegisterPresenter {
+
+    /**
+     * Attributen
+     */
     private Game model;
     private RegisterView view;
     private Media clicksound;
     private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
 
 
+    /**
+     * Constructor voor de Settings
+     * Sounds, (window)Eventhandlers & updaten van de view.
+     */
     public RegisterPresenter(Game model, RegisterView view) {
         this.model = model;
         this.view = view;
@@ -36,21 +44,18 @@ public class RegisterPresenter {
 
     private void addEventHandlers() {
 
-        // Return to main menu
+        /* Wanneer de gebruiker op close button klikt -> ga naar MainMenu */
         view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
                 MainMenuView mmv = new MainMenuView();
                 view.getScene().setRoot(mmv);
                 new MainMenuPresenter(model, mmv);
-
             }
         });
 
-        // Set cursor pointer
+        /* Hover effect close button */
         view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -58,13 +63,11 @@ public class RegisterPresenter {
             }
         });
 
-        // Gebruikers registreren
+        /* Eventhandler voor register button */
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) {
-                    new MediaPlayer(clicksound).play();
-                }
+                if (model.isMusic()) new MediaPlayer(clicksound).play();
                 try {
                     model.register(view.getTxtUsername().getText(), view.getTxtPassword().getText());
                     GameView gameView = new GameView(model.getBoard().getSize());
@@ -76,6 +79,7 @@ public class RegisterPresenter {
             }
         });
 
+        /* OnMouseClick om terug naar Login te gaan */
         view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -85,6 +89,7 @@ public class RegisterPresenter {
             }
         });
 
+        /* Hover effect voor RegisterButton */
         view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -94,6 +99,7 @@ public class RegisterPresenter {
             }
         });
 
+        /* Hover effect verwijderen voor RegisterButton */
         view.getImgId().setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

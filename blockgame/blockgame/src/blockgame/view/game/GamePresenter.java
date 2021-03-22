@@ -34,6 +34,9 @@ import java.util.Optional;
  */
 public class GamePresenter {
 
+    /**
+     * Attributen
+     */
     private Game model;
     private GameView view;
     private final Media droppingsound;
@@ -102,17 +105,13 @@ public class GamePresenter {
             return;
         }
         /* Als drag and drop uit staat : een border glow rond de foto's zetten zodat de gebruiker weet welke geselecteerd is. */
-        if (!model.getBoard().isDraganddrop()) {
-            view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
-        }
+        if (!model.getBoard().isDraganddrop()) view.getBlocksBox().getChildren().get(0).setEffect(view.getBorderGlow());
     }
 
     /* Voorbeeld locatie updaten adhv stand muis */
     private void updateLastLocation(Point location) {
         /* De geselecteerde blok terug op 0 zetten wanneer gespeeld */
-        if (selectedblock == view.getBlocksBox().getChildren().size()) {
-            selectedblock = 0;
-        }
+        if (selectedblock == view.getBlocksBox().getChildren().size()) selectedblock = 0;
         /* Als de huidige locatie leeg is : verwijder de highlight & zet locatie op null (buiten spelbord) & returnen*/
         if (location == null) {
             removeLastLocation();
@@ -120,9 +119,8 @@ public class GamePresenter {
             return;
         }
         /* Als lastlocation niet null is = highlight verwijderen om hieronder een nieuwe aan te maken */
-        if (lastLocation != null) {
-            removeLastLocation();
-        }
+        if (lastLocation != null) removeLastLocation();
+
         /* Op locatie kijken of het mogelijk is een blok te plaatsen. Zo ja highlight de vakjes door de Points van de blok te loopen tegenover het spelbord */
         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), location)) {
             for (Point point : model.getPlayablePieces().getPieces().get(selectedblock).getTiles()) {

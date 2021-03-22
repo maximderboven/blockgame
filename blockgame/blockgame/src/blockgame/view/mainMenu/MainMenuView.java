@@ -53,6 +53,8 @@ public class MainMenuView extends GridPane {
     }
 
 
+    /* Getters */
+
     ImageView getImgPlay() {
         return imgPlay;
     }

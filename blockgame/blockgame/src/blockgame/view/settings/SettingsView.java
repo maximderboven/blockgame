@@ -81,7 +81,7 @@ public class SettingsView extends BorderPane {
         super.setCenter(grid);
 
         // Node settings
-        // Value factory.
+        // Value factory, meer info bij SettingsPresenter (line 65)
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 5, 3);
         spPlayablePieces.setValueFactory(valueFactory);
         chkDifficulty.setSelected(true);
@@ -140,9 +140,8 @@ public class SettingsView extends BorderPane {
         grid.add(hb2, 1, 5);
     }
 
-    /*
-    * Getters
-    * */
+    // Getters
+
     CheckBox getChkDifficulty() {
         return chkDifficulty;
     }
