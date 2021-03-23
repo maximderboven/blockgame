@@ -220,10 +220,10 @@ public class GamePresenter {
                         int x = rIndex == null ? 0 : rIndex;
                         if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y)) && model.isMusic()) {
                             new MediaPlayer(droppingsound).play();
+                            model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
+                            updateView();
                         }
-                        model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
                     }
-                    updateView();
                     event.consume();
                 }
             });
@@ -259,7 +259,6 @@ public class GamePresenter {
                     @Override
                     public void handle(MouseEvent event) {
                         selectedblock = finalJ;
-                        System.out.println(selectedblock);
                         ImageView source = (ImageView) event.getSource();
                         //Het image wordt in het DragBoard gestopt tijdens de transfer
                         Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);

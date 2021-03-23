@@ -20,11 +20,11 @@ public class StartScreenPresenter {
     public StartScreenPresenter(Game model, StartScreenView view) {
         this.model = model;
         this.view = view;
-        updateView();
+        //updateView();
         addEventHandlers();
     }
 
-    /* Override de andere */
+    /* Wanneer transition ten einde is: menu tonen */
     private void addEventHandlers() {
         view.getTransition().setOnFinished(new EventHandler<ActionEvent>() {
             @Override
@@ -36,8 +36,8 @@ public class StartScreenPresenter {
         });
     }
 
-    private void updateView() {
-        // ...
-    }
+    /*private void updateView() {
+         Heeft niets nodig, bestaat puur uit animaties (fade & loading bar)
+    }*/
 
 }
