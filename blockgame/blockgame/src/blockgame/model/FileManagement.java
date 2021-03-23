@@ -59,6 +59,7 @@ public class FileManagement {
 
     /**
      * Caesar Cipher Encryt Methode
+     *
      * @param message de lijn die geenctrypteerd moet worden.
      * @return String de geecrypteerde lijn
      */
@@ -79,6 +80,7 @@ public class FileManagement {
 
     /**
      * Caesar Cipher Decrypt Methode
+     *
      * @param message de lijn die gedeenctrypteerd moet worden.
      * @return String de gedeecrypteerde lijn
      */
@@ -105,7 +107,7 @@ public class FileManagement {
                 players.add(new Player(c[0], c[1], Integer.parseInt(c[2])));
             }
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            // Geen tijd meer
         }
     }
 
@@ -193,12 +195,12 @@ public class FileManagement {
      */
 
     public void save() throws IOException {
-            // Extra lijn toevoegen
-            StringBuilder gebruikers = new StringBuilder();
-            for (Player pl : players) {
-                gebruikers.append(encrypt(String.format("%s:%s:%d", pl.getUsername(), pl.getPassword(), pl.getHighscore()))).append("\n");
-            }
-            Files.write(location, gebruikers.toString().getBytes(StandardCharsets.UTF_8));
+        // Extra lijn toevoegen
+        StringBuilder gebruikers = new StringBuilder();
+        for (Player pl : players) {
+            gebruikers.append(encrypt(String.format("%s:%s:%d", pl.getUsername(), pl.getPassword(), pl.getHighscore()))).append("\n");
+        }
+        Files.write(location, gebruikers.toString().getBytes(StandardCharsets.UTF_8));
     }
 
 }

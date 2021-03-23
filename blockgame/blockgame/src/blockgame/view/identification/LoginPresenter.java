@@ -3,56 +3,27 @@ package blockgame.view.identification;
 import blockgame.model.Game;
 import blockgame.view.game.GamePresenter;
 import blockgame.view.game.GameView;
-import blockgame.view.mainMenu.MainMenuPresenter;
-import blockgame.view.mainMenu.MainMenuView;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Alexie Chaerle
  * 22/02/2021
  */
-public class LoginPresenter {
-
-    /**
-     * Attributen
-     */
-    private Game model;
-    private LoginView view;
-    private Media clicksound;
-    private Path soundPath = Paths.get("blockgame" + File.separator + "resources" + File.separator + "sounds" + File.separator + "click.mp3");
-
+public class LoginPresenter extends AuthorizationPresenter {
 
     /**
      * Constructor voor de Settings
      * Sounds, (window)Eventhandlers & updaten van de view.
      */
     public LoginPresenter(Game model, LoginView view) {
-        this.model = model;
-        this.view = view;
-        this.clicksound = new Media(new File(soundPath.toString()).toURI().toString());
-        this.addEventHandlers();
-        this.updateView();
+        super(model, view);
+        super.addEventHandlers();
+        super.updateView();
     }
 
     public void addEventHandlers() {
-
-        /* Redirect naar RegisterView */
-        view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                RegisterView registerView = new RegisterView();
-                view.getScene().setRoot(registerView);
-                new RegisterPresenter(model, registerView);
-            }
-        });
 
         /* Eventhandler wanneer gebruiker op de login button klikt */
         view.getImgId().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -70,48 +41,18 @@ public class LoginPresenter {
             }
         });
 
-        /* Hover effect voor de Login Button */
-        view.getImgId().setOnMouseEntered(new EventHandler<MouseEvent>() {
+        /* Redirect naar RegisterView */
+        view.getLblRedirect().setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                view.getImgId().setScaleX(1.15);
-                view.getImgId().setScaleY(1.15);
-                view.getImgId().setCursor(Cursor.HAND);
-            }
-        });
-
-        /* Hover effect voor de login button verwijderen */
-        view.getImgId().setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                view.getImgId().setCursor(Cursor.DEFAULT);
-                view.getImgId().setScaleX(1);
-                view.getImgId().setScaleY(1);
-            }
-        });
-
-        /* Eventhandler wanneer de gebruiker op het kruisje (button) klikt. */
-        view.getImgClose().setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (model.isMusic()) new MediaPlayer(clicksound).play();
-                /* Terug naar MainMenu gaan */
-                MainMenuView mv = new MainMenuView();
-                view.getScene().setRoot(mv);
-                new MainMenuPresenter(model, mv);
-            }
-        });
-
-        /* Hover effect voor kruisje (button) */
-        view.getImgClose().setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                view.getImgClose().setCursor(Cursor.HAND);
+                RegisterView registerView = new RegisterView();
+                view.getScene().setRoot(registerView);
+                new RegisterPresenter(model, registerView);
             }
         });
     }
 
-    private void updateView() {
+    public void updateView() {
         // ...
     }
 }

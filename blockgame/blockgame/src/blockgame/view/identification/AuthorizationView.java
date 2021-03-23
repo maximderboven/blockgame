@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
  * Alexie Chaerle
  * 26/02/2021
  */
-public class AuthorizationView extends BorderPane {
+public abstract class AuthorizationView extends BorderPane {
 
     // Attributen (gemeenschappelijk voor login en register)
     private Label lblTitel;
