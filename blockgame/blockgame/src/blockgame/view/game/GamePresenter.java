@@ -83,7 +83,7 @@ public class GamePresenter {
                 for (int y = 0; y < model.getBoard().getSize(); y++) {
                     /* Bij vakjes dat verwijderd zijn : */
                     if (view.getGridBoard().getChildren().get(y * model.getBoard().getSize() + x).getStyleClass().contains(ACTIVE_CELL_CSS) && !model.getBoard().getGrid()[x][y].isUsed() && !played && model.isMusic()) {
-                        new MediaPlayer(removeSound).play();
+                        new MediaPlayer(removeSound).play(); // Drag loslaten naast spelbord fired ook, geen tijd meer om te onderzoeken.
                         played = true;
                         /* Animatie rij verwijderen hier ? */
                     }
