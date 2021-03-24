@@ -218,8 +218,8 @@ public class GamePresenter {
                         Integer rIndex = GridPane.getRowIndex(node);
                         int y = cIndex == null ? 0 : cIndex;
                         int x = rIndex == null ? 0 : rIndex;
-                        if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y)) && model.isMusic()) {
-                            new MediaPlayer(droppingsound).play();
+                        if (model.getBoard().isFree(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y))) {
+                            if (model.isMusic()) new MediaPlayer(droppingsound).play();
                             model.play(model.getPlayablePieces().getPieces().get(selectedblock), new Point(x, y));
                             updateView();
                         }
