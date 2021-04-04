@@ -1,3 +1,3 @@
-# WBP1-kdgblockgame-maxim.derboven-alexie.chaerle
+# WBP1-kdgblockgame
 
 KDG programmeer project 1ste jaar - JAVA (FX)
