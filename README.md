@@ -1,5 +1,6 @@
 # JAVA BLOCKGAME
-KDG BLOCKGAME - Maxim Derboven & Alexie Chaerle 2020-2021
+KDG BLOCKGAME - Maxim Derboven & Alexie Chaerle 2020-2021  
+
 Our java block game can be compared to tetris. Only the blocks don't fall down. But you can't rotate them and put them anywhere.
 
 ## Installation
