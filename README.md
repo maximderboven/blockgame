@@ -32,7 +32,7 @@ Later I want to make this as a phone application.
 ## License
 MIT License
 
-Copyright (c) 2021 Maxim Derboven
+Copyright (c) 2021 Maxim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
